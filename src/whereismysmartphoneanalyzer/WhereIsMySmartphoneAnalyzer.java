@@ -6,17 +6,21 @@
 
 package whereismysmartphoneanalyzer;
 
+import filereader.AccelerometerReader;
 import filereader.ListFilesReader;
 import filereader.SettingsReader;
 import java.util.ArrayList;
 import models.Exercise;
+import models.Reading;
 
 /**
- *
- * @author Matteo
+ * 
+ * @author Matteo Ciman
+ * @version 0.1
+ * @since 2014-10-20
  */
 public class WhereIsMySmartphoneAnalyzer {
-
+    
     /**
      * @param args the command line arguments
      */
@@ -38,7 +42,10 @@ public class WhereIsMySmartphoneAnalyzer {
              * Using the IMEI and the timestamp, we retrieve all the data for the
              * accelerometer and linear samples
              */
+            AccelerometerReader mAccelerometerReader = new AccelerometerReader(elements[0], elements[1]);
+            ArrayList<Reading> readings = mAccelerometerReader.getListReadings();
             
+            DataWorker.addReadingsToAllExercises(exercisesForInput, readings);
         }
     }
     

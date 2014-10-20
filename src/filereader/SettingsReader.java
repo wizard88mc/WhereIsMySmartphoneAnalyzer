@@ -16,7 +16,6 @@ import models.Exercise;
  */
 public class SettingsReader extends FileReader
 {
-
     private static final String FOLDER = "settings";
     
     public SettingsReader(String IMEI, String timestamp) {
