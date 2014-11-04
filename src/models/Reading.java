@@ -18,6 +18,9 @@ public class Reading
     private float x;
     private float y;
     private float z;
+    private float linearX;
+    private float linearY;
+    private float linearZ;
     private float rotationX;
     private float rotationY;
     private float rotationZ;
@@ -148,5 +151,14 @@ public class Reading
                 elements[23].equals("null") ? null : Float.valueOf(elements[23]),
                 elements[24].equals("null") ? null : Float.valueOf(elements[24]),
                 elements[25].equals("null") ? null : Float.valueOf(elements[25]));
+    }
+    
+    /**
+     * Returns the trunk ID of the reading
+     * @return the trunk ID
+     */
+    public int getTrunkId()
+    {
+        return this.trunkID;
     }
 }

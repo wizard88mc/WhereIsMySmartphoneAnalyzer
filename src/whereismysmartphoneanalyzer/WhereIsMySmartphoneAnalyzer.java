@@ -7,6 +7,7 @@
 package whereismysmartphoneanalyzer;
 
 import filereader.AccelerometerReader;
+import filereader.LinearReader;
 import filereader.ListFilesReader;
 import filereader.SettingsReader;
 import java.util.ArrayList;
@@ -42,10 +43,17 @@ public class WhereIsMySmartphoneAnalyzer {
              * Using the IMEI and the timestamp, we retrieve all the data for the
              * accelerometer and linear samples
              */
-            AccelerometerReader mAccelerometerReader = new AccelerometerReader(elements[0], elements[1]);
-            ArrayList<Reading> readings = mAccelerometerReader.getListReadings();
+            AccelerometerReader mAccelerometerReader = 
+                    new AccelerometerReader(elements[0], elements[1]);
+            LinearReader mLinearReader = new LinearReader(elements[0], 
+                    elements[1]);
             
-            DataWorker.addReadingsToAllExercises(exercisesForInput, readings);
+            ArrayList<Reading> readingsAccelerometer = 
+                    mAccelerometerReader.getListReadings(),
+                    readingsLinear = mLinearReader.getListReadings();
+            
+            DataWorker.addReadingsToAllExercises(exercisesForInput, 
+                    readingsAccelerometer, readingsLinear);
         }
     }
     

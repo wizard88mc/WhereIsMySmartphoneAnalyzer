@@ -3,11 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Users/matteo%201/Documents/NetBeansProjects/WhereIsMySmartphoneAnalyzer/WhereIsMySmartphoneAnalyzer/src/whereismysmartphoneanalyzer/WhereIsMySmartphoneAnalyzer.java</file>
-            <file>file:/Users/matteo%201/Documents/NetBeansProjects/WhereIsMySmartphoneAnalyzer/WhereIsMySmartphoneAnalyzer/src/filereader/SettingsReader.java</file>
-            <file>file:/Users/matteo%201/Documents/NetBeansProjects/WhereIsMySmartphoneAnalyzer/WhereIsMySmartphoneAnalyzer/src/models/Reading.java</file>
-            <file>file:/Users/matteo%201/Documents/NetBeansProjects/WhereIsMySmartphoneAnalyzer/WhereIsMySmartphoneAnalyzer/src/whereismysmartphoneanalyzer/DataWorker.java</file>
-            <file>file:/Users/matteo%201/Documents/NetBeansProjects/WhereIsMySmartphoneAnalyzer/WhereIsMySmartphoneAnalyzer/src/filereader/AccelerometerReader.java</file>
+            <file>file:/Users/matteo/Documents/NetBeansProjects/WhereIsMySmartphoneAnalyzer/src/whereismysmartphoneanalyzer/DataWorker.java</file>
+            <file>file:/Users/matteo/Documents/NetBeansProjects/WhereIsMySmartphoneAnalyzer/src/models/Exercise.java</file>
+            <file>file:/Users/matteo/Documents/NetBeansProjects/WhereIsMySmartphoneAnalyzer/src/whereismysmartphoneanalyzer/WhereIsMySmartphoneAnalyzer.java</file>
         </group>
     </open-files>
 </project-private>
