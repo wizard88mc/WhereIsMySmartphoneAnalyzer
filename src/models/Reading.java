@@ -18,9 +18,15 @@ public class Reading
     private float x;
     private float y;
     private float z;
-    private float linearX;
-    private float linearY;
-    private float linearZ;
+    private Float noGravityX = null;
+    private Float noGravityY = null;
+    private Float noGravityZ = null;
+    private Float rotatedX = null;
+    private Float rotatedY = null;
+    private Float rotatedZ = null;
+    private Float rotatedNoGravityX = null;
+    private Float rotatedNoGravityY = null;
+    private Float rotatedNoGravityZ = null;
     private float rotationX;
     private float rotationY;
     private float rotationZ;
@@ -160,5 +166,105 @@ public class Reading
     public int getTrunkId()
     {
         return this.trunkID;
+    }
+    
+    public long getTimestamp()
+    {
+        return this.timestamp;
+    }
+    
+    public float getX()
+    {
+        return this.x;
+    }
+    
+    public float getY()
+    {
+        return this.y;
+    }
+    
+    public float getZ()
+    {
+        return this.z;
+    }
+    
+    /**
+     * Sets the value rotated for the accelerometer data
+     * @param x: the new x rotated
+     * @param y: the new y rotated
+     * @param z: the new z rotated
+     */
+    public void setNoGravityValues(Float x, Float y, Float z)
+    {
+        this.noGravityX = x; this.noGravityY = y; this.noGravityZ = z;
+    }
+    
+    /**
+     * Called on accelerometer and linear data
+     */
+    public void rotateBasicValues()
+    {
+        rotateValues(false);
+    }
+    
+    /**
+     * Called only on accelerometer data
+     */
+    public void rotateNoGravityValues()
+    {
+        rotateValues(true);
+    }
+    
+    private void rotateValues(boolean noGravity)
+    {
+        if (!noGravity || (noGravity && noGravityX != null && noGravityY != null 
+                && noGravityZ != null))
+        {
+            double norm = Math.sqrt(Math.pow(rotationX, 2) + Math.pow(rotationY, 2)
+                + Math.pow(rotationZ, 2));
+            if (norm > 1)
+            {
+                norm = 1;
+            }
+            double alpha = 2 * Math.asin(norm);
+            double xAngle = rotationX / norm, yAngle = rotationY / norm, 
+                    zAngle = rotationZ / norm;
+            double xAngleSquare = Math.pow(xAngle, 2), 
+                    yAngleSquare = Math.pow(yAngle, 2),
+                    zAngleSquare = Math.pow(zAngle, 2);
+
+            double sinAlpha = Math.sin(alpha), cosAlpha = Math.cos(alpha);
+
+            double xFirst = x, yFirst = y, zFirst = z;
+            if (noGravity)
+            {
+                xFirst = noGravityX; yFirst = noGravityY; zFirst = noGravityZ;
+            }
+
+            double calculatedX = ((xAngleSquare + (1 - xAngleSquare) * cosAlpha) * xFirst +
+                    (((1 - cosAlpha) * xAngle * yAngle) - sinAlpha * zAngle) * yFirst +
+                    (((1 - cosAlpha) * xAngle * zAngle) + sinAlpha * yAngle) * zFirst);
+
+            double calculatedY = ((((1 - cosAlpha) * yAngle * xAngle) + sinAlpha * zAngle) * xFirst +
+                    (yAngleSquare + (1 - yAngleSquare) * cosAlpha) * yFirst +
+                    (((1 - cosAlpha) * yAngle * zAngle) - sinAlpha * xAngle) * zFirst);
+
+            double calculatedZ = ((((1 - cosAlpha) * zAngle * xAngle) - sinAlpha * yAngle) * xFirst +
+                            ((1 - cosAlpha) * zAngle * yAngle + sinAlpha * xAngle) * yFirst +
+                            (zAngleSquare + (1 - zAngleSquare) * cosAlpha) * zFirst);
+
+            if (noGravity)
+            {
+                rotatedNoGravityX = Double.valueOf(calculatedX).floatValue(); 
+                rotatedNoGravityY = Double.valueOf(calculatedY).floatValue();
+                rotatedNoGravityZ = Double.valueOf(calculatedZ).floatValue();
+            }
+            else 
+            {
+                rotatedX = Double.valueOf(calculatedX).floatValue();
+                rotatedY = Double.valueOf(calculatedY).floatValue();
+                rotatedZ = Double.valueOf(calculatedZ).floatValue();
+            }
+        }
     }
 }

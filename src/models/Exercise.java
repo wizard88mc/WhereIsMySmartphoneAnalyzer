@@ -56,6 +56,11 @@ public class Exercise
         return this.trunkLinear;
     }
     
+    public String getDestination()
+    {
+        return this.destination;
+    }
+    
     /**
      * Sets the reading both for the accelerometer and the linear
      * @param accelerometer ArrayList of accelerometer readings
@@ -66,5 +71,39 @@ public class Exercise
     {
         this.readingsAccelerometer = accelerometer;
         this.readingsLinear = linear;
+    }
+    
+    /**
+     * @return ArrayList accelerometer reading
+     */
+    public ArrayList<Reading> getReadingsAccelerometer()
+    {
+        return this.readingsAccelerometer;
+    }
+    
+    /**
+     * @return ArrayList of linear Reading 
+     */
+    public ArrayList<Reading> getReadingsLinear()
+    {
+        return this.readingsLinear;
+    }
+    
+    /**
+     * Called to rotate the basic and no gravity values for accelerometer readings,
+     * and rotate only the basic values for the linear readings
+     */
+    public void rotateReadings()
+    {
+        for (Reading reading: readingsAccelerometer)
+        {
+            reading.rotateBasicValues();
+            reading.rotateNoGravityValues();
+        }
+        
+        for (Reading reading: readingsLinear)
+        {
+            reading.rotateBasicValues();
+        }
     }
 }

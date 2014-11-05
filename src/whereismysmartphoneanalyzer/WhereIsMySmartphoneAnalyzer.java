@@ -27,6 +27,8 @@ public class WhereIsMySmartphoneAnalyzer {
      */
     public static void main(String[] args) {
        
+        ArrayList<Exercise> allExercises = new ArrayList<>();
+        
         ListFilesReader mListFilesReader = new ListFilesReader();
         
         // Retrieving all the input files available
@@ -54,7 +56,11 @@ public class WhereIsMySmartphoneAnalyzer {
             
             DataWorker.addReadingsToAllExercises(exercisesForInput, 
                     readingsAccelerometer, readingsLinear);
+            
+            allExercises.addAll(exercisesForInput);
         }
+        
+        
     }
     
 }

@@ -6,6 +6,7 @@
 package whereismysmartphoneanalyzer;
 
 import java.util.ArrayList;
+import java.util.List;
 import models.Exercise;
 import models.Reading;
 
@@ -15,6 +16,8 @@ import models.Reading;
  */
 public class DataWorker 
 {
+    
+    private static final int bufferDuration = 500000000; // 500 ms
 
     /**
      * Takes the accelerometer and linear readings of an exercise and adds them
@@ -100,6 +103,53 @@ public class DataWorker
         {
             DataWorker.addReadingsToExercise(exercise, readingsAccelerometer, 
                     readingsLinear);
+            
+            removeGravityFromAccelerometerData(exercise.getReadingsAccelerometer());
+            
+            exercise.rotateReadings();
+        }
+    }
+    
+    protected static void removeGravityFromAccelerometerData(
+            ArrayList<Reading> accelerometer)
+    {
+        List<Reading> buffer = new ArrayList<Reading>();
+        boolean bufferFull = false;
+        
+        for (Reading reading: accelerometer)
+        {
+            
+            if (buffer.size() > 0 && 
+                    (reading.getTimestamp() - buffer.get(0).getTimestamp()) > bufferDuration)
+            {
+                bufferFull = true;
+            }
+            else
+            {
+                bufferFull = false;
+                buffer.add(reading);
+            }
+            
+            if (bufferFull)
+            {
+                float meanValueX = 0, meanValueY = 0, meanValueZ = 0;
+                for (Reading readingB: buffer)
+                {
+                    meanValueX += readingB.getX();
+                    meanValueY += readingB.getY();
+                    meanValueZ += readingB.getZ();
+                }
+                
+                meanValueX /= buffer.size(); meanValueY /= buffer.size();
+                meanValueZ /= buffer.size();
+                
+                reading.setNoGravityValues(reading.getX() - meanValueX, 
+                        reading.getY() - meanValueY, 
+                        reading.getZ() - meanValueZ);
+                
+                buffer.remove(0);
+                buffer.add(reading);
+            }
         }
     }
 }

@@ -6,7 +6,6 @@
 package filereader;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import models.Reading;
 
