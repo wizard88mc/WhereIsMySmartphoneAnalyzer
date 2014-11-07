@@ -61,6 +61,11 @@ public class Exercise
         return this.destination;
     }
     
+    public String getAction()
+    {
+        return this.action;
+    }
+    
     /**
      * Sets the reading both for the accelerometer and the linear
      * @param accelerometer ArrayList of accelerometer readings
@@ -95,15 +100,49 @@ public class Exercise
      */
     public void rotateReadings()
     {
-        for (Reading reading: readingsAccelerometer)
+        if (readingsAccelerometer != null)
         {
-            reading.rotateBasicValues();
-            reading.rotateNoGravityValues();
+            for (Reading reading: readingsAccelerometer)
+            {
+                reading.rotateBasicValues();
+                reading.rotateNoGravityValues();
+            }
         }
         
-        for (Reading reading: readingsLinear)
+        if (readingsLinear != null)
         {
-            reading.rotateBasicValues();
+            for (Reading reading: readingsLinear)
+            {
+                reading.rotateBasicValues();
+            }
         }
+    }
+    
+    /**
+     * Checks if the exercise has consistent proximity values, i.e. starting
+     * from a point where the proximity value becomes 0, it checks if until the 
+     * end the values of the proximity sensor remains 0
+     * @return true if the proximity sensor data is coherent, false otherwise
+     */
+    public boolean hasConsistentProximityValue()
+    {
+        int startingPoint = -1;
+        for (int i=0; i < readingsAccelerometer.size() && startingPoint == -1; i++)
+        {
+            if (readingsAccelerometer.get(i).getProximityValue() == 0)
+            {
+                startingPoint = i;
+            }
+        }
+        
+        for (int i = startingPoint; i < readingsAccelerometer.size(); i++)
+        {
+            if (readingsAccelerometer.get(i).getProximityValue() != 0)
+            {
+                return false;
+            }
+        }
+        
+        return true;
     }
 }

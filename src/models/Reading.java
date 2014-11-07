@@ -14,10 +14,10 @@ public class Reading
 {   
     private int trunkID;
     private long timestamp;
-    private float proximity;
-    private float x;
-    private float y;
-    private float z;
+    private int proximity;
+    private Float x;
+    private Float y;
+    private Float z;
     private Float noGravityX = null;
     private Float noGravityY = null;
     private Float noGravityZ = null;
@@ -78,7 +78,7 @@ public class Reading
      * @param relativeHumidity
      * @param maxRelativeHumidity 
      */
-    protected final void buildReading(int trunkID, long timestamp, float proximity, float x, 
+    protected final void buildReading(int trunkID, long timestamp, int proximity, float x, 
             float y, float z, float rotationX, float rotationY, float rotationZ,
             Float gravityX, Float gravityY, Float gravityZ, Float gyroscopeX, 
             Float gyroscopeY, Float gyroscopeZ, Float magneticFieldX, 
@@ -136,7 +136,7 @@ public class Reading
         
         this.buildReading(Integer.valueOf(elements[0]), 
                 Double.valueOf(elements[1]).longValue(), 
-                Float.valueOf(elements[2]), Float.valueOf(elements[3]), 
+                Float.valueOf(elements[2]).intValue(), Float.valueOf(elements[3]), 
                 Float.valueOf(elements[4]), Float.valueOf(elements[5]), 
                 Float.valueOf(elements[6]), Float.valueOf(elements[7]),
                 Float.valueOf(elements[8]),
@@ -188,6 +188,11 @@ public class Reading
         return this.z;
     }
     
+    public int getProximityValue()
+    {
+        return this.proximity;
+    }
+    
     /**
      * Sets the value rotated for the accelerometer data
      * @param x: the new x rotated
@@ -215,9 +220,15 @@ public class Reading
         rotateValues(true);
     }
     
+    /**
+     * Using the rotation sensor values, it rotates the readings to a fixed
+     * coordinate system
+     * @param noGravity is the method has to rotate the noGravity values or
+     * the basic ones
+     */
     private void rotateValues(boolean noGravity)
     {
-        if (!noGravity || (noGravity && noGravityX != null && noGravityY != null 
+        if ((!noGravity && x != null && y != null && z != null) || (noGravity && noGravityX != null && noGravityY != null 
                 && noGravityZ != null))
         {
             double norm = Math.sqrt(Math.pow(rotationX, 2) + Math.pow(rotationY, 2)

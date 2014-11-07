@@ -37,6 +37,7 @@ public class WhereIsMySmartphoneAnalyzer {
         for (String coupleInput: inputFiles)
         {
             String[] elements = coupleInput.split(",");
+            try {
             SettingsReader mSettingsReader = new SettingsReader(elements[0], elements[1]);
             
             ArrayList<Exercise> exercisesForInput = mSettingsReader.retrieveTrunks();
@@ -58,9 +59,20 @@ public class WhereIsMySmartphoneAnalyzer {
                     readingsAccelerometer, readingsLinear);
             
             allExercises.addAll(exercisesForInput);
+            }
+            catch(Exception exc)
+            {
+                System.out.println(exc.toString());
+                exc.printStackTrace();
+                System.out.println(elements[0] + "," + elements[1]);
+            }
         }
         
+        ExercisesWorker mExercisesWorker =  new ExercisesWorker(allExercises);
         
+        mExercisesWorker.cleanExercises();
+        
+        mExercisesWorker.countNumberExercisesPerLabel();
     }
     
 }

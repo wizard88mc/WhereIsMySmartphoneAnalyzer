@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package whereismysmartphoneanalyzer;
 
 import java.util.ArrayList;
@@ -24,6 +19,12 @@ public class ExercisesWorker
     private static final String MARSUPIO = "MARSUPIO";
     private static final String ZAINO = "ZAINO";
     
+    private static final String FERMO = "FERMO";
+    private static final String SEDUTO = "SEDUTO";
+    private static final String CAMMINANDO = "CAMMINANDO";
+    private static final String SCALE_SU = "SCALE_SU";
+    private static final String SCALE_GIU = "SCALE_GIU";
+    
     private ArrayList<Exercise> exercises;
     
     public ExercisesWorker(ArrayList<Exercise> exercises)
@@ -31,12 +32,19 @@ public class ExercisesWorker
         this.exercises = exercises;
     }
     
+    /**
+     * Prints a report of the exercises: counts the number of different 
+     * destinations and the activity performed during this exercises
+     */
     public void countNumberExercisesPerLabel()
     {
         int counterTascaDestraDavantiPantaloni = 0, counterTascaDestraDietroPantaloni = 0,
                 counterTascaSinistraDavantiPantaloni = 0, counterTascaSinistraDietroPantaloni = 0,
                 counterTascaGiaccaBassa = 0, counterTascaGiaccaAlta = 0, 
                 counterBorsa = 0, counterMarsupio = 0, counterZaino = 0;
+        
+        int counterStanding = 0, counterSitting = 0, counterWalking = 0, 
+                counterStairsUp = 0, counterStairsDown = 0;
         
         for (Exercise exercise: exercises)
         {
@@ -87,8 +95,80 @@ public class ExercisesWorker
                     break;
                 }
             }
+            
+            switch(exercise.getAction())
+            {
+                case FERMO: 
+                {
+                    counterStanding++; break;
+                }
+                case SEDUTO:
+                {
+                    counterSitting++; break;
+                }
+                case CAMMINANDO: 
+                {
+                    counterWalking++; break;
+                }
+                case SCALE_SU: 
+                {
+                    counterStairsUp++; break;
+                }
+                case SCALE_GIU:
+                {
+                    counterStairsDown++; break;
+                }
+            }
         }
         
-        // TODO print report
+        System.out.println("***** DATA REPORT *****");
+        System.out.println("Numero totale esercizi: " + exercises.size());
+        System.out.println("Divisi per: ");
+        System.out.println("Tasca destra davanti pantaloni: " + counterTascaDestraDavantiPantaloni);
+        System.out.println("Tasca destra dietro pantaloni: " + counterTascaDestraDietroPantaloni);
+        System.out.println("Tasca sinistra davanti pantaloni: " + counterTascaSinistraDavantiPantaloni);
+        System.out.println("Tasca sinistra dietro pantaloni: " + counterTascaSinistraDietroPantaloni);
+        System.out.println("Tasca giacca alta: " + counterTascaGiaccaAlta);
+        System.out.println("Tasca giacca bassa: " + counterTascaGiaccaBassa);
+        System.out.println("Borsa: " + counterBorsa);
+        System.out.println("Marsupio: " + counterMarsupio);
+        System.out.println("Zaino: " + counterZaino);
+        System.out.println("***** ***** ***** *****");
+        System.out.println("Azioni durante esercizi:");
+        System.out.println("Fermo: " + counterStanding);
+        System.out.println("Seduto: " + counterSitting);
+        System.out.println("Camminando: " + counterWalking);
+        System.out.println("Scale su: " + counterStairsUp);
+        System.out.println("Scale giu: " + counterStairsDown);
+        System.out.println("***** END REPORT *****");
+    }
+    
+    public void cleanExercises()
+    {
+        
+    }
+    
+    /**
+     * Removes all the exercises that do not change the value of the 
+     * proximity sensor
+     */
+    private void deleteInconsistentExercises()
+    {
+        ArrayList<Exercise> exercisesToEliminate = new ArrayList<>();
+        
+        for (Exercise exercise: exercises)
+        {
+            if (!exercise.hasConsistentProximityValue())
+            {
+                exercisesToEliminate.add(exercise);
+            }
+        }
+        
+        for (Exercise exercise: exercisesToEliminate)
+        {
+            exercises.remove(exercise);
+        }
+        
+        exercisesToEliminate.clear();
     }
 }
