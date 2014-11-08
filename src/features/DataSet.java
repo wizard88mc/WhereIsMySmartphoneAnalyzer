@@ -26,7 +26,28 @@ public class DataSet
     public DataSet(String name, ArrayList<Float> dataSet)
     {
         this.name = name; this.dataSet = dataSet;
-        
+    }
+    
+    /**
+     * Edits all the readings using the max possible value of the sensor
+     * @param maxValue the max value of the sensor
+     */
+    public void touchDataUsingMaxValue(Float maxValue)
+    {
+        if (maxValue != null)
+        {
+            for (Float value: dataSet)
+            {
+                if (value != null)
+                {
+                    value = value / maxValue;
+                }
+            }
+        }
+    }
+    
+    public void calculateData()
+    {
         calculateMinMaxAndAverage();
         
         if (usefulData != 0)

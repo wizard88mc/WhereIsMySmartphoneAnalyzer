@@ -1,5 +1,6 @@
-package features;
+package features.threeaxesdata;
 
+import features.threeaxesdata.ThreeAxesData;
 import java.util.ArrayList;
 
 /**
@@ -14,6 +15,6 @@ public class RotationData extends ThreeAxesData
     public RotationData(ArrayList<Float> xData, ArrayList<Float> yData, 
             ArrayList<Float> zData)
     {
-        super("RotationX", xData, "RotationY", yData, "RotationZ", zData);
+        super("ROTATION_X", xData, "ROTATION_Y", yData, "ROTATION_Z", zData);
     }
 }

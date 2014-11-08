@@ -1,5 +1,6 @@
-package features;
+package features.fouraxesdata;
 
+import features.fouraxesdata.FourAxesMotionSensorData;
 import java.util.ArrayList;
 
 /**
@@ -9,11 +10,11 @@ import java.util.ArrayList;
  * @since 2014-11-07
  * @version 0.1
  */
-public class AccelerometerNoGravityData extends ThreePlusOneAxesMotionSensor 
+public class AccelerometerNoGravityData extends FourAxesMotionSensorData 
 {
     public AccelerometerNoGravityData(ArrayList<Float> x, ArrayList<Float> y, 
             ArrayList<Float> z)
     {
-        super(x, y, z);
+        super("X_NO_G", x, "Y_NO_G", y, "Z_NO_G", z, "V_NO_G");
     }
 }

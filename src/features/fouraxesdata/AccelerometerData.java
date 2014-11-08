@@ -1,5 +1,6 @@
-package features;
+package features.fouraxesdata;
 
+import features.fouraxesdata.FourAxesMotionSensorData;
 import java.util.ArrayList;
 
 /**
@@ -9,10 +10,10 @@ import java.util.ArrayList;
  * @since 2014-11-07
  * @version 0.1
  */
-public class AccelerometerData extends ThreePlusOneAxesMotionSensor
+public class AccelerometerData extends FourAxesMotionSensorData
 {
     public AccelerometerData(ArrayList<Float> x, ArrayList<Float> y, ArrayList<Float> z)
     {
-        super(x, y, z);
+        super("X", x, "Y", y, "Z", z, "|V|");
     }
 }

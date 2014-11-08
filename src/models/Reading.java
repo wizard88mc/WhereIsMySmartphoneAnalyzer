@@ -27,9 +27,9 @@ public class Reading
     private Float rotatedNoGravityX = null;
     private Float rotatedNoGravityY = null;
     private Float rotatedNoGravityZ = null;
-    private float rotationX;
-    private float rotationY;
-    private float rotationZ;
+    private Float rotationX;
+    private Float rotationY;
+    private Float rotationZ;
     private Float gravityX = null;
     private Float gravityY = null;
     private Float gravityZ = null;
@@ -173,19 +173,64 @@ public class Reading
         return this.timestamp;
     }
     
-    public float getX()
+    public Float getX()
     {
         return this.x;
     }
     
-    public float getY()
+    public Float getY()
     {
         return this.y;
     }
     
-    public float getZ()
+    public Float getZ()
     {
         return this.z;
+    }
+    
+    public Float getRotatedX()
+    {
+        return this.rotatedX;
+    }
+    
+    public Float getRotatedY()
+    {
+        return this.rotatedY;
+    }
+    
+    public Float getRotatedZ()
+    {
+        return this.rotatedZ;
+    }
+    
+    public Float getNoGravityX()
+    {
+        return this.noGravityX;
+    }
+    
+    public Float getNoGravityY()
+    {
+        return this.noGravityY;
+    }
+    
+    public Float getNoGravityZ()
+    {
+        return this.noGravityZ;
+    }
+    
+    public Float getNoGravityRotatedX()
+    {
+        return this.rotatedNoGravityX;
+    }
+    
+    public Float getNoGravityRotatedY()
+    {
+        return this.rotatedNoGravityY;
+    }
+    
+    public Float getNoGravityRotatedZ()
+    {
+        return this.rotatedNoGravityZ;
     }
     
     public int getProximityValue()

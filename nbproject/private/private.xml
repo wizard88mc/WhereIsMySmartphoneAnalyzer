@@ -5,8 +5,11 @@
         <group>
             <file>file:/Users/matteo/Documents/NetBeansProjects/WhereIsMySmartphoneAnalyzer/src/whereismysmartphoneanalyzer/ExercisesWorker.java</file>
             <file>file:/Users/matteo/Documents/NetBeansProjects/WhereIsMySmartphoneAnalyzer/src/models/Reading.java</file>
+            <file>file:/Users/matteo/Documents/NetBeansProjects/WhereIsMySmartphoneAnalyzer/src/features/ThreeAxesData.java</file>
             <file>file:/Users/matteo/Documents/NetBeansProjects/WhereIsMySmartphoneAnalyzer/src/models/Exercise.java</file>
+            <file>file:/Users/matteo/Documents/NetBeansProjects/WhereIsMySmartphoneAnalyzer/src/features/DataSet.java</file>
             <file>file:/Users/matteo/Documents/NetBeansProjects/WhereIsMySmartphoneAnalyzer/src/whereismysmartphoneanalyzer/WhereIsMySmartphoneAnalyzer.java</file>
+            <file>file:/Users/matteo/Documents/NetBeansProjects/WhereIsMySmartphoneAnalyzer/src/features/RotationData.java</file>
         </group>
     </open-files>
 </project-private>
