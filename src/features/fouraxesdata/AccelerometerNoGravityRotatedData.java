@@ -16,5 +16,7 @@ public class AccelerometerNoGravityRotatedData extends FourAxesMotionSensorData
             ArrayList<Float> y, ArrayList<Float> z)
     {
         super("X_NO_G_R", x, "Y_NO_G_R", y, "Z_NO_G_R", z, "|V|_NO_G_R");
+        firstAxis.calculateData(); secondAxis.calculateData(); 
+        thirdAxis.calculateData(); fourthAxis.calculateData();
     }
 }

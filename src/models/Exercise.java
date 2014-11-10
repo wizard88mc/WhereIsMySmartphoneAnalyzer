@@ -127,12 +127,17 @@ public class Exercise
     public boolean hasConsistentProximityValue()
     {
         int startingPoint = -1;
-        for (int i=0; i < readingsAccelerometer.size() && startingPoint == -1; i++)
+        for (int i = 0; i < readingsAccelerometer.size() && startingPoint == -1; i++)
         {
             if (readingsAccelerometer.get(i).getProximityValue() == 0)
             {
                 startingPoint = i;
             }
+        }
+        
+        if (startingPoint == -1)
+        {
+            return false;
         }
         
         for (int i = startingPoint; i < readingsAccelerometer.size(); i++)

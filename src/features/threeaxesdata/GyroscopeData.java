@@ -14,5 +14,7 @@ public class GyroscopeData extends ThreeAxesData
             ArrayList<Float> zData)
     {
         super("X_GYROSCOPE", xData, "Y_GYROSCOPE", yData, "Z_GYROSCOPE", zData);
+        firstAxis.calculateData(); secondAxis.calculateData();
+        thirdAxis.calculateData();
     }
 }

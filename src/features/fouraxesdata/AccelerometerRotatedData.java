@@ -16,5 +16,7 @@ public class AccelerometerRotatedData extends FourAxesMotionSensorData
             ArrayList<Float> z)
     {
         super("G_R", x, "Y_R", y, "Z_R", z, "|V|_R");
+        firstAxis.calculateData(); secondAxis.calculateData();
+        thirdAxis.calculateData(); fourthAxis.calculateData();
     }
 }

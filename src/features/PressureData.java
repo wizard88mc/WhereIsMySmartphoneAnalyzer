@@ -15,5 +15,6 @@ public class PressureData extends OneAxisData
         super("PRESSURE", data, maxValue);
         
         correctValuesUsingMaxValue();
+        firstAxis.calculateData();
     }
 }

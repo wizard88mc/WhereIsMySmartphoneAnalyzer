@@ -238,6 +238,106 @@ public class Reading
         return this.proximity;
     }
     
+    public Float getRotationX()
+    {
+        return this.rotationX;
+    }
+    
+    public Float getRotationY()
+    {
+        return this.rotationY;
+    }
+    
+    public Float getRotationZ()
+    {
+        return this.rotationZ;
+    }
+    
+    public Float getGravityX()
+    {
+        return this.gravityX;
+    }
+    
+    public Float getGravityY()
+    {
+        return this.gravityY;
+    }
+    
+    public Float getGravityZ()
+    {
+        return this.gravityZ;
+    }
+    
+    public Float getGyroscopeX()
+    {
+        return this.gyroscopeX;
+    }
+    
+    public Float getGyroscopeY()
+    {
+        return this.gyroscopeY;
+    }
+    
+    public Float getGyroscopeZ()
+    {
+        return this.gyroscopeZ;
+    }
+    
+    public Float getMagneticFieldX()
+    {
+        return this.magneticFieldX;
+    }
+    
+    public Float getMagneticFieldY()
+    {
+        return this.magneticFieldY;
+    }
+    
+    public Float getMagneticFieldZ()
+    {
+        return this.magneticFieldZ;
+    }
+    
+    public Float getAmbientTemperature()
+    {
+        return this.ambientTemperature;
+    }
+    
+    public Float getMaxAmbientTemperature()
+    {
+        return this.maxAmbientTemperature;
+    }
+    
+    public Float getLight()
+    {
+        return this.light;
+    }
+    
+    public Float getMaxLight()
+    {
+        return this.maxLight;
+    }
+    
+    public Float getPressure()
+    {
+        return this.maxPressure;
+    }
+    
+    public Float getMaxPressure()
+    {
+        return this.maxPressure;
+    }
+    
+    public Float getRelativeHumidity()
+    {
+        return this.relativeHumidity;
+    }
+    
+    public Float getMaxRelativeHumidity()
+    {
+        return this.maxRelativeHumidity;
+    }
+    
     /**
      * Sets the value rotated for the accelerometer data
      * @param x: the new x rotated

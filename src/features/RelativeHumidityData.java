@@ -15,5 +15,6 @@ public class RelativeHumidityData extends OneAxisData
         super("RELATIVE_HUMIDITY", data, maxValue);
         
         correctValuesUsingMaxValue();
+        firstAxis.calculateData();
     }
 }

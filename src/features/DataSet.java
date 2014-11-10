@@ -106,6 +106,11 @@ public class DataSet
         std = (float) Math.sqrt(variance);
     }
     
+    public String getName()
+    {
+        return this.name;
+    }
+    
     public Float getMin()
     {
         return this.min;
@@ -139,5 +144,15 @@ public class DataSet
     public Float getRatioMinMax()
     {
         return this.ratioMinMax;
+    }
+    
+    public ArrayList<Float> getDataSet()
+    {
+            return this.dataSet;
+    }
+    
+    public int getNumberData()
+    {
+        return this.dataSet.size();
     }
 }

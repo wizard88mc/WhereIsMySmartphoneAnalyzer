@@ -15,5 +15,7 @@ public class AccelerometerData extends FourAxesMotionSensorData
     public AccelerometerData(ArrayList<Float> x, ArrayList<Float> y, ArrayList<Float> z)
     {
         super("X", x, "Y", y, "Z", z, "|V|");
+        firstAxis.calculateData(); secondAxis.calculateData(); 
+        thirdAxis.calculateData(); fourthAxis.calculateData();
     }
 }

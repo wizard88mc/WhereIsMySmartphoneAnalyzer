@@ -16,5 +16,7 @@ public class RotationData extends ThreeAxesData
             ArrayList<Float> zData)
     {
         super("ROTATION_X", xData, "ROTATION_Y", yData, "ROTATION_Z", zData);
+        firstAxis.calculateData(); secondAxis.calculateData();
+        thirdAxis.calculateData();
     }
 }

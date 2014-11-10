@@ -10,8 +10,9 @@ import java.util.ArrayList;
  */
 public class OneAxisData 
 {
-    private float maxValue;
+    private Float maxValue;
     protected DataSet firstAxis = null;
+    protected ArrayList<String> featuresName = new ArrayList<>();
     
     public OneAxisData(String name, ArrayList<Float> data, Float maxValue)
     {

@@ -14,5 +14,7 @@ public class GravityData extends ThreeAxesData
             ArrayList<Float> zData)
     {
         super("X_GRAVITY", xData, "Y_GRAVITY", yData, "Z_GRAVITY", zData);
+        firstAxis.calculateData(); secondAxis.calculateData();
+        thirdAxis.calculateData();
     }
 }

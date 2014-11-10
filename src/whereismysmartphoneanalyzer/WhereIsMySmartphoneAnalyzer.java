@@ -20,13 +20,20 @@ import models.Reading;
  * @version 0.1
  * @since 2014-10-20
  */
-public class WhereIsMySmartphoneAnalyzer {
+public class WhereIsMySmartphoneAnalyzer 
+{
+    private static Integer[] bufferDurations = new Integer[]{500, 1000, 1500, 2000}; // in milliseconds
+    private static String[] listDestinations = new String[]{
+        ExercisesWorker.TASCA_DESTRA_DAVANTI_PANTALONI, ExercisesWorker.TASCA_DESTRA_DIETRO_PANTALONI,
+        ExercisesWorker.TASCA_SINISTRA_DAVANTI_PANTALONI, ExercisesWorker.TASCA_SINISTRA_DIETRO_PANTALONI,
+        ExercisesWorker.TASCA_GIACCA_ALTA, ExercisesWorker.TASCA_GIACCA_BASSA, 
+        ExercisesWorker.BORSA, ExercisesWorker.MARSUPIO, ExercisesWorker.ZAINO};
     
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
-       
+    public static void main(String[] args) 
+    {  
         ArrayList<Exercise> allExercises = new ArrayList<>();
         
         ListFilesReader mListFilesReader = new ListFilesReader();
@@ -73,6 +80,12 @@ public class WhereIsMySmartphoneAnalyzer {
         mExercisesWorker.cleanExercises();
         
         mExercisesWorker.countNumberExercisesPerLabel();
+        
+        for (String target: listDestinations)
+        {
+            DataExtractorOnlyDataBefore mDataExtractorOnlyDataBefore = 
+                    new DataExtractorOnlyDataBefore(allExercises, target, 
+                            bufferDurations[0], 30);
+        }
     }
-    
 }

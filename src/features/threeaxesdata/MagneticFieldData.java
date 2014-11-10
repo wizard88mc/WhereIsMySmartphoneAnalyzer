@@ -15,5 +15,7 @@ public class MagneticFieldData extends ThreeAxesData
     {
         super("X_MAGNETIC_FIELD", xData, "Y_MAGNETIC_FIELD", yData, 
                 "Z_MAGNETIC_FIELD", zData);
+        firstAxis.calculateData(); secondAxis.calculateData();
+        thirdAxis.calculateData();
     }
 }

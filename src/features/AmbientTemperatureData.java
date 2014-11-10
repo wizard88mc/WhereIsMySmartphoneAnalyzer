@@ -15,5 +15,6 @@ public class AmbientTemperatureData extends OneAxisData
         super("AMBIENT_TEMPERATURE", data, maxValue);
         
         correctValuesUsingMaxValue();
+        firstAxis.calculateData();
     }
 }

@@ -14,5 +14,7 @@ public class LinearData extends FourAxesMotionSensorData
     public LinearData(ArrayList<Float> x, ArrayList<Float> y, ArrayList<Float> z)
     {
         super("XL", x, "YL", y, "ZL", z, "|V|L");
+        firstAxis.calculateData(); secondAxis.calculateData();
+        thirdAxis.calculateData(); fourthAxis.calculateData();
     }
 }

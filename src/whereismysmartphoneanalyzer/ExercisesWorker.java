@@ -9,15 +9,15 @@ import models.Exercise;
  */
 public class ExercisesWorker 
 {
-    private static final String TASCA_DESTRA_DAVANTI_PANTALONI = "TASCA_DESTRA_DAVANTI_PANTALONI";
-    private static final String TASCA_DESTRA_DIETRO_PANTALONI = "TASCA_DESTRA_DIETRO_PANTALONI";
-    private static final String TASCA_SINISTRA_DAVANTI_PANTALONI = "TASCA_SINISTRA_DAVANTI_PANTALONI";
-    private static final String TASCA_SINISTRA_DIETRO_PANTALONI = "TASCA_SINISTRA_DIETRO_PANTALONI";
-    private static final String TASCA_GIACCA_BASSA = "TASCA_GIACCA_BASSA";
-    private static final String TASCA_GIACCA_ALTA = "TASCA_GIACCA_ALTA";
-    private static final String BORSA = "BORSA";
-    private static final String MARSUPIO = "MARSUPIO";
-    private static final String ZAINO = "ZAINO";
+    public static final String TASCA_DESTRA_DAVANTI_PANTALONI = "TASCA_DESTRA_DAVANTI_PANTALONI";
+    public static final String TASCA_DESTRA_DIETRO_PANTALONI = "TASCA_DESTRA_DIETRO_PANTALONI";
+    public static final String TASCA_SINISTRA_DAVANTI_PANTALONI = "TASCA_SINISTRA_DAVANTI_PANTALONI";
+    public static final String TASCA_SINISTRA_DIETRO_PANTALONI = "TASCA_SINISTRA_DIETRO_PANTALONI";
+    public static final String TASCA_GIACCA_BASSA = "TASCA_GIACCA_BASSA";
+    public static final String TASCA_GIACCA_ALTA = "TASCA_GIACCA_ALTA";
+    public static final String BORSA = "BORSA";
+    public static final String MARSUPIO = "MARSUPIO";
+    public static final String ZAINO = "ZAINO";
     
     private static final String FERMO = "FERMO";
     private static final String SEDUTO = "SEDUTO";
@@ -145,7 +145,7 @@ public class ExercisesWorker
     
     public void cleanExercises()
     {
-        
+        deleteInconsistentExercises();
     }
     
     /**

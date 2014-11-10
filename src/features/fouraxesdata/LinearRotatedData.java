@@ -16,5 +16,7 @@ public class LinearRotatedData extends FourAxesMotionSensorData
             ArrayList<Float> z)
     {
         super("XL_R", x, "YL_R", y, "ZL_R", z, "|V|L_R");
+        firstAxis.calculateData(); secondAxis.calculateData(); 
+        thirdAxis.calculateData(); fourthAxis.calculateData();
     }
 }

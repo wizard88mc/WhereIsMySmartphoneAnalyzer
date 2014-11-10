@@ -33,7 +33,7 @@ public class ExerciseAnalyserBefore
     private ArrayList<Reading> readingsLinear;
     private ArrayList<Reading> buffer;
     private ArrayList<Reading> bufferLinear;
-    private long minDistanceBetweenTwoReadings;
+    private final long minDistanceBetweenTwoReadings;
     
     private AccelerometerData mAccelerometerData;
     private AccelerometerNoGravityData mAccelerometerNoGravityData;
@@ -53,12 +53,22 @@ public class ExerciseAnalyserBefore
     public ExerciseAnalyserBefore(long bufferSize, ArrayList<Reading> readings, 
             ArrayList<Reading> readingsLinear, int frequency)
     {
-        this.bufferSize = bufferSize; this.readings = readings;
+        this.bufferSize = bufferSize * 1000 * 1000; this.readings = readings;
         this.readingsLinear = readingsLinear;
         this.minDistanceBetweenTwoReadings = 100000000 / frequency; // min distance in nano seconds
         
-        int firstIndex = findIndexFirstDataWithProximityValueEqualZero();
-        populateBuffer(firstIndex);
+        int firstIndex = findIndexFirstDataWithProximityValueEqualZero(false);
+        populateBuffer(firstIndex, false);
+        
+        firstIndex = findIndexFirstDataWithProximityValueEqualZero(true);
+        populateBuffer(firstIndex, true);
+        
+        createAccelerometerData(); createAccelerometerRotatedData();
+        createAccelerometerNoGravityData(); createAccelerometerNoGravityRotatedData();
+        createLinearData(); createLinearRotatedData();
+        createRotationData(); createGravityData(); createGyroscopeData();
+        createMagneticFieldData(); createAmbientTemperatureData();
+        createPressureData(); createLightData(); createRelativeHumidityData();
     }
     
     /**
@@ -66,13 +76,21 @@ public class ExerciseAnalyserBefore
      * (is the first value where the smartphone is at the target location)
      * @return the index of the first Reading object, -1 if no one is found
      */
-    private int findIndexFirstDataWithProximityValueEqualZero()
+    private int findIndexFirstDataWithProximityValueEqualZero(boolean linear)
     {
-        for (int i = 0; i < readings.size(); i++)
+        ArrayList<Reading> readingsToUse = readings;
+        if (linear)
         {
-            if (readings.get(i).getProximityValue() == 0)
+            readingsToUse = readingsLinear;
+        }
+        if (readingsToUse != null)
+        {
+        for (int i = 0; i < readingsToUse.size(); i++)
             {
-                return i;
+                if ((readingsToUse.get(i) != null) && readingsToUse.get(i).getProximityValue() == 0)
+                {
+                    return i;
+                }
             }
         }
         return -1;
@@ -84,42 +102,55 @@ public class ExerciseAnalyserBefore
      * @param indexFirstObject the index of the first Reading with the smartphone
      * at target location
      */
-    private void populateBuffer(int indexFirstObject)
+    private void populateBuffer(int indexFirstObject, boolean linear)
     {
-        this.buffer = new ArrayList<>();
-        
-        boolean bufferFull = false;
-        buffer.add(readings.get(indexFirstObject - 1));
-        for (int i = indexFirstObject - 2; i >= 0 && !bufferFull; i--)
+        ArrayList<Reading> bufferToUse = null, readingsToUse = null;
+        if (!linear)
         {
-            // Checks if the current readings is still inside the buffer or not
-            if (buffer.get(buffer.size() - 1).getTimestamp() - 
-                    readings.get(i).getTimestamp() > bufferSize)
-            {
-                // The reading is outside the buffer. Time to stop
-                bufferFull = true;
-            }
-            else
-            {
-                // Adding Reading to the head of the buffer
-                buffer.add(0, readings.get(i));
-            }
+            this.buffer = new ArrayList<>();
+            bufferToUse = this.buffer; readingsToUse = readings;
+        }
+        else
+        {
+            this.bufferLinear = new ArrayList<>();
+            bufferToUse = this.bufferLinear; readingsToUse = this.readingsLinear;
         }
         
-        /**
-         * Based on the required frequency, we remove all data not correct
-         * for the requested frequency
-         */
-        for (int i = 1; i < buffer.size();)
+        if (readingsToUse != null)
         {
-            if (buffer.get(i).getTimestamp() - buffer.get(i-1).getTimestamp() < 
-                    minDistanceBetweenTwoReadings)
+            boolean bufferFull = false;
+            bufferToUse.add(readingsToUse.get(indexFirstObject - 1));
+            for (int i = indexFirstObject - 2; i >= 0 && !bufferFull; i--)
             {
-                buffer.remove(i);
+                // Checks if the current readings is still inside the buffer or not
+                if (bufferToUse.get(bufferToUse.size() - 1).getTimestamp() - 
+                        readingsToUse.get(i).getTimestamp() > bufferSize)
+                {
+                    // The reading is outside the buffer. Time to stop
+                    bufferFull = true;
+                }
+                else
+                {
+                    // Adding Reading to the head of the buffer
+                    bufferToUse.add(0, readingsToUse.get(i));
+                }
             }
-            else
+
+            /**
+             * Based on the required frequency, we remove all data not correct
+             * for the requested frequency
+             */
+            for (int i = 1; i < bufferToUse.size();)
             {
-                i++;
+                if (bufferToUse.get(i).getTimestamp() - bufferToUse.get(i-1).getTimestamp() < 
+                        minDistanceBetweenTwoReadings)
+                {
+                    bufferToUse.remove(i);
+                }
+                else
+                {
+                    i++;
+                }
             }
         }
     }
@@ -220,5 +251,153 @@ public class ExerciseAnalyserBefore
         }
         
         mLinearRotatedData = new LinearRotatedData(x, y, z);
+    }
+    
+    /**
+     * Creates the Rotation data
+     */
+    private void createRotationData()
+    {
+        ArrayList<Float> x = new ArrayList<>(), y = new ArrayList<>(), 
+                z = new ArrayList<>();
+        
+        for (Reading reading: buffer)
+        {
+            x.add(reading.getRotationX()); y.add(reading.getRotationY());
+            z.add(reading.getRotationZ());
+        }
+        
+        mRotationData = new RotationData(x, y, z);
+    }
+    
+    /**
+     * Creates the Gravity data
+     */
+    private void createGravityData()
+    {
+        ArrayList<Float> x = new ArrayList<>(), y = new ArrayList<>(), 
+                z = new ArrayList<>();
+        
+        for (Reading reading: buffer)
+        {
+            x.add(reading.getGravityX()); y.add(reading.getGravityY());
+            z.add(reading.getGravityZ());
+        }
+        
+        mGravityData = new GravityData(x, y, z);
+    }
+    
+    /**
+     * Creates the Gyroscope data
+     */
+    private void createGyroscopeData()
+    {
+        ArrayList<Float> x = new ArrayList<>(), y = new ArrayList<>(), 
+                z = new ArrayList<>();
+        
+        for (Reading reading: buffer)
+        {
+            x.add(reading.getGyroscopeX()); y.add(reading.getGyroscopeY());
+            z.add(reading.getGyroscopeZ());
+        }
+        
+        mGyroscopeData = new GyroscopeData(x, y, z);
+    }
+    
+    /**
+     * Creates the Magnetic Field data
+     */
+    private void createMagneticFieldData()
+    {
+        ArrayList<Float> x = new ArrayList<>(), y = new ArrayList<>(), 
+                z = new ArrayList<>();
+        
+        for (Reading reading: buffer)
+        {
+            x.add(reading.getMagneticFieldX()); y.add(reading.getMagneticFieldY());
+            z.add(reading.getMagneticFieldZ());
+        }
+        
+        mMagneticFieldData = new MagneticFieldData(x, y, z);
+    }
+    
+    /**
+     * Creates the Ambient Temperature data
+     */
+    private void createAmbientTemperatureData()
+    {
+        ArrayList<Float> x = new ArrayList<>();
+        Float max = null;
+        
+        for (Reading reading: buffer)
+        {
+            x.add(reading.getAmbientTemperature());
+            if (max == null)
+            {
+                max = reading.getMaxAmbientTemperature();
+            }
+        }
+        
+        mAmbientTemperatureData = new AmbientTemperatureData(x, max);
+    }
+    
+    /**
+     * Creates the Light data
+     */
+    private void createLightData()
+    {
+        ArrayList<Float> x = new ArrayList<>();
+        Float max = null;
+        
+        for (Reading reading: buffer)
+        {
+            x.add(reading.getLight());
+            if (max == null)
+            {
+                max = reading.getMaxLight();
+            }
+        }
+        
+        mLightData = new LightData(x, max);
+    }
+    
+    /**
+     * Creates Pressure data
+     */
+    private void createPressureData()
+    {
+        ArrayList<Float> x = new ArrayList<>();
+        Float max = null;
+        
+        for (Reading reading: buffer)
+        {
+            x.add(reading.getPressure());
+            if (max == null)
+            {
+                max = reading.getMaxPressure();
+            }
+        }
+        
+        mPressureData = new PressureData(x, max);
+    }
+    
+    /**
+     * Creates the Relative Humidity data
+     */
+    private void createRelativeHumidityData()
+    {
+        ArrayList<Float> x = new ArrayList<>();
+        Float max = null;
+        
+        for (Reading reading: buffer)
+        {
+            x.add(reading.getRelativeHumidity());
+            if (max == null)
+            {
+                max = reading.getMaxRelativeHumidity();
+            }
+        }
+        
+        mRelativeHumidityData = new RelativeHumidityData(x, max);
     }
 }

@@ -20,5 +20,6 @@ public class LightData extends OneAxisData
         super("LIGHT", data, maxValue);
         
         correctValuesUsingMaxValue();
+        firstAxis.calculateData();
     }
 }
