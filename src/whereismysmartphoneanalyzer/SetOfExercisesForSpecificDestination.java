@@ -42,4 +42,6 @@ public class SetOfExercisesForSpecificDestination
     {
         return this.exercises;
     }
+    
+    
 }

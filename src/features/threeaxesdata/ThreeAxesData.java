@@ -23,6 +23,22 @@ public class ThreeAxesData extends OneAxisData
         thirdAxis = new DataSet(third, zData);
     }
     
+    @Override
+    public void calculateFeatures()
+    {
+        addBasicFeatures(firstAxis, secondAxis, thirdAxis);
+        
+        features.addAll(calculateAverageRatios(firstAxis, secondAxis, thirdAxis));
+        features.addAll(calculateStdRatios(firstAxis, secondAxis, thirdAxis));
+        features.addAll(calculateVarianceRatios(firstAxis, secondAxis, thirdAxis));
+        features.addAll(calculateMinRatios(firstAxis, secondAxis, thirdAxis));
+        features.addAll(calculateMaxRatios(firstAxis, secondAxis, thirdAxis));
+        features.addAll(calculateRatiosDifferenceMinMax(firstAxis, secondAxis, thirdAxis));
+        features.add(calculateMagnitudeArea(firstAxis, secondAxis, thirdAxis));
+        features.add(calculateSignalMagnitudeArea(firstAxis, secondAxis, thirdAxis));
+        features.addAll(calculateCorrelation(firstAxis, secondAxis, thirdAxis));
+    }
+    
     /**
      * Calculates the ratios between all the averages of all the axes
      * @param params all the axes to calculate average ratios
@@ -268,7 +284,7 @@ public class ThreeAxesData extends OneAxisData
      * @param params the axes to calculate the correlation
      * @return all the correlations between the axes
      */
-    private ArrayList<Float> calculateCorrelation(DataSet... params)
+    protected ArrayList<Float> calculateCorrelation(DataSet... params)
     {
         ArrayList<Float> correlations = new ArrayList<>();
         

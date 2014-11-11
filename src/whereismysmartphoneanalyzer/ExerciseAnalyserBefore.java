@@ -69,6 +69,9 @@ public class ExerciseAnalyserBefore
         createRotationData(); createGravityData(); createGyroscopeData();
         createMagneticFieldData(); createAmbientTemperatureData();
         createPressureData(); createLightData(); createRelativeHumidityData();
+        
+        mAccelerometerData.calculateFeatures(); mAccelerometerRotatedData.calculateFeatures();
+        
     }
     
     /**
@@ -399,5 +402,10 @@ public class ExerciseAnalyserBefore
         }
         
         mRelativeHumidityData = new RelativeHumidityData(x, max);
+    }
+    
+    public AccelerometerData getAccelerometerData()
+    {
+        return this.mAccelerometerData;
     }
 }

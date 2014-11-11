@@ -21,8 +21,8 @@ public class FourAxesMotionSensorData extends ThreePlusOneAxes
         ArrayList<Float> v = new ArrayList<>();
         for (int i = 0; i < firstData.size(); i++)
         {
-            if (firstData.get(i) != null && secondData.get(i) == null && 
-                    thirdData.get(i) == null)
+            if (firstData.get(i) != null && secondData.get(i) != null && 
+                    thirdData.get(i) != null)
             {
                 v.add((float) (Math.pow(firstData.get(i), 2) + 
                         Math.pow(secondData.get(i), 2) + 
@@ -35,5 +35,28 @@ public class FourAxesMotionSensorData extends ThreePlusOneAxes
         }
         
         fourthAxis = new DataSet(fourth, v);
+    }
+    
+    @Override
+    public void calculateFeatures()
+    {
+        addBasicFeatures(firstAxis, secondAxis, thirdAxis, fourthAxis);
+        
+        features.addAll(calculateAverageRatios(firstAxis, secondAxis, thirdAxis, 
+                fourthAxis));
+        features.addAll(calculateStdRatios(firstAxis, secondAxis, thirdAxis, 
+                fourthAxis));
+        features.addAll(calculateVarianceRatios(firstAxis, secondAxis, thirdAxis, 
+                fourthAxis));
+        features.addAll(calculateMinRatios(firstAxis, secondAxis, thirdAxis, 
+                fourthAxis));
+        features.addAll(calculateMaxRatios(firstAxis, secondAxis, thirdAxis, 
+                fourthAxis));
+        features.addAll(calculateRatiosDifferenceMinMax(firstAxis, secondAxis, 
+                thirdAxis, fourthAxis));
+        features.add(calculateMagnitudeArea(firstAxis, secondAxis, thirdAxis));
+        features.add(calculateSignalMagnitudeArea(firstAxis, secondAxis, 
+                thirdAxis));
+        features.addAll(calculateCorrelation(firstAxis, secondAxis, thirdAxis));
     }
 }
