@@ -408,4 +408,69 @@ public class ExerciseAnalyserBefore
     {
         return this.mAccelerometerData;
     }
+    
+    public AccelerometerRotatedData getAccelerometerRotatedData()
+    {
+        return this.mAccelerometerRotatedData;
+    }
+    
+    public AccelerometerNoGravityData getAccelerometerNoGravityData()
+    {
+        return this.mAccelerometerNoGravityData;
+    }
+    
+    public AccelerometerNoGravityRotatedData getAccelerometerNoGravityRotatedData()
+    {
+        return this.mAccelerometerNoGravityRotatedData;
+    }
+    
+    public LinearData getLinearData()
+    {
+        return this.mLinearData;
+    }
+    
+    public LinearRotatedData getLinearRotatedData()
+    {
+        return this.mLinearRotatedData;
+    }
+    
+    public RotationData getRotationData()
+    {
+        return this.mRotationData;
+    }
+    
+    public GravityData getGravityData()
+    {
+        return this.mGravityData;
+    }
+    
+    public GyroscopeData getGyroscopeData()
+    {
+        return this.mGyroscopeData;
+    }
+    
+    public MagneticFieldData getMagneticFieldData()
+    {
+        return this.mMagneticFieldData;
+    }
+    
+    public AmbientTemperatureData getAmbientTemperatureData()
+    {
+        return this.mAmbientTemperatureData;
+    }
+    
+    public LightData getLightData()
+    {
+        return this.mLightData;
+    }
+    
+    public PressureData getPressureData()
+    {
+        return this.mPressureData;
+    }
+    
+    public RelativeHumidityData getRelativeHumidityData()
+    {
+        return this.mRelativeHumidityData;
+    }
 }

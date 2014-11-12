@@ -113,7 +113,7 @@ public class DataWorker
     protected static void removeGravityFromAccelerometerData(
             ArrayList<Reading> accelerometer)
     {
-        List<Reading> buffer = new ArrayList<Reading>();
+        List<Reading> buffer = new ArrayList<>();
         boolean bufferFull = false;
         
         for (Reading reading: accelerometer)

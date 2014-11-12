@@ -423,4 +423,13 @@ public class Reading
             }
         }
     }
+    
+    /**
+     * Sets the new time for the reading
+     * @param newTime the new time of the sample
+     */
+    public void setTime(long newTime)
+    {
+        this.timestamp = newTime;
+    }
 }

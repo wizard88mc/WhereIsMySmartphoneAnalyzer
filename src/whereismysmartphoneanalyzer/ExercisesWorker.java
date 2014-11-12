@@ -171,4 +171,46 @@ public class ExercisesWorker
         
         exercisesToEliminate.clear();
     }
+    
+    /**
+     * Used to correct the bug of the timestamp value. Applied to all the exercises
+     * to uniform sensor readings
+     */
+    public void correctTimestampValues()
+    {
+        long duration = 8000000000L;
+        for (Exercise exercise: exercises)
+        {
+            try
+            {
+                if (exercise.getReadingsAccelerometer() != null)
+                {
+                    int numberSamples = exercise.getReadingsAccelerometer().size();
+                    long delta = duration / numberSamples;
+                    for (int i = 0; i < exercise.getReadingsAccelerometer().size(); i++)
+                    {
+                        exercise.getReadingsAccelerometer().get(i).setTime(
+                                exercise.getReadingsAccelerometer().get(0).getTimestamp() 
+                                        + i * delta);
+                    }
+                }
+            
+                if (exercise.getReadingsLinear() != null)
+                {
+                    int numberSamples = exercise.getReadingsLinear().size();
+                    long delta = duration / numberSamples;
+                    for (int i = 0; i < exercise.getReadingsLinear().size(); i++)
+                    {
+                        exercise.getReadingsLinear().get(i).setTime(
+                                exercise.getReadingsLinear().get(0).getTimestamp() + 
+                                        i * delta);
+                    }
+                }
+            }
+            catch(Exception exc)
+            {
+                exc.printStackTrace();
+            }
+        }
+    }
 }
