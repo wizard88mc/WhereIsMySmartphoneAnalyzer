@@ -77,8 +77,8 @@ public class WhereIsMySmartphoneAnalyzer
         
         ExercisesWorker mExercisesWorker =  new ExercisesWorker(allExercises);
         
+        System.out.println("Esercizi partenza: " + allExercises.size());
         mExercisesWorker.cleanExercises();
-        mExercisesWorker.correctTimestampValues();
         
         mExercisesWorker.countNumberExercisesPerLabel();
         
@@ -86,7 +86,6 @@ public class WhereIsMySmartphoneAnalyzer
         {
             for (int frequency: frequencies)
             {
-                
                 ArrayList<DataExtractorOnlyDataBefore> listDataExtractorOnlyDataBefore = 
                         new ArrayList<>();
                 
@@ -98,6 +97,15 @@ public class WhereIsMySmartphoneAnalyzer
                 }
                 
                 ARFFFileCreator.createARFFAccelerometerDataOnlyBefore(listDataExtractorOnlyDataBefore, bufferLenght, frequency);
+                ARFFFileCreator.createARFFLinearDataOnlyBefore(listDataExtractorOnlyDataBefore, bufferLenght, frequency);
+                ARFFFileCreator.createARFFRotationDataOnlyBefore(listDataExtractorOnlyDataBefore, bufferLenght, frequency);
+                ARFFFileCreator.createARFFGravityDataOnlyBefore(listDataExtractorOnlyDataBefore, bufferLenght, frequency);
+                ARFFFileCreator.createARFFGyroscopeDataOnlyBefore(listDataExtractorOnlyDataBefore, bufferLenght, frequency);
+                ARFFFileCreator.createARFFMagneticFieldDataOnlyBefore(listDataExtractorOnlyDataBefore, bufferLenght, frequency);
+                ARFFFileCreator.createARFFAmbientTemperatureDataOnlyBefore(listDataExtractorOnlyDataBefore, bufferLenght, frequency);
+                ARFFFileCreator.createARFFLightDataOnlyBefore(listDataExtractorOnlyDataBefore, bufferLenght, frequency);
+                ARFFFileCreator.createARFFPressureDataOnlyBefore(listDataExtractorOnlyDataBefore, bufferLenght, frequency);
+                ARFFFileCreator.createARFFRelativeHumidityDataOnlyBefore(listDataExtractorOnlyDataBefore, bufferLenght, frequency);
             }
         }
     }

@@ -6,7 +6,6 @@
 package whereismysmartphoneanalyzer;
 
 import java.util.ArrayList;
-import java.util.List;
 import models.Exercise;
 import models.Reading;
 
@@ -18,6 +17,27 @@ public class DataWorker
 {
     
     private static final int bufferDuration = 500000000; // 500 ms
+    
+    /**
+     * Iterates on all the exercises to add to them the readings
+     * @param exercises: all the exercises
+     * @param readingsAccelerometer: all the readings of the accelerometer
+     * @param readingsLinear: all the readings of the linear
+     */
+    public static void addReadingsToAllExercises(ArrayList<Exercise> exercises,
+            ArrayList<Reading> readingsAccelerometer, 
+            ArrayList<Reading> readingsLinear)
+    {
+        for (Exercise exercise: exercises)
+        {
+            DataWorker.addReadingsToExercise(exercise, readingsAccelerometer, 
+                    readingsLinear);
+            
+            exercise.removeGravityFromAccelerometerData(bufferDuration);
+            
+            exercise.rotateReadings();
+        }
+    }
 
     /**
      * Takes the accelerometer and linear readings of an exercise and adds them
@@ -86,70 +106,6 @@ public class DataWorker
         {
             System.out.println(exc.toString());
             return null;
-        }
-    }
-    
-    /**
-     * Iterates on all the exercises to add to them the readings
-     * @param exercises: all the exercises
-     * @param readingsAccelerometer: all the readings of the accelerometer
-     * @param readingsLinear: all the readings of the linear
-     */
-    public static void addReadingsToAllExercises(ArrayList<Exercise> exercises,
-            ArrayList<Reading> readingsAccelerometer, 
-            ArrayList<Reading> readingsLinear)
-    {
-        for (Exercise exercise: exercises)
-        {
-            DataWorker.addReadingsToExercise(exercise, readingsAccelerometer, 
-                    readingsLinear);
-            
-            removeGravityFromAccelerometerData(exercise.getReadingsAccelerometer());
-            
-            exercise.rotateReadings();
-        }
-    }
-    
-    protected static void removeGravityFromAccelerometerData(
-            ArrayList<Reading> accelerometer)
-    {
-        List<Reading> buffer = new ArrayList<>();
-        boolean bufferFull = false;
-        
-        for (Reading reading: accelerometer)
-        {
-            
-            if (buffer.size() > 0 && 
-                    (reading.getTimestamp() - buffer.get(0).getTimestamp()) > bufferDuration)
-            {
-                bufferFull = true;
-            }
-            else
-            {
-                bufferFull = false;
-                buffer.add(reading);
-            }
-            
-            if (bufferFull)
-            {
-                float meanValueX = 0, meanValueY = 0, meanValueZ = 0;
-                for (Reading readingB: buffer)
-                {
-                    meanValueX += readingB.getX();
-                    meanValueY += readingB.getY();
-                    meanValueZ += readingB.getZ();
-                }
-                
-                meanValueX /= buffer.size(); meanValueY /= buffer.size();
-                meanValueZ /= buffer.size();
-                
-                reading.setNoGravityValues(reading.getX() - meanValueX, 
-                        reading.getY() - meanValueY, 
-                        reading.getZ() - meanValueZ);
-                
-                buffer.remove(0);
-                buffer.add(reading);
-            }
         }
     }
 }

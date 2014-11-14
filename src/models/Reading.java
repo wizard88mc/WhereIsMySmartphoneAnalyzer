@@ -344,7 +344,7 @@ public class Reading
      * @param y: the new y rotated
      * @param z: the new z rotated
      */
-    public void setNoGravityValues(Float x, Float y, Float z)
+    public void setNoGravityValues(float x, float y, float z)
     {
         this.noGravityX = x; this.noGravityY = y; this.noGravityZ = z;
     }
@@ -422,6 +422,10 @@ public class Reading
                 rotatedZ = Double.valueOf(calculatedZ).floatValue();
             }
         }
+        else
+        {
+            //System.out.println("Some null values");
+        }
     }
     
     /**
@@ -431,5 +435,15 @@ public class Reading
     public void setTime(long newTime)
     {
         this.timestamp = newTime;
+    }
+    
+    /**
+     * Sets the new value for the proximity sensor, used to correct some 
+     * sensor errors
+     * @param value the new value
+     */
+    public void setProximityValue(int value)
+    {
+        this.proximity = value;
     }
 }

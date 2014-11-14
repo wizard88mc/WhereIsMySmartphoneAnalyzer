@@ -35,7 +35,6 @@ public class DataExtractorOnlyDataBefore
         }
     }
     
-    
     public String dataForAllExercises(boolean accelerometer, boolean accelerometerRotated,
             boolean accelerometerNoGravity, boolean accelerometerNoGravityRotated, 
             boolean linear, boolean linearRotated, boolean rotation, boolean gravity, 

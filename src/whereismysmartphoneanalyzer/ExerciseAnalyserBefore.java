@@ -71,6 +71,7 @@ public class ExerciseAnalyserBefore
         createPressureData(); createLightData(); createRelativeHumidityData();
         
         mAccelerometerData.calculateFeatures(); mAccelerometerRotatedData.calculateFeatures();
+        mAccelerometerNoGravityData.calculateFeatures(); mAccelerometerNoGravityRotatedData.calculateFeatures();
         
     }
     
@@ -107,11 +108,11 @@ public class ExerciseAnalyserBefore
      */
     private void populateBuffer(int indexFirstObject, boolean linear)
     {
-        ArrayList<Reading> bufferToUse = null, readingsToUse = null;
+        ArrayList<Reading> bufferToUse, readingsToUse;
         if (!linear)
         {
             this.buffer = new ArrayList<>();
-            bufferToUse = this.buffer; readingsToUse = readings;
+            bufferToUse = this.buffer; readingsToUse = this.readings;
         }
         else
         {
@@ -215,8 +216,15 @@ public class ExerciseAnalyserBefore
         
         for (Reading reading: buffer)
         {
-            x.add(reading.getNoGravityRotatedX()); y.add(reading.getNoGravityRotatedY());
-            z.add(reading.getNoGravityRotatedZ());
+            if (reading.getNoGravityRotatedX() != null)
+            {
+                x.add(reading.getNoGravityRotatedX()); y.add(reading.getNoGravityRotatedY());
+                z.add(reading.getNoGravityRotatedZ());
+            }
+            else
+            {
+                System.out.println("null");
+            }
         }
         
         mAccelerometerNoGravityRotatedData = 

@@ -24,7 +24,7 @@ public class FourAxesMotionSensorData extends ThreePlusOneAxes
             if (firstData.get(i) != null && secondData.get(i) != null && 
                     thirdData.get(i) != null)
             {
-                v.add((float) (Math.pow(firstData.get(i), 2) + 
+                v.add((float) Math.sqrt(Math.pow(firstData.get(i), 2) + 
                         Math.pow(secondData.get(i), 2) + 
                     Math.pow(thirdData.get(i), 2)));
             }
