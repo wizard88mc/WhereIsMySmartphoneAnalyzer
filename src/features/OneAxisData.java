@@ -1,6 +1,5 @@
 package features;
 
-import com.sun.xml.internal.ws.util.StringUtils;
 import java.util.ArrayList;
 
 /**
@@ -66,8 +65,7 @@ public class OneAxisData
      */
     public String featuresNameToARFF()
     {
-        String toReturn = "@RELATION WhereIsSmartphone" + 
-                System.getProperty("line.separator");
+        String toReturn = "";
         for (String name: featuresName)
         {
             toReturn += "@ATTRIBUTE " + name + " NUMERIC " + 
@@ -83,11 +81,13 @@ public class OneAxisData
     public String featuresToString()
     {
         String result = "";
+        int counterUsefulValues = 0;
         for (Float element: features)
         {
-            if (element != null)
+            if (element != null && !element.isNaN() && !element.isInfinite())
             {
                 result += element.toString() + ",";
+                counterUsefulValues++;
             }
             else
             {
@@ -95,6 +95,13 @@ public class OneAxisData
             }
             
         }
-        return result;
+        if (counterUsefulValues != 0)
+        {
+            return result;
+        }
+        else
+        {
+            return "";
+        }
     }
 }

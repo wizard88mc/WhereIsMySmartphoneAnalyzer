@@ -1,14 +1,13 @@
 package whereismysmartphoneanalyzer;
 
+import exerciseanalyser.analysisbefore.DataExtractorOnlyDataBefore;
 import arff.ARFFFileCreator;
+import exerciseanalyser.DataExtractor;
+import exerciseanalyser.analyserafter.DataExtractorOnlyDataAfter;
 import filereader.AccelerometerReader;
-import filereader.FileReader;
 import filereader.LinearReader;
 import filereader.ListFilesReader;
 import filereader.SettingsReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
 import java.util.ArrayList;
 import models.Exercise;
 import models.Reading;
@@ -86,26 +85,23 @@ public class WhereIsMySmartphoneAnalyzer
         {
             for (int frequency: frequencies)
             {
-                ArrayList<DataExtractorOnlyDataBefore> listDataExtractorOnlyDataBefore = 
-                        new ArrayList<>();
+                ArrayList<DataExtractor> listDataExtractorOnlyDataBefore = 
+                        new ArrayList<>(), 
+                        listDataExtractorOnlyDataAfter = new ArrayList<>();
                 
                 for (String target: listDestinations)
                 {
                     listDataExtractorOnlyDataBefore.add( 
                             new DataExtractorOnlyDataBefore(allExercises, target, 
                                     bufferLenght, frequency));
+                    listDataExtractorOnlyDataAfter.add(
+                            new DataExtractorOnlyDataAfter(allExercises, target, 
+                                    bufferLenght, frequency));
                 }
-                
-                ARFFFileCreator.createARFFAccelerometerDataOnlyBefore(listDataExtractorOnlyDataBefore, bufferLenght, frequency);
-                ARFFFileCreator.createARFFLinearDataOnlyBefore(listDataExtractorOnlyDataBefore, bufferLenght, frequency);
-                ARFFFileCreator.createARFFRotationDataOnlyBefore(listDataExtractorOnlyDataBefore, bufferLenght, frequency);
-                ARFFFileCreator.createARFFGravityDataOnlyBefore(listDataExtractorOnlyDataBefore, bufferLenght, frequency);
-                ARFFFileCreator.createARFFGyroscopeDataOnlyBefore(listDataExtractorOnlyDataBefore, bufferLenght, frequency);
-                ARFFFileCreator.createARFFMagneticFieldDataOnlyBefore(listDataExtractorOnlyDataBefore, bufferLenght, frequency);
-                ARFFFileCreator.createARFFAmbientTemperatureDataOnlyBefore(listDataExtractorOnlyDataBefore, bufferLenght, frequency);
-                ARFFFileCreator.createARFFLightDataOnlyBefore(listDataExtractorOnlyDataBefore, bufferLenght, frequency);
-                ARFFFileCreator.createARFFPressureDataOnlyBefore(listDataExtractorOnlyDataBefore, bufferLenght, frequency);
-                ARFFFileCreator.createARFFRelativeHumidityDataOnlyBefore(listDataExtractorOnlyDataBefore, bufferLenght, frequency);
+                ARFFFileCreator.createARFFDataOnlyBefore(listDataExtractorOnlyDataBefore, 
+                        bufferLenght, frequency);
+                ARFFFileCreator.createARFFDataOnlyAfter(listDataExtractorOnlyDataAfter, 
+                        bufferLenght, frequency);
             }
         }
     }

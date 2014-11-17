@@ -1,6 +1,5 @@
 package features.fouraxesdata;
 
-import features.fouraxesdata.FourAxesMotionSensorData;
 import java.util.ArrayList;
 
 /**

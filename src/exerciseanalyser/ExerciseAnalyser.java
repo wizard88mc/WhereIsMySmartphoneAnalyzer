@@ -1,9 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package whereismysmartphoneanalyzer;
+package exerciseanalyser;
 
 import features.AmbientTemperatureData;
 import features.LightData;
@@ -24,55 +19,38 @@ import models.Reading;
 
 /**
  *
- * @author Matteo Ciman
+ * @author matteo
  */
-public class ExerciseAnalyserBefore 
+public class ExerciseAnalyser 
 {
-    private long bufferSize;
-    private ArrayList<Reading> readings;
-    private ArrayList<Reading> readingsLinear;
-    private ArrayList<Reading> buffer;
-    private ArrayList<Reading> bufferLinear;
-    private final long minDistanceBetweenTwoReadings;
+    protected long bufferSize;
+    protected ArrayList<Reading> readings;
+    protected ArrayList<Reading> readingsLinear;
+    protected ArrayList<Reading> buffer;
+    protected ArrayList<Reading> bufferLinear;
+    protected final long minDistanceBetweenTwoReadings;
     
-    private AccelerometerData mAccelerometerData;
-    private AccelerometerNoGravityData mAccelerometerNoGravityData;
-    private AccelerometerNoGravityRotatedData mAccelerometerNoGravityRotatedData;
-    private AccelerometerRotatedData mAccelerometerRotatedData;
-    private LinearData mLinearData;
-    private LinearRotatedData mLinearRotatedData;
-    private RotationData mRotationData;
-    private GravityData mGravityData;
-    private GyroscopeData mGyroscopeData;
-    private MagneticFieldData mMagneticFieldData;
-    private AmbientTemperatureData mAmbientTemperatureData;
-    private LightData mLightData;
-    private PressureData mPressureData;
-    private RelativeHumidityData mRelativeHumidityData;
+    protected AccelerometerData mAccelerometerData;
+    protected AccelerometerNoGravityData mAccelerometerNoGravityData;
+    protected AccelerometerNoGravityRotatedData mAccelerometerNoGravityRotatedData;
+    protected AccelerometerRotatedData mAccelerometerRotatedData;
+    protected LinearData mLinearData;
+    protected LinearRotatedData mLinearRotatedData;
+    protected RotationData mRotationData;
+    protected GravityData mGravityData;
+    protected GyroscopeData mGyroscopeData;
+    protected MagneticFieldData mMagneticFieldData;
+    protected AmbientTemperatureData mAmbientTemperatureData;
+    protected LightData mLightData;
+    protected PressureData mPressureData;
+    protected RelativeHumidityData mRelativeHumidityData;
     
-    public ExerciseAnalyserBefore(long bufferSize, ArrayList<Reading> readings, 
+    public ExerciseAnalyser(long bufferSize, ArrayList<Reading> readings, 
             ArrayList<Reading> readingsLinear, int frequency)
     {
         this.bufferSize = bufferSize * 1000 * 1000; this.readings = readings;
         this.readingsLinear = readingsLinear;
         this.minDistanceBetweenTwoReadings = 100000000 / frequency; // min distance in nano seconds
-        
-        int firstIndex = findIndexFirstDataWithProximityValueEqualZero(false);
-        populateBuffer(firstIndex, false);
-        
-        firstIndex = findIndexFirstDataWithProximityValueEqualZero(true);
-        populateBuffer(firstIndex, true);
-        
-        createAccelerometerData(); createAccelerometerRotatedData();
-        createAccelerometerNoGravityData(); createAccelerometerNoGravityRotatedData();
-        createLinearData(); createLinearRotatedData();
-        createRotationData(); createGravityData(); createGyroscopeData();
-        createMagneticFieldData(); createAmbientTemperatureData();
-        createPressureData(); createLightData(); createRelativeHumidityData();
-        
-        mAccelerometerData.calculateFeatures(); mAccelerometerRotatedData.calculateFeatures();
-        mAccelerometerNoGravityData.calculateFeatures(); mAccelerometerNoGravityRotatedData.calculateFeatures();
-        
     }
     
     /**
@@ -80,7 +58,7 @@ public class ExerciseAnalyserBefore
      * (is the first value where the smartphone is at the target location)
      * @return the index of the first Reading object, -1 if no one is found
      */
-    private int findIndexFirstDataWithProximityValueEqualZero(boolean linear)
+    protected int findIndexFirstDataWithProximityValueEqualZero(boolean linear)
     {
         ArrayList<Reading> readingsToUse = readings;
         if (linear)
@@ -101,68 +79,9 @@ public class ExerciseAnalyserBefore
     }
     
     /**
-     * Adds all the objects to the buffer depending of the max allowed size 
-     * of the buffer (time length)
-     * @param indexFirstObject the index of the first Reading with the smartphone
-     * at target location
-     */
-    private void populateBuffer(int indexFirstObject, boolean linear)
-    {
-        ArrayList<Reading> bufferToUse, readingsToUse;
-        if (!linear)
-        {
-            this.buffer = new ArrayList<>();
-            bufferToUse = this.buffer; readingsToUse = this.readings;
-        }
-        else
-        {
-            this.bufferLinear = new ArrayList<>();
-            bufferToUse = this.bufferLinear; readingsToUse = this.readingsLinear;
-        }
-        
-        if (readingsToUse != null)
-        {
-            boolean bufferFull = false;
-            bufferToUse.add(readingsToUse.get(indexFirstObject - 1));
-            for (int i = indexFirstObject - 2; i >= 0 && !bufferFull; i--)
-            {
-                // Checks if the current readings is still inside the buffer or not
-                if (bufferToUse.get(bufferToUse.size() - 1).getTimestamp() - 
-                        readingsToUse.get(i).getTimestamp() > bufferSize)
-                {
-                    // The reading is outside the buffer. Time to stop
-                    bufferFull = true;
-                }
-                else
-                {
-                    // Adding Reading to the head of the buffer
-                    bufferToUse.add(0, readingsToUse.get(i));
-                }
-            }
-
-            /**
-             * Based on the required frequency, we remove all data not correct
-             * for the requested frequency
-             */
-            for (int i = 1; i < bufferToUse.size();)
-            {
-                if (bufferToUse.get(i).getTimestamp() - bufferToUse.get(i-1).getTimestamp() < 
-                        minDistanceBetweenTwoReadings)
-                {
-                    bufferToUse.remove(i);
-                }
-                else
-                {
-                    i++;
-                }
-            }
-        }
-    }
-    
-    /**
      * Creates the Accelerometer data
      */
-    private void createAccelerometerData()
+    protected void createAccelerometerData()
     {
         ArrayList<Float> x = new ArrayList<>(), y = new ArrayList<>(), 
                 z = new ArrayList<>();
@@ -173,12 +92,13 @@ public class ExerciseAnalyserBefore
         }
         
         mAccelerometerData = new AccelerometerData(x, y, z);
+        mAccelerometerData.calculateFeatures();
     }
     
     /**
      * Creates the AccelerometerRotated data
      */
-    private void createAccelerometerRotatedData()
+    protected void createAccelerometerRotatedData()
     {
         ArrayList<Float> x = new ArrayList<>(), y = new ArrayList<>(), 
                 z = new ArrayList<>();
@@ -190,12 +110,13 @@ public class ExerciseAnalyserBefore
         }
         
         mAccelerometerRotatedData = new AccelerometerRotatedData(x, y, z);
+        mAccelerometerRotatedData.calculateFeatures();
     }
     
     /**
      * Creates the AccelerometerNoGravity data
      */
-    private void createAccelerometerNoGravityData()
+    protected void createAccelerometerNoGravityData()
     {
         ArrayList<Float> x = new ArrayList<>(), y = new ArrayList<>(), 
                 z = new ArrayList<>();
@@ -207,9 +128,10 @@ public class ExerciseAnalyserBefore
         }
         
         mAccelerometerNoGravityData = new AccelerometerNoGravityData(x, y, z);
+        mAccelerometerNoGravityData.calculateFeatures();
     }
     
-    private void createAccelerometerNoGravityRotatedData()
+    protected void createAccelerometerNoGravityRotatedData()
     {
         ArrayList<Float> x = new ArrayList<>(), y = new ArrayList<>(), 
                 z = new ArrayList<>();
@@ -229,12 +151,13 @@ public class ExerciseAnalyserBefore
         
         mAccelerometerNoGravityRotatedData = 
                 new AccelerometerNoGravityRotatedData(x, y, z);
+        mAccelerometerNoGravityRotatedData.calculateFeatures();
     }
     
     /**
      * Creates the Linear data
      */
-    private void createLinearData()
+    protected void createLinearData()
     {
         ArrayList<Float> x = new ArrayList<>(), y = new ArrayList<>(), 
                 z = new ArrayList<>();
@@ -245,12 +168,13 @@ public class ExerciseAnalyserBefore
         }
         
         mLinearData = new LinearData(x, y, z);
+        mLinearData.calculateFeatures();
     }
     
     /**
      * Creates the LinearRotated data
      */
-    private void createLinearRotatedData()
+    protected void createLinearRotatedData()
     {
         ArrayList<Float> x = new ArrayList<>(), y = new ArrayList<>(), 
                 z = new ArrayList<>();
@@ -262,12 +186,13 @@ public class ExerciseAnalyserBefore
         }
         
         mLinearRotatedData = new LinearRotatedData(x, y, z);
+        mLinearRotatedData.calculateFeatures();
     }
     
     /**
      * Creates the Rotation data
      */
-    private void createRotationData()
+    protected void createRotationData()
     {
         ArrayList<Float> x = new ArrayList<>(), y = new ArrayList<>(), 
                 z = new ArrayList<>();
@@ -279,12 +204,13 @@ public class ExerciseAnalyserBefore
         }
         
         mRotationData = new RotationData(x, y, z);
+        mRotationData.calculateFeatures();
     }
     
     /**
      * Creates the Gravity data
      */
-    private void createGravityData()
+    protected void createGravityData()
     {
         ArrayList<Float> x = new ArrayList<>(), y = new ArrayList<>(), 
                 z = new ArrayList<>();
@@ -296,12 +222,13 @@ public class ExerciseAnalyserBefore
         }
         
         mGravityData = new GravityData(x, y, z);
+        mGravityData.calculateFeatures();
     }
     
     /**
      * Creates the Gyroscope data
      */
-    private void createGyroscopeData()
+    protected void createGyroscopeData()
     {
         ArrayList<Float> x = new ArrayList<>(), y = new ArrayList<>(), 
                 z = new ArrayList<>();
@@ -313,12 +240,13 @@ public class ExerciseAnalyserBefore
         }
         
         mGyroscopeData = new GyroscopeData(x, y, z);
+        mGyroscopeData.calculateFeatures();
     }
     
     /**
      * Creates the Magnetic Field data
      */
-    private void createMagneticFieldData()
+    protected void createMagneticFieldData()
     {
         ArrayList<Float> x = new ArrayList<>(), y = new ArrayList<>(), 
                 z = new ArrayList<>();
@@ -330,12 +258,13 @@ public class ExerciseAnalyserBefore
         }
         
         mMagneticFieldData = new MagneticFieldData(x, y, z);
+        mMagneticFieldData.calculateFeatures();
     }
     
     /**
      * Creates the Ambient Temperature data
      */
-    private void createAmbientTemperatureData()
+    protected void createAmbientTemperatureData()
     {
         ArrayList<Float> x = new ArrayList<>();
         Float max = null;
@@ -350,12 +279,13 @@ public class ExerciseAnalyserBefore
         }
         
         mAmbientTemperatureData = new AmbientTemperatureData(x, max);
+        mAmbientTemperatureData.calculateFeatures();
     }
     
     /**
      * Creates the Light data
      */
-    private void createLightData()
+    protected void createLightData()
     {
         ArrayList<Float> x = new ArrayList<>();
         Float max = null;
@@ -370,12 +300,13 @@ public class ExerciseAnalyserBefore
         }
         
         mLightData = new LightData(x, max);
+        mLightData.calculateFeatures();
     }
     
     /**
      * Creates Pressure data
      */
-    private void createPressureData()
+    protected void createPressureData()
     {
         ArrayList<Float> x = new ArrayList<>();
         Float max = null;
@@ -390,12 +321,13 @@ public class ExerciseAnalyserBefore
         }
         
         mPressureData = new PressureData(x, max);
+        mPressureData.calculateFeatures();
     }
     
     /**
      * Creates the Relative Humidity data
      */
-    private void createRelativeHumidityData()
+    protected void createRelativeHumidityData()
     {
         ArrayList<Float> x = new ArrayList<>();
         Float max = null;
@@ -410,6 +342,7 @@ public class ExerciseAnalyserBefore
         }
         
         mRelativeHumidityData = new RelativeHumidityData(x, max);
+        mRelativeHumidityData.calculateFeatures();
     }
     
     public AccelerometerData getAccelerometerData()

@@ -1,11 +1,12 @@
 package arff;
 
+import exerciseanalyser.DataExtractor;
 import filereader.FileReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.util.ArrayList;
-import whereismysmartphoneanalyzer.DataExtractorOnlyDataBefore;
+import exerciseanalyser.analysisbefore.DataExtractorOnlyDataBefore;
 import whereismysmartphoneanalyzer.WhereIsMySmartphoneAnalyzer;
 
 /**
@@ -14,7 +15,11 @@ import whereismysmartphoneanalyzer.WhereIsMySmartphoneAnalyzer;
  */
 public class ARFFFileCreator 
 {
+    private static final String PROLOGUE = "@RELATION WhereIsSmartphone" + 
+                System.getProperty("line.separator");
     private static final String FOLDER_OUTPUT = "output" + File.separator;
+    private static final String FOLDER_BEFORE = "buffer_before" + File.separator;
+    private static final String FOLDER_AFTER = "buffer_after" + File.separator;
     private static String createClassesOutput()
     {
         String classes = "{";
@@ -25,34 +30,82 @@ public class ARFFFileCreator
         return "@ATTRIBUTE class " + classes.substring(0, classes.length() - 1) 
                 + "}" + System.getProperty("line.separator");
     }
+    
     /**
-     * Creates the ARFF data for accelerometer data only with data before the
-     * proximity sensor changes state
-     * @param listDataExtractorOnlyDataBefore a list of data analyzer only for 
-     * data before the proximity sensor starts
+     * Prints all the ARFF files data for data built using readings before the 
+     * proximity sensor changes to 0
+     * @param listDataExtractor a list if DataExtractor (both Before or After)
      * @param bufferLength the length of the buffer
      * @param frequency the data frequency
      */
-    public static void createARFFAccelerometerDataOnlyBefore(ArrayList<DataExtractorOnlyDataBefore> 
-            listDataExtractorOnlyDataBefore, int bufferLength, int frequency)
+    public static void createARFFDataOnlyBefore(ArrayList<DataExtractor> listDataExtractor,
+            int bufferLength, int frequency)
+    {
+        createARFFAccelerometerData(listDataExtractor, bufferLength, frequency, FOLDER_BEFORE);
+        createARFFLinearData(listDataExtractor, bufferLength, frequency, FOLDER_BEFORE);
+        createARFFRotationData(listDataExtractor, bufferLength, frequency, FOLDER_BEFORE);
+        createARFFGravity(listDataExtractor, bufferLength, frequency, FOLDER_BEFORE);
+        createARFFGyroscopeData(listDataExtractor, bufferLength, frequency, FOLDER_BEFORE);
+        createARFFMagneticFieldData(listDataExtractor, bufferLength, frequency, FOLDER_BEFORE);
+        createARFFAmbientTemperatureData(listDataExtractor, bufferLength, frequency, FOLDER_BEFORE);
+        createARFFLightData(listDataExtractor, bufferLength, frequency, FOLDER_BEFORE);
+        createARFFPressureData(listDataExtractor, bufferLength, frequency, FOLDER_BEFORE);
+        createARFFRelativeHumidityData(listDataExtractor, bufferLength, frequency, FOLDER_BEFORE);
+    }
+    
+    /**
+     * Prints all the ARFF files data for data built using readings after the 
+     * proximity sensor changes to 0
+     * @param listDataExtractor
+     * @param bufferLength
+     * @param frequency 
+     */
+    public static void createARFFDataOnlyAfter(ArrayList<DataExtractor> listDataExtractor, 
+            int bufferLength, int frequency)
+    {
+        createARFFAccelerometerData(listDataExtractor, bufferLength, frequency, FOLDER_AFTER);
+        createARFFLinearData(listDataExtractor, bufferLength, frequency, FOLDER_AFTER);
+        createARFFRotationData(listDataExtractor, bufferLength, frequency, FOLDER_AFTER);
+        createARFFGravity(listDataExtractor, bufferLength, frequency, FOLDER_AFTER);
+        createARFFGyroscopeData(listDataExtractor, bufferLength, frequency, FOLDER_AFTER);
+        createARFFMagneticFieldData(listDataExtractor, bufferLength, frequency, FOLDER_AFTER);
+        createARFFAmbientTemperatureData(listDataExtractor, bufferLength, frequency, FOLDER_AFTER);
+        createARFFLightData(listDataExtractor, bufferLength, frequency, FOLDER_AFTER);
+        createARFFPressureData(listDataExtractor, bufferLength, frequency, FOLDER_AFTER);
+        createARFFRelativeHumidityData(listDataExtractor, bufferLength, frequency, FOLDER_AFTER);
+    }
+    
+    /**
+     * Creates the ARFF data for accelerometer data only with data before the
+     * proximity sensor changes state
+     * @param listDataExtractor a list of data analyzer 
+     * @param bufferLength the length of the buffer
+     * @param frequency the data frequency
+     * @param subfolder the subfolder where output data
+     */
+    public static void createARFFAccelerometerData(ArrayList<DataExtractor> 
+            listDataExtractor, int bufferLength, int frequency, String subfolder)
     {
         String classes = createClassesOutput();
         String data = "@DATA" + System.getProperty("line.separator");
         try 
         {
             File outputFileAccelerometer = new File(FileReader.FOLDER_BASE + FOLDER_OUTPUT
-                    + "Accelerometer" + File.separator + "Output_Accelerometer_" + 
-                    bufferLength + "_" + frequency + 
+                    + subfolder + "Accelerometer" + File.separator 
+                    + "Output_Accelerometer_" + bufferLength + "_" + frequency + 
                     ".arff"), 
                 outputFileAccelerometerRotated = new File(FileReader.FOLDER_BASE + FOLDER_OUTPUT
-                    + "Accelerometer_Rotated" + File.separator + "Output_Accelerometer_Rotated_" 
-                    + bufferLength + "_" + frequency + ".arff"),
+                    + subfolder + "Accelerometer_Rotated" + File.separator 
+                    + "Output_Accelerometer_Rotated_" + bufferLength + "_" 
+                    + frequency + ".arff"),
                 outputFileAccelerometerNoGravity = new File(FileReader.FOLDER_BASE + FOLDER_OUTPUT
-                    + "Accelerometer_No_Gravity" + File.separator + "Output_Accelerometer_No_Gravity_" 
-                    + bufferLength + "_" + frequency + ".arff"),
+                    + subfolder + "Accelerometer_No_Gravity" + File.separator 
+                    + "Output_Accelerometer_No_Gravity_" + bufferLength + "_" 
+                    + frequency + ".arff"),
                 outputFileAccelerometerNoGravityRotated = new File(FileReader.FOLDER_BASE + FOLDER_OUTPUT
-                    + "Accelerometer_No_Gravity_Rotated" + File.separator
-                    + "Output_Accelerometer_No_Gravity_Rotated_" + bufferLength + "_" + frequency + ".arff");
+                    + subfolder + "Accelerometer_No_Gravity_Rotated" + File.separator
+                    + "Output_Accelerometer_No_Gravity_Rotated_" + bufferLength 
+                    + "_" + frequency + ".arff");
             
             if (!outputFileAccelerometer.exists())
             {
@@ -80,10 +133,12 @@ public class ARFFFileCreator
                     writerAccelerometerNoGravity = new BufferedWriter(new FileWriter(outputFileAccelerometerNoGravity)),
                     writerAccelerometerNoGravityRotated = new BufferedWriter(new FileWriter(outputFileAccelerometerNoGravityRotated));
 
-            writerAccelerometer.write(listDataExtractorOnlyDataBefore.get(0).getAccelerometerPrologueARFF());
-            writerAccelerometerRotated.write(listDataExtractorOnlyDataBefore.get(0).getAccelerometerRotatedPrologueARFF());
-            writerAccelerometerNoGravity.write(listDataExtractorOnlyDataBefore.get(0).getAccelerometerNoGravityPrologueARFF());
-            writerAccelerometerNoGravityRotated.write(listDataExtractorOnlyDataBefore.get(0).getAccelerometerNoGravityRotatedPrologueARFF());
+            writerAccelerometer.write(PROLOGUE); writerAccelerometerRotated.write(PROLOGUE);
+            writerAccelerometerNoGravity.write(PROLOGUE); writerAccelerometerNoGravityRotated.write(PROLOGUE);
+            writerAccelerometer.write(listDataExtractor.get(0).getAccelerometerPrologueARFF());
+            writerAccelerometerRotated.write(listDataExtractor.get(0).getAccelerometerRotatedPrologueARFF());
+            writerAccelerometerNoGravity.write(listDataExtractor.get(0).getAccelerometerNoGravityPrologueARFF());
+            writerAccelerometerNoGravityRotated.write(listDataExtractor.get(0).getAccelerometerNoGravityRotatedPrologueARFF());
             
             writerAccelerometer.write(classes);
             writerAccelerometerRotated.write(classes);
@@ -94,12 +149,20 @@ public class ARFFFileCreator
             writerAccelerometerRotated.write(data);
             writerAccelerometerNoGravity.write(data);
             writerAccelerometerNoGravityRotated.write(data);
-            for (DataExtractorOnlyDataBefore extractor: listDataExtractorOnlyDataBefore)
+            for (DataExtractor extractor: listDataExtractor)
             {
-                writerAccelerometer.write(extractor.dataForAllExercises(true, false, false, false, false, false, false, false, false, false, false, false, false, false));
-                writerAccelerometerRotated.write(extractor.dataForAllExercises(false, true, false, false, false, false, false, false, false, false, false, false, false, false));
-                writerAccelerometerNoGravity.write(extractor.dataForAllExercises(false, false, true, false, false, false, false, false, false, false, false, false, false, false));
-                writerAccelerometerNoGravityRotated.write(extractor.dataForAllExercises(false, false, false, true, false, false, false, false, false, false, false, false, false, false));
+                writerAccelerometer.write(extractor.dataForAllExercises(true, 
+                        false, false, false, false, false, false, false, false, 
+                        false, false, false, false, false));
+                writerAccelerometerRotated.write(extractor.dataForAllExercises(false, 
+                        true, false, false, false, false, false, false, false, 
+                        false, false, false, false, false));
+                writerAccelerometerNoGravity.write(extractor.dataForAllExercises(false, 
+                        false, true, false, false, false, false, false, false, 
+                        false, false, false, false, false));
+                writerAccelerometerNoGravityRotated.write(extractor.dataForAllExercises(false, 
+                        false, false, true, false, false, false, false, false, 
+                        false, false, false, false, false));
             }
             
             writerAccelerometer.flush(); writerAccelerometer.close();
@@ -114,27 +177,27 @@ public class ARFFFileCreator
     }
     
     /**
-     * Creates the ARFF data for linear data only with data before the
-     * proximity sensor changes state
-     * @param listDataExtractorOnlyDataBefore a list of data analyzer only for 
-     * data before the proximity sensor starts
+     * Creates the ARFF data for linear data 
+     * @param listDataExtractor a list of data analyzer 
      * @param bufferLength the length of the buffer
      * @param frequency the data frequency
+     * @param subfolder the subfolder where output data
      */
-    public static void createARFFLinearDataOnlyBefore(ArrayList<DataExtractorOnlyDataBefore> 
-            listDataExtractorOnlyDataBefore, int bufferLength, int frequency)
+    public static void createARFFLinearData(ArrayList<DataExtractor> 
+            listDataExtractor, int bufferLength, int frequency, String subfolder)
     {
         String classes = createClassesOutput();
         String data = "@DATA" + System.getProperty("line.separator");
         try 
         {
             File outputFileLinear = new File(FileReader.FOLDER_BASE + FOLDER_OUTPUT
-                    + "Linear" + File.separator + "Output_Linear_" + 
+                    + subfolder + "Linear" + File.separator + "Output_Linear_" + 
                     bufferLength + "_" + frequency + 
                     ".arff"), 
                 outputFileLinearRotated = new File(FileReader.FOLDER_BASE + FOLDER_OUTPUT
-                    + "Linear_Rotated" + File.separator + "Output_Linear_Rotated_" 
-                    + bufferLength + "_" + frequency + ".arff");
+                    + subfolder + "Linear_Rotated" + File.separator
+                    + "Output_Linear_Rotated_" + bufferLength + "_" + frequency 
+                    + ".arff");
             
             if (!outputFileLinear.exists())
             {
@@ -152,18 +215,23 @@ public class ARFFFileCreator
                     writerLinearRotated = 
                         new BufferedWriter(new FileWriter(outputFileLinearRotated));
 
-            writerLinear.write(listDataExtractorOnlyDataBefore.get(0).getLinearPrologueARFF());
-            writerLinearRotated.write(listDataExtractorOnlyDataBefore.get(0).getLinearRotatedPrologueARFF());
+            writerLinear.write(PROLOGUE); writerLinear.write(PROLOGUE);
+            writerLinear.write(listDataExtractor.get(0).getLinearPrologueARFF());
+            writerLinearRotated.write(listDataExtractor.get(0).getLinearRotatedPrologueARFF());
             
             writerLinear.write(classes);
             writerLinearRotated.write(classes);
             
             writerLinear.write(data);
             writerLinearRotated.write(data);
-            for (DataExtractorOnlyDataBefore extractor: listDataExtractorOnlyDataBefore)
+            for (DataExtractor extractor: listDataExtractor)
             {
-                writerLinear.write(extractor.dataForAllExercises(false, false, false, false, true, false, false, false, false, false, false, false, false, false));
-                writerLinearRotated.write(extractor.dataForAllExercises(false, false, false, false, false, true, false, false, false, false, false, false, false, false));
+                writerLinear.write(extractor.dataForAllExercises(false, false, 
+                        false, false, true, false, false, false, false, false, 
+                        false, false, false, false));
+                writerLinearRotated.write(extractor.dataForAllExercises(false, 
+                        false, false, false, false, true, false, false, false, 
+                        false, false, false, false, false));
             }
             
             writerLinear.flush(); writerLinear.close();
@@ -176,24 +244,22 @@ public class ARFFFileCreator
     }
     
     /**
-     * Creates the ARFF data for rotation data only with data before the
-     * proximity sensor changes state
-     * @param listDataExtractorOnlyDataBefore a list of data analyzer only for 
-     * data before the proximity sensor starts
+     * Creates the ARFF data for rotation data 
+     * @param listDataExtractor a list of data analyzer 
      * @param bufferLength the length of the buffer
      * @param frequency the data frequency
+     * @param subfolder the subfolder for the data
      */
-    public static void createARFFRotationDataOnlyBefore(ArrayList<DataExtractorOnlyDataBefore> 
-            listDataExtractorOnlyDataBefore, int bufferLength, int frequency)
+    public static void createARFFRotationData(ArrayList<DataExtractor> 
+            listDataExtractor, int bufferLength, int frequency, String subfolder)
     {
         String classes = createClassesOutput();
         String data = "@DATA" + System.getProperty("line.separator");
         try 
         {
             File outputFileRotation = new File(FileReader.FOLDER_BASE + FOLDER_OUTPUT
-                    + "Rotation" + File.separator + "Output_Rotation_" + 
-                    bufferLength + "_" + frequency + 
-                    ".arff");
+                    + subfolder + "Rotation" + File.separator + "Output_Rotation_" 
+                    + bufferLength + "_" + frequency + ".arff");
             
             if (!outputFileRotation.exists())
             {
@@ -204,14 +270,17 @@ public class ARFFFileCreator
             BufferedWriter writerRotation = 
                         new BufferedWriter(new FileWriter(outputFileRotation));
 
-            writerRotation.write(listDataExtractorOnlyDataBefore.get(0).getRotationPrologueARFF());
+            writerRotation.write(PROLOGUE);
+            writerRotation.write(listDataExtractor.get(0).getRotationPrologueARFF());
             
             writerRotation.write(classes);
             
             writerRotation.write(data);
-            for (DataExtractorOnlyDataBefore extractor: listDataExtractorOnlyDataBefore)
+            for (DataExtractor extractor: listDataExtractor)
             {
-                writerRotation.write(extractor.dataForAllExercises(false, false, false, false, false, false, true, false, false, false, false, false, false, false));
+                writerRotation.write(extractor.dataForAllExercises(false, false, 
+                        false, false, false, false, true, false, false, false, 
+                        false, false, false, false));
             }
             
             writerRotation.flush(); writerRotation.close();
@@ -223,24 +292,23 @@ public class ARFFFileCreator
     }
     
     /**
-     * Creates the ARFF data for gravity data only with data before the
-     * proximity sensor changes state
-     * @param listDataExtractorOnlyDataBefore a list of data analyzer only for 
-     * data before the proximity sensor starts
+     * Creates the ARFF data for gravity data 
+     * @param listDataExtractor a list of data analyzer 
      * @param bufferLength the length of the buffer
      * @param frequency the data frequency
+     * @param subfolder the subfolder to output the data 
      */
-    public static void createARFFGravityDataOnlyBefore(ArrayList<DataExtractorOnlyDataBefore> 
-            listDataExtractorOnlyDataBefore, int bufferLength, int frequency)
+    public static void createARFFGravity(ArrayList<DataExtractor> 
+            listDataExtractor, int bufferLength, int frequency, 
+            String subfolder)
     {
         String classes = createClassesOutput();
         String data = "@DATA" + System.getProperty("line.separator");
         try 
         {
             File outputFileGravity = new File(FileReader.FOLDER_BASE + FOLDER_OUTPUT
-                    + "Gravity" + File.separator + "Output_Gravity_" + 
-                    bufferLength + "_" + frequency + 
-                    ".arff");
+                    + subfolder + "Gravity" + File.separator + "Output_Gravity_" 
+                    + bufferLength + "_" + frequency + ".arff");
             
             if (!outputFileGravity.exists())
             {
@@ -251,14 +319,17 @@ public class ARFFFileCreator
             BufferedWriter writerGravity = 
                         new BufferedWriter(new FileWriter(outputFileGravity));
 
-            writerGravity.write(listDataExtractorOnlyDataBefore.get(0).getLinearPrologueARFF());
+            writerGravity.write(PROLOGUE);
+            writerGravity.write(listDataExtractor.get(0).getGravityPrologueARFF());
             
             writerGravity.write(classes);
             
             writerGravity.write(data);
-            for (DataExtractorOnlyDataBefore extractor: listDataExtractorOnlyDataBefore)
+            for (DataExtractor extractor: listDataExtractor)
             {
-                writerGravity.write(extractor.dataForAllExercises(false, false, false, false, false, false, false, true, false, false, false, false, false, false));
+                writerGravity.write(extractor.dataForAllExercises(false, false, 
+                        false, false, false, false, false, true, false, false, 
+                        false, false, false, false));
             }
             
             writerGravity.flush(); writerGravity.close();
@@ -270,24 +341,23 @@ public class ARFFFileCreator
     }
     
     /**
-     * Creates the ARFF data for gyroscope data only with data before the
-     * proximity sensor changes state
-     * @param listDataExtractorOnlyDataBefore a list of data analyzer only for 
-     * data before the proximity sensor starts
+     * Creates the ARFF data for gyroscope data 
+     * @param listDataExtractor a list of data analyzer 
      * @param bufferLength the length of the buffer
      * @param frequency the data frequency
+     * @param subfolder the sub folder where to output data
      */
-    public static void createARFFGyroscopeDataOnlyBefore(ArrayList<DataExtractorOnlyDataBefore> 
-            listDataExtractorOnlyDataBefore, int bufferLength, int frequency)
+    public static void createARFFGyroscopeData(ArrayList<DataExtractor> 
+            listDataExtractor, int bufferLength, int frequency, 
+            String subfolder)
     {
         String classes = createClassesOutput();
         String data = "@DATA" + System.getProperty("line.separator");
         try 
         {
             File outputFileGyroscope = new File(FileReader.FOLDER_BASE + FOLDER_OUTPUT
-                    + "Gyroscope" + File.separator + "Output_Gyroscope_" + 
-                    bufferLength + "_" + frequency + 
-                    ".arff");
+                    + subfolder + "Gyroscope" + File.separator + "Output_Gyroscope_" 
+                    + bufferLength + "_" + frequency + ".arff");
             
             if (!outputFileGyroscope.exists())
             {
@@ -298,14 +368,17 @@ public class ARFFFileCreator
             BufferedWriter writerGyroscope = 
                         new BufferedWriter(new FileWriter(outputFileGyroscope));
 
-            writerGyroscope.write(listDataExtractorOnlyDataBefore.get(0).getLinearPrologueARFF());
+            writerGyroscope.write(PROLOGUE);
+            writerGyroscope.write(listDataExtractor.get(0).getGyroscopePrologueARFF());
             
             writerGyroscope.write(classes);
             
             writerGyroscope.write(data);
-            for (DataExtractorOnlyDataBefore extractor: listDataExtractorOnlyDataBefore)
+            for (DataExtractor extractor: listDataExtractor)
             {
-                writerGyroscope.write(extractor.dataForAllExercises(false, false, false, false, false, false, false, false, true, false, false, false, false, false));
+                writerGyroscope.write(extractor.dataForAllExercises(false, false, 
+                        false, false, false, false, false, false, true, false, 
+                        false, false, false, false));
             }
             
             writerGyroscope.flush(); writerGyroscope.close();
@@ -317,24 +390,24 @@ public class ARFFFileCreator
     }
     
     /**
-     * Creates the ARFF data for magnetic field data only with data before the
-     * proximity sensor changes state
-     * @param listDataExtractorOnlyDataBefore a list of data analyzer only for 
-     * data before the proximity sensor starts
+     * Creates the ARFF data for magnetic field data 
+     * @param listDataExtractor a list of data analyzer
      * @param bufferLength the length of the buffer
      * @param frequency the data frequency
+     * @param subfolder the subfolder to output data
      */
-    public static void createARFFMagneticFieldDataOnlyBefore(ArrayList<DataExtractorOnlyDataBefore> 
-            listDataExtractorOnlyDataBefore, int bufferLength, int frequency)
+    protected static void createARFFMagneticFieldData(ArrayList<DataExtractor> 
+            listDataExtractor, int bufferLength, int frequency, 
+            String subfolder)
     {
         String classes = createClassesOutput();
         String data = "@DATA" + System.getProperty("line.separator");
         try 
         {
             File outputFileMagneticField = new File(FileReader.FOLDER_BASE + FOLDER_OUTPUT
-                    + "MagneticField" + File.separator + "Output_MagneticField_" + 
-                    bufferLength + "_" + frequency + 
-                    ".arff");
+                    + subfolder + "MagneticField" + File.separator 
+                    + "Output_MagneticField_" + bufferLength + "_" + frequency 
+                    + ".arff");
             
             if (!outputFileMagneticField.exists())
             {
@@ -345,14 +418,17 @@ public class ARFFFileCreator
             BufferedWriter writerMagneticField = 
                         new BufferedWriter(new FileWriter(outputFileMagneticField));
 
-            writerMagneticField.write(listDataExtractorOnlyDataBefore.get(0).getLinearPrologueARFF());
+            writerMagneticField.write(PROLOGUE);
+            writerMagneticField.write(listDataExtractor.get(0).getMagneticFieldPrologueARFF());
             
             writerMagneticField.write(classes);
             
             writerMagneticField.write(data);
-            for (DataExtractorOnlyDataBefore extractor: listDataExtractorOnlyDataBefore)
+            for (DataExtractor extractor: listDataExtractor)
             {
-                writerMagneticField.write(extractor.dataForAllExercises(false, false, false, false, false, false, false, false, false, true, false, false, false, false));
+                writerMagneticField.write(extractor.dataForAllExercises(false, 
+                        false, false, false, false, false, false, false, false, 
+                        true, false, false, false, false));
             }
             
             writerMagneticField.flush(); writerMagneticField.close();
@@ -364,24 +440,24 @@ public class ARFFFileCreator
     }
     
     /**
-     * Creates the ARFF data for ambient temperature data only with data before the
-     * proximity sensor changes state
-     * @param listDataExtractorOnlyDataBefore a list of data analyzer only for 
-     * data before the proximity sensor starts
+     * Creates the ARFF data for ambient temperature data 
+     * @param listDataExtractor a list of data analyzer
      * @param bufferLength the length of the buffer
      * @param frequency the data frequency
+     * @param subfolder the sub folder where output data
      */
-    public static void createARFFAmbientTemperatureDataOnlyBefore(ArrayList<DataExtractorOnlyDataBefore> 
-            listDataExtractorOnlyDataBefore, int bufferLength, int frequency)
+    private static void createARFFAmbientTemperatureData(ArrayList<DataExtractor> 
+            listDataExtractor, int bufferLength, int frequency, 
+            String subfolder)
     {
         String classes = createClassesOutput();
         String data = "@DATA" + System.getProperty("line.separator");
         try 
         {
             File outputFileAmbientTemperature = new File(FileReader.FOLDER_BASE + FOLDER_OUTPUT
-                    + "AmbientTemperature" + File.separator + "Output_AmbientTemperature_" + 
-                    bufferLength + "_" + frequency + 
-                    ".arff");
+                    + subfolder + "AmbientTemperature" + File.separator 
+                    + "Output_AmbientTemperature_" + bufferLength + "_" + frequency 
+                    + ".arff");
             
             if (!outputFileAmbientTemperature.exists())
             {
@@ -392,14 +468,17 @@ public class ARFFFileCreator
             BufferedWriter writerAmbientTemperature = 
                         new BufferedWriter(new FileWriter(outputFileAmbientTemperature));
 
-            writerAmbientTemperature.write(listDataExtractorOnlyDataBefore.get(0).getLinearPrologueARFF());
+            writerAmbientTemperature.write(PROLOGUE);
+            writerAmbientTemperature.write(listDataExtractor.get(0).getAmbientTemperaturePrologueARFF());
             
             writerAmbientTemperature.write(classes);
             
             writerAmbientTemperature.write(data);
-            for (DataExtractorOnlyDataBefore extractor: listDataExtractorOnlyDataBefore)
+            for (DataExtractor extractor: listDataExtractor)
             {
-                writerAmbientTemperature.write(extractor.dataForAllExercises(false, false, false, false, false, false, false, false, false, false, true, false, false, false));
+                writerAmbientTemperature.write(extractor.dataForAllExercises(false, 
+                        false, false, false, false, false, false, false, false, 
+                        false, true, false, false, false));
             }
             
             writerAmbientTemperature.flush(); writerAmbientTemperature.close();
@@ -411,24 +490,23 @@ public class ARFFFileCreator
     }
     
     /**
-     * Creates the ARFF data for light data only with data before the
-     * proximity sensor changes state
-     * @param listDataExtractorOnlyDataBefore a list of data analyzer only for 
-     * data before the proximity sensor starts
+     * Creates the ARFF data for light data  
+     * @param listDataExtractor a list of data analyzer
      * @param bufferLength the length of the buffer
      * @param frequency the data frequency
+     * @param subfolder the sub folder where output data
      */
-    public static void createARFFLightDataOnlyBefore(ArrayList<DataExtractorOnlyDataBefore> 
-            listDataExtractorOnlyDataBefore, int bufferLength, int frequency)
+    private static void createARFFLightData(ArrayList<DataExtractor> 
+            listDataExtractor, int bufferLength, int frequency, 
+            String subfolder)
     {
         String classes = createClassesOutput();
         String data = "@DATA" + System.getProperty("line.separator");
         try 
         {
             File outputFileLight = new File(FileReader.FOLDER_BASE + FOLDER_OUTPUT
-                    + "Light" + File.separator + "Output_Light_" + 
-                    bufferLength + "_" + frequency + 
-                    ".arff");
+                    + subfolder + "Light" + File.separator + "Output_Light_" 
+                    + bufferLength + "_" + frequency + ".arff");
             
             if (!outputFileLight.exists())
             {
@@ -439,14 +517,17 @@ public class ARFFFileCreator
             BufferedWriter writerLight = 
                         new BufferedWriter(new FileWriter(outputFileLight));
 
-            writerLight.write(listDataExtractorOnlyDataBefore.get(0).getLinearPrologueARFF());
+            writerLight.write(PROLOGUE);
+            writerLight.write(listDataExtractor.get(0).getLightPrologueARFF());
             
             writerLight.write(classes);
             
             writerLight.write(data);
-            for (DataExtractorOnlyDataBefore extractor: listDataExtractorOnlyDataBefore)
+            for (DataExtractor extractor: listDataExtractor)
             {
-                writerLight.write(extractor.dataForAllExercises(false, false, false, false, false, false, false, false, false, false, false, true, false, false));
+                writerLight.write(extractor.dataForAllExercises(false, false, 
+                        false, false, false, false, false, false, false, false, 
+                        false, true, false, false));
             }
             
             writerLight.flush(); writerLight.close();
@@ -458,24 +539,23 @@ public class ARFFFileCreator
     }
     
     /**
-     * Creates the ARFF data for pressure data only with data before the
-     * proximity sensor changes state
-     * @param listDataExtractorOnlyDataBefore a list of data analyzer only for 
-     * data before the proximity sensor starts
+     * Creates the ARFF data for pressure data  
+     * @param listDataExtractor a list of data analyzer
      * @param bufferLength the length of the buffer
      * @param frequency the data frequency
+     * @param subfolder the sub folder for the output data
      */
-    public static void createARFFPressureDataOnlyBefore(ArrayList<DataExtractorOnlyDataBefore> 
-            listDataExtractorOnlyDataBefore, int bufferLength, int frequency)
+    private static void createARFFPressureData(ArrayList<DataExtractor> 
+            listDataExtractor, int bufferLength, int frequency, 
+            String subfolder)
     {
         String classes = createClassesOutput();
         String data = "@DATA" + System.getProperty("line.separator");
         try 
         {
             File outputFilePressure = new File(FileReader.FOLDER_BASE + FOLDER_OUTPUT
-                    + "Pressure" + File.separator + "Output_Pressure_" + 
-                    bufferLength + "_" + frequency + 
-                    ".arff");
+                    + subfolder + "Pressure" + File.separator + "Output_Pressure_" 
+                    + bufferLength + "_" + frequency + ".arff");
             
             if (!outputFilePressure.exists())
             {
@@ -486,14 +566,17 @@ public class ARFFFileCreator
             BufferedWriter writerPressure = 
                         new BufferedWriter(new FileWriter(outputFilePressure));
 
-            writerPressure.write(listDataExtractorOnlyDataBefore.get(0).getLinearPrologueARFF());
+            writerPressure.write(PROLOGUE);
+            writerPressure.write(listDataExtractor.get(0).getPressurePrologueARFF());
             
             writerPressure.write(classes);
             
             writerPressure.write(data);
-            for (DataExtractorOnlyDataBefore extractor: listDataExtractorOnlyDataBefore)
+            for (DataExtractor extractor: listDataExtractor)
             {
-                writerPressure.write(extractor.dataForAllExercises(false, false, false, false, false, false, false, false, false, false, false, false, true, false));
+                writerPressure.write(extractor.dataForAllExercises(false, false, 
+                        false, false, false, false, false, false, false, false, 
+                        false, false, true, false));
             }
             
             writerPressure.flush(); writerPressure.close();
@@ -505,24 +588,24 @@ public class ARFFFileCreator
     }
     
     /**
-     * Creates the ARFF data for relative humidity data only with data before the
-     * proximity sensor changes state
-     * @param listDataExtractorOnlyDataBefore a list of data analyzer only for 
-     * data before the proximity sensor starts
+     * Creates the ARFF data for relative humidity data  
+     * @param listDataExtractor a list of data analyzer 
      * @param bufferLength the length of the buffer
      * @param frequency the data frequency
+     * @param subfolder the sub folder where output data
      */
-    public static void createARFFRelativeHumidityDataOnlyBefore(ArrayList<DataExtractorOnlyDataBefore> 
-            listDataExtractorOnlyDataBefore, int bufferLength, int frequency)
+    private static void createARFFRelativeHumidityData(ArrayList<DataExtractor> 
+            listDataExtractor, int bufferLength, int frequency, 
+            String subfolder)
     {
         String classes = createClassesOutput();
         String data = "@DATA" + System.getProperty("line.separator");
         try 
         {
             File outputFileRelativeHumidity = new File(FileReader.FOLDER_BASE + FOLDER_OUTPUT
-                    + "RelativeHumidity" + File.separator + "Output_RelativeHumidity_" + 
-                    bufferLength + "_" + frequency + 
-                    ".arff");
+                    + subfolder + "RelativeHumidity" + File.separator 
+                    + "Output_RelativeHumidity_" + bufferLength + "_" + frequency 
+                    + ".arff");
             
             if (!outputFileRelativeHumidity.exists())
             {
@@ -533,14 +616,17 @@ public class ARFFFileCreator
             BufferedWriter writerRelativeHumidity = 
                         new BufferedWriter(new FileWriter(outputFileRelativeHumidity));
 
-            writerRelativeHumidity.write(listDataExtractorOnlyDataBefore.get(0).getLinearPrologueARFF());
+            writerRelativeHumidity.write(PROLOGUE);
+            writerRelativeHumidity.write(listDataExtractor.get(0).getRelativeHumidityPrologueARFF());
             
             writerRelativeHumidity.write(classes);
             
             writerRelativeHumidity.write(data);
-            for (DataExtractorOnlyDataBefore extractor: listDataExtractorOnlyDataBefore)
+            for (DataExtractor extractor: listDataExtractor)
             {
-                writerRelativeHumidity.write(extractor.dataForAllExercises(false, false, false, false, false, false, false, false, false, false, false, false, false, true));
+                writerRelativeHumidity.write(extractor.dataForAllExercises(false, 
+                        false, false, false, false, false, false, false, false, 
+                        false, false, false, false, true));
             }
             
             writerRelativeHumidity.flush(); writerRelativeHumidity.close();

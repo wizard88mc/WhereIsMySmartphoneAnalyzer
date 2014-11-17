@@ -397,17 +397,17 @@ public class Reading
                 xFirst = noGravityX; yFirst = noGravityY; zFirst = noGravityZ;
             }
 
-            double calculatedX = ((xAngleSquare + (1 - xAngleSquare) * cosAlpha) * xFirst +
+            double calculatedX = ((xAngleSquare * (1 - cosAlpha) + cosAlpha) * xFirst +
                     (((1 - cosAlpha) * xAngle * yAngle) - sinAlpha * zAngle) * yFirst +
                     (((1 - cosAlpha) * xAngle * zAngle) + sinAlpha * yAngle) * zFirst);
 
             double calculatedY = ((((1 - cosAlpha) * yAngle * xAngle) + sinAlpha * zAngle) * xFirst +
-                    (yAngleSquare + (1 - yAngleSquare) * cosAlpha) * yFirst +
+                    (yAngleSquare + (1 - cosAlpha) + cosAlpha) * yFirst +
                     (((1 - cosAlpha) * yAngle * zAngle) - sinAlpha * xAngle) * zFirst);
 
             double calculatedZ = ((((1 - cosAlpha) * zAngle * xAngle) - sinAlpha * yAngle) * xFirst +
                             ((1 - cosAlpha) * zAngle * yAngle + sinAlpha * xAngle) * yFirst +
-                            (zAngleSquare + (1 - zAngleSquare) * cosAlpha) * zFirst);
+                            (zAngleSquare * (1 - cosAlpha) + cosAlpha) * zFirst);
 
             if (noGravity)
             {
