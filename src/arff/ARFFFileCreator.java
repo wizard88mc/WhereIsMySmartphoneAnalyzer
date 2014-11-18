@@ -20,6 +20,7 @@ public class ARFFFileCreator
     private static final String FOLDER_OUTPUT = "output" + File.separator;
     private static final String FOLDER_BEFORE = "buffer_before" + File.separator;
     private static final String FOLDER_AFTER = "buffer_after" + File.separator;
+    private static final String FOLDER_BEFORE_AFTER = "buffer_before_ufter" + File.separator;
     private static String createClassesOutput()
     {
         String classes = "{";

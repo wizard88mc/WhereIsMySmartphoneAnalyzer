@@ -1,11 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package exerciseanalyser;
 
-import exerciseanalyser.analysisbefore.ExerciseAnalyserBefore;
 import java.util.ArrayList;
 import models.Exercise;
 import whereismysmartphoneanalyzer.SetOfExercisesForSpecificDestination;
@@ -25,6 +19,11 @@ public class DataExtractor
         this.destination = destination;
         mSetOfExercises = new SetOfExercisesForSpecificDestination(allExercises, 
                 destination);
+    }
+    
+    public ArrayList<ExerciseAnalyser> getListExerciseAnalyser()
+    {
+        return this.listExerciseAnalysers;
     }
     
     public String dataForAllExercises(boolean accelerometer, boolean accelerometerRotated,

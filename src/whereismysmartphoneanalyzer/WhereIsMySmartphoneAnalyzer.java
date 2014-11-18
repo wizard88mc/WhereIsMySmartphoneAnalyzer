@@ -4,6 +4,8 @@ import exerciseanalyser.analysisbefore.DataExtractorOnlyDataBefore;
 import arff.ARFFFileCreator;
 import exerciseanalyser.DataExtractor;
 import exerciseanalyser.analyserafter.DataExtractorOnlyDataAfter;
+import exerciseanalyser.analyserbeforeafter.DataExtractorBeforeAfter;
+import exerciseanalyser.analyserbeforeafter.ExerciseAnalyserBeforeAfter;
 import filereader.AccelerometerReader;
 import filereader.LinearReader;
 import filereader.ListFilesReader;
@@ -88,20 +90,25 @@ public class WhereIsMySmartphoneAnalyzer
                 ArrayList<DataExtractor> listDataExtractorOnlyDataBefore = 
                         new ArrayList<>(), 
                         listDataExtractorOnlyDataAfter = new ArrayList<>();
+                ArrayList<DataExtractorBeforeAfter> featuresBeforeAfter = new ArrayList<>();
                 
                 for (String target: listDestinations)
                 {
-                    listDataExtractorOnlyDataBefore.add( 
-                            new DataExtractorOnlyDataBefore(allExercises, target, 
-                                    bufferLenght, frequency));
-                    listDataExtractorOnlyDataAfter.add(
-                            new DataExtractorOnlyDataAfter(allExercises, target, 
-                                    bufferLenght, frequency));
+                    DataExtractorOnlyDataBefore before = new DataExtractorOnlyDataBefore(allExercises, target, 
+                                    bufferLenght, frequency);
+                    DataExtractorOnlyDataAfter after = new DataExtractorOnlyDataAfter(allExercises, target, 
+                                    bufferLenght, frequency);
+                    listDataExtractorOnlyDataBefore.add(before);
+                    listDataExtractorOnlyDataAfter.add(after);
+                    
+                    featuresBeforeAfter.add(new DataExtractorBeforeAfter(target, 
+                            before.getListExerciseAnalyser(), after.getListExerciseAnalyser()));
                 }
                 ARFFFileCreator.createARFFDataOnlyBefore(listDataExtractorOnlyDataBefore, 
                         bufferLenght, frequency);
                 ARFFFileCreator.createARFFDataOnlyAfter(listDataExtractorOnlyDataAfter, 
                         bufferLenght, frequency);
+                
             }
         }
     }

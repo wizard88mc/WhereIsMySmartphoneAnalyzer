@@ -104,4 +104,14 @@ public class OneAxisData
             return "";
         }
     }
+    
+    public ArrayList<Float> getFeatures()
+    {
+        return this.features;
+    }
+    
+    public ArrayList<String> getFeaturesName()
+    {
+        return this.featuresName;
+    }
 }

@@ -1,7 +1,9 @@
 package models;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * class Exercise
@@ -12,6 +14,8 @@ import java.util.List;
  */
 public class Exercise 
 {
+    
+    private static Map<String, String> englishToItalian = null;
     
     private final int trunkAccelerometer;
     private final int trunkLinear;
@@ -27,6 +31,30 @@ public class Exercise
     private ArrayList<Reading> readingsAccelerometer = null;
     private ArrayList<Reading> readingsLinear = null;
     
+    static {
+        englishToItalian = new HashMap<>();
+        englishToItalian.put("LEFT", "SINISTRA");
+        englishToItalian.put("RIGHT", "DESTRA");
+        englishToItalian.put("STANDING", "FERMO");
+        englishToItalian.put("SITTING", "SEDUTO");
+        englishToItalian.put("WALKING", "CAMMINANDO");
+        englishToItalian.put("STAIRS_UP", "SCALE_SU");
+        englishToItalian.put("STAIRS_DOWN", "SCALE_GIU");
+        englishToItalian.put("CALL", "CHIAMATA");
+        englishToItalian.put("HAND", "MANO");
+        englishToItalian.put("NORMAL", "NORMALI");
+        englishToItalian.put("WITH_HEEL", "CON_TACCO");
+        englishToItalian.put("RIGHT_FRONT_POCKET", "TASCA_DESTRA_DAVANTI_PANTALONI");
+        englishToItalian.put("RIGHT_BACK_POCKET", "TASCA_DESTRA_DIETRO_PANTALONI");
+        englishToItalian.put("LEFT_FRONT_POCKET", "TASCA_SINISTRA_DAVANTI_PANTALONI");
+        englishToItalian.put("LEFT_BACK_POCKET", "TASCA_SINISTRA_DIETRO_PANTALONI");
+        englishToItalian.put("BOTTOM_JACKET", "TASCA_GIACCA_BASSA");
+        englishToItalian.put("TOP_JACKET", "TASCA_GIACCA_ALTA");
+        englishToItalian.put("BAG", "BORSA");
+        englishToItalian.put("FANNY_PACK", "MARSUPIO");
+        englishToItalian.put("BACKPACK", "ZAINO");
+    }
+    
     public Exercise(int trunkAccelerometer, int trunkLinear, String sex, 
             String age, String height, String shoes, 
             String hand, String action, String origin, String destination) 
@@ -34,8 +62,20 @@ public class Exercise
         
         this.trunkAccelerometer = trunkAccelerometer; this.trunkLinear = trunkLinear;
         this.sex = sex; this.age = age; this.height = height;
-        this.shoes = shoes; this.hand = hand; this.action = action;
-        this.origin = origin; this.destination = destination; 
+        if (englishToItalian.containsKey(action))
+        {
+            // ENGLISH_SETTINGS
+            this.shoes = englishToItalian.get(shoes);
+            this.hand = englishToItalian.get(hand);
+            this.action = englishToItalian.get(action);
+            this.origin = englishToItalian.get(origin);
+            this.destination = englishToItalian.get(destination);
+        }
+        else
+        {
+            this.shoes = shoes; this.hand = hand; this.action = action;
+            this.origin = origin; this.destination = destination; 
+        }
     }
     
     /**
@@ -78,6 +118,7 @@ public class Exercise
         this.readingsLinear = linear;
         
         correctTimestampValues();
+        correctProximityValues();
     }
     
     /**
@@ -119,6 +160,69 @@ public class Exercise
             exc.printStackTrace();
         }
         
+    }
+    
+    private void correctProximityValues()
+    {
+        float minValueProximity = Float.MAX_VALUE, maxValueProximity = Float.MIN_VALUE;
+        
+        for (Reading reading: readingsAccelerometer)
+        {
+            if (reading.getProximityValue() < minValueProximity)
+            {
+                minValueProximity = reading.getProximityValue();
+            }
+            if (reading.getProximityValue() > maxValueProximity)
+            {
+                maxValueProximity = reading.getProximityValue();
+            }
+        }
+        
+        if (minValueProximity != maxValueProximity)
+        {
+            for (Reading reading: readingsAccelerometer)
+            {
+                if (reading.getProximityValue() == maxValueProximity)
+                {
+                    reading.setProximityValue(1);
+                }
+                else 
+                {
+                    reading.setProximityValue(0);
+                }
+            }
+        }
+        
+        minValueProximity = Float.MAX_VALUE; maxValueProximity = Float.MIN_VALUE;
+        if (readingsLinear != null)
+        {
+            for (Reading reading: readingsLinear)
+            {
+                if (reading.getProximityValue() < minValueProximity)
+                {
+                    minValueProximity = reading.getProximityValue();
+                }
+                if (reading.getProximityValue() > maxValueProximity)
+                {
+                    maxValueProximity = reading.getProximityValue();
+                }
+            }
+
+            if (minValueProximity != maxValueProximity)
+            {
+                for (Reading reading: readingsLinear)
+                {
+                    if (reading.getProximityValue() == maxValueProximity)
+                    {
+                        reading.setProximityValue(1);
+                    }
+                    else 
+                    {
+                        reading.setProximityValue(0);
+                    }
+                }
+            }
+        }
     }
     
     /**

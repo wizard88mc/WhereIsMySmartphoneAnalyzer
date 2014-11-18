@@ -14,7 +14,7 @@ public class Reading
 {   
     private int trunkID;
     private long timestamp;
-    private int proximity;
+    private float proximity;
     private Float x;
     private Float y;
     private Float z;
@@ -233,7 +233,7 @@ public class Reading
         return this.rotatedNoGravityZ;
     }
     
-    public int getProximityValue()
+    public float getProximityValue()
     {
         return this.proximity;
     }
