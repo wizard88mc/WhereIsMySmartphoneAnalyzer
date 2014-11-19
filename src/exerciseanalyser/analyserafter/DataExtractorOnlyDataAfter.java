@@ -24,4 +24,5 @@ public class DataExtractorOnlyDataAfter extends DataExtractor
                     exercise.getReadingsLinear(), frequency));
         }
     }
+    
 }

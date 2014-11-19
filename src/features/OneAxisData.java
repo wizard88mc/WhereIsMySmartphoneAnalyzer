@@ -1,5 +1,7 @@
 package features;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 
 /**
@@ -42,20 +44,40 @@ public class OneAxisData
     {
         for (DataSet axis: params)
         {
-            featuresName.add(axis.getName() + "_AVERAGE");
-            features.add(axis.getAverage());
+            Float average = axis.getAverage();
+            if (average != null)
+            {
+                featuresName.add(axis.getName() + "_AVERAGE");
+                features.add(average);
+            }
             
-            featuresName.add(axis.getName() + "_VARIANCE");
-            features.add(axis.getVariance());
+            Float variance = axis.getVariance();
+            if (variance != null)
+            {
+                featuresName.add(axis.getName() + "_VARIANCE");
+                features.add(axis.getVariance());
+            }
             
-            featuresName.add(axis.getName() + "_STD");
-            features.add(axis.getStd());
+            Float std = axis.getStd();
+            if (std != null)
+            {
+                featuresName.add(axis.getName() + "_STD");
+                features.add(axis.getStd());
+            }
             
-            featuresName.add(axis.getName() + "_DIFFERENCE_MIN_MAX");
-            features.add(axis.getDifferenceMinMax());
+            Float difference = axis.getDifferenceMinMax();
+            if (difference != null)
+            {
+                featuresName.add(axis.getName() + "_DIFFERENCE_MIN_MAX");
+                features.add(difference);
+            }
             
-            featuresName.add(axis.getName() + "_RATIO_MIN_MAX");
-            features.add(axis.getRatioMinMax());
+            Float ratio = axis.getRatioMinMax();
+            if (ratio != null)
+            {
+                featuresName.add(axis.getName() + "_RATIO_MIN_MAX");
+                features.add(ratio);
+            }
         }
     }
     
@@ -86,7 +108,8 @@ public class OneAxisData
         {
             if (element != null && !element.isNaN() && !element.isInfinite())
             {
-                result += element.toString() + ",";
+                NumberFormat format = new DecimalFormat("0.####");
+                result += format.format(element) + ",";
                 counterUsefulValues++;
             }
             else

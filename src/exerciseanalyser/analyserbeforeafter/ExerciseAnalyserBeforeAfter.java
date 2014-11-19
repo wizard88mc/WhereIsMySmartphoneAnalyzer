@@ -6,8 +6,6 @@
 package exerciseanalyser.analyserbeforeafter;
 
 import exerciseanalyser.ExerciseAnalyser;
-import exerciseanalyser.analyserafter.ExerciseAnalyserAfter;
-import exerciseanalyser.analysisbefore.ExerciseAnalyserBefore;
 import java.util.ArrayList;
 
 /**
@@ -87,13 +85,15 @@ public class ExerciseAnalyserBeforeAfter
         
         for (int i = 0; i < featuresBefore.size(); i++)
         {
-            if (featuresBefore.get(i) != null && !featuresBefore.get(i).isInfinite() && 
-                    !featuresBefore.get(i).isNaN() && featuresAfter.get(i) != null && 
-                    !featuresAfter.get(i).isInfinite() && !featuresAfter.get(i).isNaN())
+            
+            featuresRatiosAccelerometerData.add("RATIO_" + featuresName.get(i));
+            Float ratio = featuresBefore.get(i) / featuresAfter.get(i);
+            if (ratio.isInfinite() || ratio.isNaN())
             {
-                featuresRatiosAccelerometerData.add("RATIO_" + featuresName.get(i));
-                ratiosAccelerometerData.add(featuresBefore.get(i) / featuresAfter.get(i));
+                ratio = 0.0F;
             }
+            ratiosAccelerometerData.add(ratio);
+            
         }
     }
     
@@ -106,13 +106,13 @@ public class ExerciseAnalyserBeforeAfter
         
         for (int i = 0; i < featuresBefore.size(); i++)
         {
-            if (featuresBefore.get(i) != null && !featuresBefore.get(i).isInfinite() && 
-                    !featuresBefore.get(i).isNaN() && featuresAfter.get(i) != null && 
-                    !featuresAfter.get(i).isInfinite() && !featuresAfter.get(i).isNaN())
+            featuresRatiosAccelerometerRotatedData.add("RATIO_" + featuresName.get(i));
+            Float ratio = featuresBefore.get(i) / featuresAfter.get(i);
+            if (ratio.isInfinite() || ratio.isNaN())
             {
-                featuresRatiosAccelerometerRotatedData.add("RATIO_" + featuresName.get(i));
-                ratiosAccelerometerRotatedData.add(featuresBefore.get(i) / featuresAfter.get(i));
+                ratio = 0.0F;
             }
+            ratiosAccelerometerRotatedData.add(ratio);
         }
     }
     
@@ -125,13 +125,13 @@ public class ExerciseAnalyserBeforeAfter
         
         for (int i = 0; i < featuresBefore.size(); i++)
         {
-            if (featuresBefore.get(i) != null && !featuresBefore.get(i).isInfinite() && 
-                    !featuresBefore.get(i).isNaN() && featuresAfter.get(i) != null && 
-                    !featuresAfter.get(i).isInfinite() && !featuresAfter.get(i).isNaN())
+            featuresRatiosAccelerometerNoGravityData.add("RATIO_" + featuresName.get(i));
+            Float ratio = featuresBefore.get(i) / featuresAfter.get(i);
+            if (ratio.isInfinite() || ratio.isNaN())
             {
-                featuresRatiosAccelerometerNoGravityData.add("RATIO_" + featuresName.get(i));
-                ratiosAccelerometerNoGravityData.add(featuresBefore.get(i) / featuresAfter.get(i));
+                ratio = 0.0F;
             }
+            ratiosAccelerometerNoGravityData.add(ratio);
         }
     }
     
@@ -144,13 +144,13 @@ public class ExerciseAnalyserBeforeAfter
         
         for (int i = 0; i < featuresBefore.size(); i++)
         {
-            if (featuresBefore.get(i) != null && !featuresBefore.get(i).isInfinite() && 
-                    !featuresBefore.get(i).isNaN() && featuresAfter.get(i) != null && 
-                    !featuresAfter.get(i).isInfinite() && !featuresAfter.get(i).isNaN())
+            featuresRatiosAccelerometerNoGravityRotatedData.add("RATIO_" + featuresName.get(i));
+            Float ratio = featuresBefore.get(i) / featuresAfter.get(i);
+            if (ratio.isInfinite() || ratio.isNaN())
             {
-                featuresRatiosAccelerometerNoGravityRotatedData.add("RATIO_" + featuresName.get(i));
-                ratiosAccelerometerNoGravityRotatedData.add(featuresBefore.get(i) / featuresAfter.get(i));
+                ratio = 0.0F;
             }
+            ratiosAccelerometerNoGravityRotatedData.add(ratio);
         }
     }
     
@@ -163,13 +163,13 @@ public class ExerciseAnalyserBeforeAfter
         
         for (int i = 0; i < featuresBefore.size(); i++)
         {
-            if (featuresBefore.get(i) != null && !featuresBefore.get(i).isInfinite() && 
-                    !featuresBefore.get(i).isNaN() && featuresAfter.get(i) != null && 
-                    !featuresAfter.get(i).isInfinite() && !featuresAfter.get(i).isNaN())
+            featuresRatiosLinearData.add("RATIO_" + featuresName.get(i));
+            Float ratio = featuresBefore.get(i) / featuresAfter.get(i);
+            if (ratio.isInfinite() || ratio.isNaN())
             {
-                featuresRatiosLinearData.add("RATIO_" + featuresName.get(i));
-                ratiosLinearData.add(featuresBefore.get(i) / featuresAfter.get(i));
+                ratio = 0.0F;
             }
+            ratiosLinearData.add(ratio);
         }
     }
     
@@ -182,13 +182,13 @@ public class ExerciseAnalyserBeforeAfter
         
         for (int i = 0; i < featuresBefore.size(); i++)
         {
-            if (featuresBefore.get(i) != null && !featuresBefore.get(i).isInfinite() && 
-                    !featuresBefore.get(i).isNaN() && featuresAfter.get(i) != null && 
-                    !featuresAfter.get(i).isInfinite() && !featuresAfter.get(i).isNaN())
+            featuresRatiosLinearRotatedData.add("RATIO_" + featuresName.get(i));
+            Float ratio = featuresBefore.get(i) / featuresAfter.get(i);
+            if (ratio.isInfinite() || ratio.isNaN())
             {
-                featuresRatiosLinearRotatedData.add("RATIO_" + featuresName.get(i));
-                ratiosLinearRotatedData.add(featuresBefore.get(i) / featuresAfter.get(i));
+                ratio = 0F;
             }
+            ratiosLinearRotatedData.add(ratio);
         }
     }
     
@@ -206,7 +206,12 @@ public class ExerciseAnalyserBeforeAfter
                     !featuresAfter.get(i).isInfinite() && !featuresAfter.get(i).isNaN())
             {
                 featuresRatiosRotationData.add("RATIO_" + featuresName.get(i));
-                ratiosRotationData.add(featuresBefore.get(i) / featuresAfter.get(i));
+                Float ratio = featuresBefore.get(i) / featuresAfter.get(i);
+                if (ratio.isInfinite() || ratio.isNaN())
+                {
+                    ratio = 0.0F;
+                }
+                ratiosRotationData.add(ratio);
             }
         }
     }
@@ -225,7 +230,12 @@ public class ExerciseAnalyserBeforeAfter
                     !featuresAfter.get(i).isInfinite() && !featuresAfter.get(i).isNaN())
             {
                 featuresRatiosGravityData.add("RATIO_" + featuresName.get(i));
-                ratiosGravityData.add(featuresBefore.get(i) / featuresAfter.get(i));
+                Float ratio = featuresBefore.get(i) / featuresAfter.get(i);
+                if (ratio.isInfinite() || ratio.isNaN())
+                {
+                    ratio = 0F;
+                }
+                ratiosGravityData.add(ratio);
             }
         }
     }
@@ -244,7 +254,12 @@ public class ExerciseAnalyserBeforeAfter
                     !featuresAfter.get(i).isInfinite() && !featuresAfter.get(i).isNaN())
             {
                 featuresRatiosGyroscopeData.add("RATIO_" + featuresName.get(i));
-                ratiosGyroscopeData.add(featuresBefore.get(i) / featuresAfter.get(i));
+                Float ratio = featuresBefore.get(i) / featuresAfter.get(i);
+                if (ratio.isInfinite() || ratio.isNaN())
+                {
+                    ratio = 0F;
+                }
+                ratiosGyroscopeData.add(ratio);
             }
         }
     }
@@ -263,7 +278,12 @@ public class ExerciseAnalyserBeforeAfter
                     !featuresAfter.get(i).isInfinite() && !featuresAfter.get(i).isNaN())
             {
                 featuresRatiosMagneticFieldData.add("RATIO_" + featuresName.get(i));
-                ratiosMagneticFieldData.add(featuresBefore.get(i) / featuresAfter.get(i));
+                Float ratio = featuresBefore.get(i) / featuresAfter.get(i);
+                if (ratio.isInfinite() || ratio.isNaN())
+                {
+                    ratio = 0.0F;
+                }
+                ratiosMagneticFieldData.add(ratio);
             }
         }
     }
@@ -282,7 +302,12 @@ public class ExerciseAnalyserBeforeAfter
                     !featuresAfter.get(i).isInfinite() && !featuresAfter.get(i).isNaN())
             {
                 featuresRatiosAmbientTemperatureData.add("RATIO_" + featuresName.get(i));
-                ratiosAmbientTemperatureData.add(featuresBefore.get(i) / featuresAfter.get(i));
+                Float ratio = featuresBefore.get(i) / featuresAfter.get(i);
+                if (ratio.isInfinite() || ratio.isNaN())
+                {
+                    ratio = 0.0F;
+                }
+                ratiosAmbientTemperatureData.add(ratio);
             }
         }
     }
@@ -301,7 +326,12 @@ public class ExerciseAnalyserBeforeAfter
                     !featuresAfter.get(i).isInfinite() && !featuresAfter.get(i).isNaN())
             {
                 featuresRatiosLightData.add("RATIO_" + featuresName.get(i));
-                ratiosLightData.add(featuresBefore.get(i) / featuresAfter.get(i));
+                Float ratio = featuresBefore.get(i) / featuresAfter.get(i);
+                if (ratio.isInfinite() || ratio.isNaN())
+                {
+                    ratio = 0.0F;
+                }
+                ratiosLightData.add(ratio);
             }
         }
     }
@@ -320,7 +350,12 @@ public class ExerciseAnalyserBeforeAfter
                     !featuresAfter.get(i).isInfinite() && !featuresAfter.get(i).isNaN())
             {
                 featuresRatiosPressureData.add("RATIO_" + featuresName.get(i));
-                ratiosPressureData.add(featuresBefore.get(i) / featuresAfter.get(i));
+                Float ratio = featuresBefore.get(i) / featuresAfter.get(i);
+                if (ratio.isInfinite() || ratio.isNaN())
+                {
+                    ratio = 0.0F;
+                }
+                ratiosPressureData.add(ratio);
             }
         }
     }
@@ -339,8 +374,228 @@ public class ExerciseAnalyserBeforeAfter
                     !featuresAfter.get(i).isInfinite() && !featuresAfter.get(i).isNaN())
             {
                 featuresRatiosRelativeHumidity.add("RATIO_" + featuresName.get(i));
-                ratiosRelativeHumidityData.add(featuresBefore.get(i) / featuresAfter.get(i));
+                Float ratio = featuresBefore.get(i) / featuresAfter.get(i);
+                if (ratio.isInfinite() || ratio.isNaN())
+                {
+                    ratio = 0.0F;
+                }
+                ratiosRelativeHumidityData.add(ratio);
             }
         }
+    }
+    
+    public String buildFeaturesListForARFF(boolean accelerometer, 
+            boolean accelerometerRotated, boolean accelerometerNoGravity, 
+            boolean accelerometerNoGravityRotated, boolean linear, 
+            boolean linearRotated, boolean rotation, boolean gravity, 
+            boolean gyroscope, boolean magneticField, boolean ambientTemperature, 
+            boolean light, boolean pressure, boolean relativeHumidity)
+    {
+        ArrayList<String> listFeatures = new ArrayList<>();
+        
+        if (accelerometer)
+        {
+            listFeatures.addAll(getAccelerometerFeaturesName());
+        }
+        if (accelerometerRotated)
+        {
+            listFeatures.addAll(getAccelerometerRotatedFeaturesName());
+        }
+        if (accelerometerNoGravity)
+        {
+            listFeatures.addAll(getAccelerometerNoGravityFeaturesName());
+        }
+        if (accelerometerNoGravityRotated)
+        {
+            listFeatures.addAll(getAccelerometerNoGravityRotatedFeaturesName());
+        }
+        if (linear)
+        {
+            listFeatures.addAll(getLinearFeaturesName());
+        }
+        if (linearRotated)
+        {
+            listFeatures.addAll(getLinearRotatedFeaturesName());
+        }
+        if (rotation)
+        {
+            listFeatures.addAll(getRotationFeaturesName());
+        }
+        if (gravity)
+        {
+            listFeatures.addAll(getGravityFeaturesName());
+        }
+        if (gyroscope)
+        {
+            listFeatures.addAll(getGyroscopeFeaturesName());
+        }
+        if (magneticField)
+        {
+            listFeatures.addAll(getMagneticFieldFeaturesName());
+        }
+        if (ambientTemperature)
+        {
+            listFeatures.addAll(getAmbientTemperatureFeaturesName());
+        }
+        if (light)
+        {
+            listFeatures.addAll(getLightFeaturesName());
+        }
+        if (pressure)
+        {
+            listFeatures.addAll(getPressureFeaturesName());
+        }
+        if (relativeHumidity)
+        {
+            listFeatures.addAll(getRelativeHumidityFeaturesName());
+        }
+        
+        String output = "";
+        for (String feature: listFeatures)
+        {
+            output += "@ATTRIBUTE " + feature + " NUMERIC" 
+                    + System.getProperty("line.separator");
+        }
+        return output;
+    }
+    
+    public ArrayList<String> getAccelerometerFeaturesName()
+    {
+        return this.featuresRatiosAccelerometerData;
+    }
+    
+    public ArrayList<Float> getAccelerometerFeaturesValues()
+    {
+        return this.ratiosAccelerometerData;
+    }
+    
+    public ArrayList<String> getAccelerometerRotatedFeaturesName()
+    {
+        return this.featuresRatiosAccelerometerRotatedData;
+    }
+    
+    public ArrayList<Float> getAccelerometerRotatedValues()
+    {
+        return this.ratiosAccelerometerRotatedData;
+    }
+    
+    public ArrayList<String> getAccelerometerNoGravityFeaturesName()
+    {
+        return this.featuresRatiosAccelerometerNoGravityData;
+    }
+    
+    public ArrayList<Float> getAccelerometerNoGravityValues()
+    {
+        return this.ratiosAccelerometerNoGravityData;
+    }
+    
+    public ArrayList<String> getAccelerometerNoGravityRotatedFeaturesName()
+    {
+        return this.featuresRatiosAccelerometerNoGravityRotatedData;
+    }
+    
+    public ArrayList<Float> getAccelerometerNoGravityRotatedValues()
+    {
+        return this.ratiosAccelerometerNoGravityRotatedData;
+    }
+    
+    public ArrayList<String> getLinearFeaturesName()
+    {
+        return this.featuresRatiosLinearData;
+    }
+    
+    public ArrayList<Float> getLinearValues()
+    {
+        return this.ratiosLinearData;
+    }
+    
+    public ArrayList<String> getLinearRotatedFeaturesName()
+    {
+        return this.featuresRatiosLinearRotatedData;
+    }
+    
+    public ArrayList<Float> getLinearRotatedValues()
+    {
+        return this.ratiosLinearRotatedData;
+    }
+    
+    public ArrayList<String> getRotationFeaturesName()
+    {
+        return this.featuresRatiosRotationData;
+    }
+    
+    public ArrayList<Float> getRotationValues()
+    {
+        return this.ratiosRotationData;
+    }
+    
+    public ArrayList<String> getGravityFeaturesName()
+    {
+        return this.featuresRatiosGravityData;
+    }
+    
+    public ArrayList<Float> getGravityValues()
+    {
+        return this.ratiosGravityData;
+    }
+    
+    public ArrayList<String> getGyroscopeFeaturesName()
+    {
+        return this.featuresRatiosGyroscopeData;
+    }
+    
+    public ArrayList<Float> getGyroscopeValues()
+    {
+        return this.ratiosGyroscopeData;
+    }
+    
+    public ArrayList<String> getMagneticFieldFeaturesName()
+    {
+        return this.featuresRatiosMagneticFieldData;
+    }
+    
+    public ArrayList<Float> getMagneticFieldValues()
+    {
+        return this.ratiosMagneticFieldData;
+    }
+    
+    public ArrayList<String> getAmbientTemperatureFeaturesName()
+    {
+        return this.featuresRatiosAmbientTemperatureData;
+    }
+    
+    public ArrayList<Float> getAmbientTemperatureValues()
+    {
+        return this.ratiosAmbientTemperatureData;
+    }
+    
+    public ArrayList<String> getLightFeaturesName()
+    {
+        return this.featuresRatiosLightData;
+    }
+    
+    public ArrayList<Float> getLightValues()
+    {
+        return this.ratiosLightData;
+    }
+    
+    public ArrayList<String> getPressureFeaturesName()
+    {
+        return this.featuresRatiosPressureData;
+    }
+    
+    public ArrayList<Float> getPressureValues()
+    {
+        return this.ratiosPressureData;
+    }
+    
+    public ArrayList<String> getRelativeHumidityFeaturesName()
+    {
+        return this.featuresRatiosRelativeHumidity;
+    }
+    
+    public ArrayList<Float> getRelativeHumidityValues()
+    {
+        return this.ratiosRelativeHumidityData;
     }
 }

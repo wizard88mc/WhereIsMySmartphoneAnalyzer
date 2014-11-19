@@ -101,6 +101,8 @@ public class DataExtractor
         return finalString;
     }
     
+    public String getPrologueARFF(/* boolean per tutt*/)
+    
     public String getAccelerometerPrologueARFF()
     {
         return listExerciseAnalysers.get(0).getAccelerometerData().featuresNameToARFF();

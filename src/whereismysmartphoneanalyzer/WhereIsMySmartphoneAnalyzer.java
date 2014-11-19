@@ -30,6 +30,25 @@ public class WhereIsMySmartphoneAnalyzer
         ExercisesWorker.TASCA_GIACCA_ALTA, ExercisesWorker.TASCA_GIACCA_BASSA, 
         ExercisesWorker.BORSA, ExercisesWorker.MARSUPIO, ExercisesWorker.ZAINO};
     
+    public static ArrayList<Sensor> listSensors = new ArrayList<>();
+    
+    static
+    {
+        listSensors.add(new Sensor("Accelerometer"));
+        listSensors.add(new Sensor("AccelerometerRotated"));
+        listSensors.add(new Sensor("AccelerometerNoGravity"));
+        listSensors.add(new Sensor("AccelerometerNoGravityRotated"));
+        listSensors.add(new Sensor("Linear"));
+        listSensors.add(new Sensor("LinearRotated"));
+        listSensors.add(new Sensor("Rotation"));
+        listSensors.add(new Sensor("Gravity"));
+        listSensors.add(new Sensor("Gyroscope"));
+        listSensors.add(new Sensor("MagneticField"));
+        listSensors.add(new Sensor("AmbientTemperature"));
+        listSensors.add(new Sensor("Light"));
+        listSensors.add(new Sensor("Pressure"));
+        listSensors.add(new Sensor("RelativeHumidity"));
+    }
     /**
      * @param args the command line arguments
      */
@@ -108,7 +127,8 @@ public class WhereIsMySmartphoneAnalyzer
                         bufferLenght, frequency);
                 ARFFFileCreator.createARFFDataOnlyAfter(listDataExtractorOnlyDataAfter, 
                         bufferLenght, frequency);
-                
+                ARFFFileCreator.createARFFDataBeforeAfter(featuresBeforeAfter, 
+                        bufferLenght, frequency);
             }
         }
     }

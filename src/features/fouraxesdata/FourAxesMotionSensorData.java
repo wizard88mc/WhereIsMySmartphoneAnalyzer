@@ -54,9 +54,9 @@ public class FourAxesMotionSensorData extends ThreePlusOneAxes
                 fourthAxis));
         features.addAll(calculateRatiosDifferenceMinMax(firstAxis, secondAxis, 
                 thirdAxis, fourthAxis));
-        features.add(calculateMagnitudeArea(firstAxis, secondAxis, thirdAxis));
-        features.add(calculateSignalMagnitudeArea(firstAxis, secondAxis, 
-                thirdAxis));
-        features.addAll(calculateCorrelation(firstAxis, secondAxis, thirdAxis));
+        calculateMagnitudeArea(firstAxis, secondAxis, thirdAxis, features);
+        calculateSignalMagnitudeArea(firstAxis, secondAxis, thirdAxis, features);
+        features.addAll(calculateCorrelation(firstAxis, secondAxis, thirdAxis, 
+                fourthAxis));
     }
 }

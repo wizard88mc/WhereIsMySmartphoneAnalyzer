@@ -34,8 +34,8 @@ public class ThreeAxesData extends OneAxisData
         features.addAll(calculateMinRatios(firstAxis, secondAxis, thirdAxis));
         features.addAll(calculateMaxRatios(firstAxis, secondAxis, thirdAxis));
         features.addAll(calculateRatiosDifferenceMinMax(firstAxis, secondAxis, thirdAxis));
-        features.add(calculateMagnitudeArea(firstAxis, secondAxis, thirdAxis));
-        features.add(calculateSignalMagnitudeArea(firstAxis, secondAxis, thirdAxis));
+        calculateMagnitudeArea(firstAxis, secondAxis, thirdAxis, features);
+        calculateSignalMagnitudeArea(firstAxis, secondAxis, thirdAxis, features);
         features.addAll(calculateCorrelation(firstAxis, secondAxis, thirdAxis));
     }
     
@@ -51,16 +51,17 @@ public class ThreeAxesData extends OneAxisData
         {
             for (int j = i + 1; j < params.length; j++)
             {
-                featuresName.add("RATIO_AVERAGE_" + params[i].getName() + "_" 
-                        + params[j].getName());
                 if (params[i].getAverage() != null && 
                         params[j].getAverage() != null)
                 {
-                    ratios.add(params[i].getAverage() / params[j].getAverage());
-                }
-                else
-                {
-                    ratios.add(null);
+                    Float ratio = params[i].getAverage() / params[j].getAverage();
+                    if (ratio.isInfinite() || ratio.isNaN())
+                    {
+                        ratio = 0.0F;
+                    }
+                    ratios.add(ratio);
+                    featuresName.add("RATIO_AVERAGE_" + params[i].getName() + "_" 
+                        + params[j].getName());
                 }
             }
         }
@@ -81,16 +82,17 @@ public class ThreeAxesData extends OneAxisData
         {
             for (int j = i + 1; j < params.length; j++)
             {
-                featuresName.add("RATIO_STD_" + params[i].getName() + "_" 
-                    + params[j].getName());
                 if (params[i].getStd() != null && 
                         params[j].getStd() != null)
                 {
-                    ratios.add(params[i].getStd() / params[j].getStd());
-                }
-                else
-                {
-                    ratios.add(null);
+                    Float ratio = params[i].getStd() / params[j].getStd();
+                    if (ratio.isInfinite() || ratio.isNaN())
+                    {
+                        ratio = 0.0F;
+                    }
+                    ratios.add(ratio);
+                    featuresName.add("RATIO_STD_" + params[i].getName() + "_" 
+                        + params[j].getName());
                 }
             }
         }
@@ -111,16 +113,17 @@ public class ThreeAxesData extends OneAxisData
         {
             for (int j = i + 1; j < params.length; j++)
             {
-                featuresName.add("RATIO_VARIANCE_" + params[i].getName() + 
-                        "_" + params[j].getName());
                 if (params[i].getVariance() != null && 
                         params[j].getVariance() != null)
                 {
-                    ratios.add(params[i].getVariance() / params[j].getVariance());
-                }
-                else
-                {
-                    ratios.add(null);
+                    Float ratio = params[i].getVariance() / params[j].getVariance(); 
+                    if (ratio.isInfinite() || ratio.isNaN())
+                    {
+                        ratio = 0.0F;
+                    }
+                    ratios.add(ratio);
+                    featuresName.add("RATIO_VARIANCE_" + params[i].getName() + 
+                        "_" + params[j].getName());
                 }
             }
         }
@@ -142,17 +145,18 @@ public class ThreeAxesData extends OneAxisData
         {
             for (int j = i + 1; j < params.length; j++)
             {
-                featuresName.add("RATIO_DIFF_MIN_MAX_" + params[i].getName() + 
-                        "_" + params[j].getName());
                 if (params[i].getDifferenceMinMax() != null && 
                         params[j].getDifferenceMinMax() != null)
                 {
-                    ratios.add(params[i].getDifferenceMinMax() / 
-                            params[j].getDifferenceMinMax());
-                }
-                else
-                {
-                    ratios.add(null);
+                    Float ratio = params[i].getDifferenceMinMax() / 
+                            params[j].getDifferenceMinMax();
+                    if (ratio.isInfinite() || ratio.isNaN())
+                    {
+                        ratio = 0.0F;
+                    }
+                    ratios.add(ratio);
+                    featuresName.add("RATIO_DIFF_MIN_MAX_" + params[i].getName() + 
+                        "_" + params[j].getName());
                 }
             }
         }
@@ -173,15 +177,16 @@ public class ThreeAxesData extends OneAxisData
         {
             for (int j = i + 1; j < params.length; j++)
             {
-                featuresName.add("RATIO_MAX_" + params[i].getName() + "_" + 
-                        params[j].getName());
                 if (params[i].getMax() != null && params[j].getMax() != null)
                 {
-                    ratios.add(params[i].getMax() / params[j].getMax());
-                }
-                else
-                {
-                    ratios.add(null);
+                    Float ratio = params[i].getMax() / params[j].getMax();
+                    if (ratio.isInfinite() || ratio.isNaN())
+                    {
+                        ratio = 0.0F;
+                    }
+                    ratios.add(ratio);
+                    featuresName.add("RATIO_MAX_" + params[i].getName() + "_" + 
+                        params[j].getName());
                 }
             }
         }
@@ -201,15 +206,16 @@ public class ThreeAxesData extends OneAxisData
         {
             for (int j = i + 1; j < params.length; j++)
             {
-                featuresName.add("RATIO_MIN_" + params[i].getName() + "_" + 
-                        params[j].getName());
                 if (params[i].getMin() != null && params[j].getMax() != null)
                 {
-                    ratios.add(params[i].getMin() / params[j].getMin());
-                }
-                else
-                {
-                    ratios.add(null);
+                    Float ratio = params[i].getMin() / params[j].getMin(); 
+                    if (ratio.isInfinite() || ratio.isNaN())
+                    {
+                        ratio = 0.0F;
+                    }
+                    ratios.add(ratio);
+                    featuresName.add("RATIO_MIN_" + params[i].getName() + "_" + 
+                        params[j].getName());
                 }
             }
         }
@@ -222,22 +228,19 @@ public class ThreeAxesData extends OneAxisData
      * @param first the first axis
      * @param second the second axis
      * @param third the third axis
-     * @return the magnitude area
+     * @param features ArrayList for the features
      */
-    protected Float calculateMagnitudeArea(DataSet first, DataSet second, 
-            DataSet third)
+    protected void calculateMagnitudeArea(DataSet first, DataSet second, 
+            DataSet third, ArrayList<Float> features)
     {
-        featuresName.add("MAGNITUDE_AREA");
+        
         if (first.getAverage() != null && second.getAverage() != null && 
                 third.getAverage() != null)
         {
-            return (Float) ((Double)((Math.sqrt(Math.pow(first.getAverage(), 2) + 
+            featuresName.add("MAGNITUDE_AREA");
+            features.add((Float) ((Double)((Math.sqrt(Math.pow(first.getAverage(), 2) + 
                 Math.pow(second.getAverage(), 2) + 
-                Math.pow(third.getAverage(), 2))) / first.getNumberData())).floatValue();
-        }
-        else
-        {
-            return null;
+                Math.pow(third.getAverage(), 2))) / first.getNumberData())).floatValue());
         }
     }
     
@@ -249,10 +252,9 @@ public class ThreeAxesData extends OneAxisData
      * @param third the third axis
      * @return the signal magnitude area
      */
-    protected Float calculateSignalMagnitudeArea(DataSet first, DataSet second, 
-            DataSet third)
+    protected void calculateSignalMagnitudeArea(DataSet first, DataSet second, 
+            DataSet third, ArrayList<Float> features)
     {
-        featuresName.add("SIGNAL_MAGNITUDE_AREA");
         int counter = 0;
         float signalMagnitudeArea = 0;
         
@@ -275,8 +277,12 @@ public class ThreeAxesData extends OneAxisData
             }
         }
         
-        signalMagnitudeArea /= counter;
-        return signalMagnitudeArea;
+        if (counter != 0)
+        {
+            featuresName.add("SIGNAL_MAGNITUDE_AREA");
+            signalMagnitudeArea /= counter;
+            features.add(signalMagnitudeArea);
+        }
     }
     
     /**
@@ -292,17 +298,18 @@ public class ThreeAxesData extends OneAxisData
         {
             for (int j = i + 1; j < params.length; j++)
             {
-                featuresName.add("CORRELATION_" + params[i].getName() + "_" + 
-                        params[j].getName());
                 if (params[i].getStd() != null && params[j].getStd() != null)
                 {
                     float covariance = calculateCovariance(params[i].getDataSet(), 
                             params[j].getDataSet());
-                    correlations.add(covariance / (params[i].getStd() * params[j].getStd()));
-                }
-                else
-                {
-                    correlations.add(null);
+                    Float correlation = covariance / (params[i].getStd() * params[j].getStd());
+                    if (correlation.isInfinite() || correlation.isNaN())
+                    {
+                        correlation = 0.0F;
+                    }
+                    correlations.add(correlation);
+                    featuresName.add("CORRELATION_" + params[i].getName() + "_" + 
+                        params[j].getName());
                 }
             }
         }
