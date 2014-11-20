@@ -2,7 +2,7 @@ package exerciseanalyser;
 
 import java.util.ArrayList;
 import models.Exercise;
-import whereismysmartphoneanalyzer.SetOfExercisesForSpecificDestination;
+import whereismysmartphoneanalyzer.SetOfExercisesForSpecificDestinationAndAction;
 
 /**
  *
@@ -10,15 +10,17 @@ import whereismysmartphoneanalyzer.SetOfExercisesForSpecificDestination;
  */
 public class DataExtractor 
 {
-    protected final SetOfExercisesForSpecificDestination mSetOfExercises;
+    protected final SetOfExercisesForSpecificDestinationAndAction mSetOfExercises;
     protected ArrayList<ExerciseAnalyser> listExerciseAnalysers = new ArrayList<>();
     protected final String destination;
+    protected final String activity;
     
-    public DataExtractor(ArrayList<Exercise> allExercises, String destination)
+    public DataExtractor(ArrayList<Exercise> allExercises, String activity, 
+            String destination)
     {
-        this.destination = destination;
-        mSetOfExercises = new SetOfExercisesForSpecificDestination(allExercises, 
-                destination);
+        this.destination = destination; this.activity = activity;
+        mSetOfExercises = new SetOfExercisesForSpecificDestinationAndAction(allExercises, 
+                activity, destination);
     }
     
     public ArrayList<ExerciseAnalyser> getListExerciseAnalyser()
@@ -38,59 +40,59 @@ public class DataExtractor
             String featuresToString = "";
             if (accelerometer)
             {
-                featuresToString = exercise.getAccelerometerData().featuresToString();
+                featuresToString += exercise.getAccelerometerData().featuresToString();
             }
             if (accelerometerRotated)
             {
-                featuresToString = exercise.getAccelerometerRotatedData().featuresToString();
+                featuresToString += exercise.getAccelerometerRotatedData().featuresToString();
             }
             if (accelerometerNoGravity)
             {
-                featuresToString = exercise.getAccelerometerNoGravityData().featuresToString();
+                featuresToString += exercise.getAccelerometerNoGravityData().featuresToString();
             }
             if (accelerometerNoGravityRotated)
             {
-                featuresToString = exercise.getAccelerometerNoGravityRotatedData().featuresToString();
+                featuresToString += exercise.getAccelerometerNoGravityRotatedData().featuresToString();
             }
             if (linear)
             {
-                featuresToString = exercise.getLinearData().featuresToString();
+                featuresToString += exercise.getLinearData().featuresToString();
             }
             if (linearRotated)
             {
-                featuresToString = exercise.getLinearRotatedData().featuresToString();
+                featuresToString += exercise.getLinearRotatedData().featuresToString();
             }
             if (rotation)
             {
-                featuresToString = exercise.getRotationData().featuresToString();
+                featuresToString += exercise.getRotationData().featuresToString();
             }
             if (gravity)
             {
-                featuresToString = exercise.getGravityData().featuresToString();
+                featuresToString += exercise.getGravityData().featuresToString();
             }
             if (gyroscope)
             {
-                featuresToString = exercise.getGyroscopeData().featuresToString();
+                featuresToString += exercise.getGyroscopeData().featuresToString();
             }
             if (magneticField)
             {
-                featuresToString = exercise.getMagneticFieldData().featuresToString();
+                featuresToString += exercise.getMagneticFieldData().featuresToString();
             }
             if (ambientTemperature)
             {
-                featuresToString = exercise.getAmbientTemperatureData().featuresToString();
+                featuresToString += exercise.getAmbientTemperatureData().featuresToString();
             }
             if (light)
             {
-                featuresToString = exercise.getLightData().featuresToString();
+                featuresToString += exercise.getLightData().featuresToString();
             }
             if (pressure)
             {
-                featuresToString = exercise.getPressureData().featuresToString();
+                featuresToString += exercise.getPressureData().featuresToString();
             }
             if (relativeHumidity)
             {
-                featuresToString = exercise.getRelativeHumidityData().featuresToString();
+                featuresToString += exercise.getRelativeHumidityData().featuresToString();
             }
             
             if (!featuresToString.equals(""))
@@ -101,74 +103,138 @@ public class DataExtractor
         return finalString;
     }
     
-    public String getPrologueARFF(/* boolean per tutt*/)
+    public String getPrologueARFF(boolean accelerometer, boolean accelerometerRotated,
+            boolean accelerometerNoGravity, boolean accelerometerNoGravityRotated, 
+            boolean linear, boolean linearRotated, boolean rotation, boolean gravity, 
+            boolean gyroscope, boolean magneticField, boolean ambientTemperature, 
+            boolean light, boolean pressure, boolean relativeHumidity)
+    {
+        String result = "";
+        if (accelerometer)
+        {
+            result += getAccelerometerPrologueARFF();
+        }
+        if (accelerometerRotated)
+        {
+            result += getAccelerometerRotatedPrologueARFF();
+        }
+        if (accelerometerNoGravity)
+        {
+            result += getAccelerometerNoGravityPrologueARFF();
+        }
+        if (accelerometerNoGravityRotated)
+        {
+            result += getAccelerometerNoGravityRotatedPrologueARFF();
+        }
+        if (linear)
+        {
+            result += getLinearPrologueARFF();
+        }
+        if (linearRotated)
+        {
+            result += getLinearRotatedPrologueARFF();
+        }
+        if (rotation)
+        {
+            result += getRotationPrologueARFF();
+        }
+        if (gravity)
+        {
+            result += getGravityPrologueARFF();
+        }
+        if (gyroscope)
+        {
+            result += getGyroscopePrologueARFF();
+        }
+        if (magneticField)
+        {
+            result += getMagneticFieldPrologueARFF();
+        }
+        if (ambientTemperature)
+        {
+            result += getAmbientTemperaturePrologueARFF();
+        }
+        if (light)
+        {
+            result += getLightPrologueARFF();
+        }
+        if (pressure)
+        {
+            result += getPressurePrologueARFF();
+        }
+        if (relativeHumidity)
+        {
+            result += getRelativeHumidityPrologueARFF();
+        }
+        return result;
+    }
     
-    public String getAccelerometerPrologueARFF()
+    private String getAccelerometerPrologueARFF()
     {
         return listExerciseAnalysers.get(0).getAccelerometerData().featuresNameToARFF();
     }
     
-    public String getAccelerometerRotatedPrologueARFF()
+    private String getAccelerometerRotatedPrologueARFF()
     {
         return listExerciseAnalysers.get(0).getAccelerometerRotatedData().featuresNameToARFF();
     }
     
-    public String getAccelerometerNoGravityPrologueARFF()
+    private String getAccelerometerNoGravityPrologueARFF()
     {
         return listExerciseAnalysers.get(0).getAccelerometerNoGravityData().featuresNameToARFF();
     }
     
-    public String getAccelerometerNoGravityRotatedPrologueARFF()
+    private String getAccelerometerNoGravityRotatedPrologueARFF()
     {
         return listExerciseAnalysers.get(0).getAccelerometerNoGravityRotatedData().featuresNameToARFF();
     }
     
-    public String getLinearPrologueARFF()
+    private String getLinearPrologueARFF()
     {
         return listExerciseAnalysers.get(0).getLinearData().featuresNameToARFF();
     }
     
-    public String getLinearRotatedPrologueARFF()
+    private String getLinearRotatedPrologueARFF()
     {
         return listExerciseAnalysers.get(0).getLinearRotatedData().featuresNameToARFF();
     }
     
-    public String getRotationPrologueARFF()
+    private String getRotationPrologueARFF()
     {
         return listExerciseAnalysers.get(0).getRotationData().featuresNameToARFF();
     }
     
-    public String getGravityPrologueARFF()
+    private String getGravityPrologueARFF()
     {
         return listExerciseAnalysers.get(0).getGravityData().featuresNameToARFF();
     }
     
-    public String getGyroscopePrologueARFF()
+    private String getGyroscopePrologueARFF()
     {
         return listExerciseAnalysers.get(0).getGyroscopeData().featuresNameToARFF();
     }
     
-    public String getMagneticFieldPrologueARFF()
+    private String getMagneticFieldPrologueARFF()
     {
         return listExerciseAnalysers.get(0).getGyroscopeData().featuresNameToARFF();
     }
     
-    public String getAmbientTemperaturePrologueARFF()
+    private String getAmbientTemperaturePrologueARFF()
     {
         return listExerciseAnalysers.get(0).getAmbientTemperatureData().featuresNameToARFF();
     }
     
-    public String getLightPrologueARFF()
+    private String getLightPrologueARFF()
     {
         return listExerciseAnalysers.get(0).getLightData().featuresNameToARFF();
     }
     
-    public String getPressurePrologueARFF()
+    private String getPressurePrologueARFF()
     {
         return listExerciseAnalysers.get(0).getPressureData().featuresNameToARFF();
     }
     
-    public String getRelativeHumidityPrologueARFF()
+    private String getRelativeHumidityPrologueARFF()
     {
         return listExerciseAnalysers.get(0).getRelativeHumidityData().featuresNameToARFF();
     }

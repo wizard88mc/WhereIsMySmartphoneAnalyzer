@@ -11,13 +11,15 @@ import java.util.ArrayList;
  */
 public class DataExtractorBeforeAfter
 {
-    private String target;
-    private ArrayList<ExerciseAnalyserBeforeAfter> listExerciseAnalyserBeforeAfter = new ArrayList<>();
+    private final String target;
+    private final String activity;
+    private final ArrayList<ExerciseAnalyserBeforeAfter> listExerciseAnalyserBeforeAfter = new ArrayList<>();
     
-    public DataExtractorBeforeAfter(String target, ArrayList<ExerciseAnalyser> before, 
+    public DataExtractorBeforeAfter(String target, String activity, 
+            ArrayList<ExerciseAnalyser> before, 
             ArrayList<ExerciseAnalyser> after)
     {
-        this.target = target;
+        this.target = target; this.activity = activity;
         for (int i = 0; i < before.size(); i++)
         {
             listExerciseAnalyserBeforeAfter.add(new ExerciseAnalyserBeforeAfter(before.get(i), after.get(i)));

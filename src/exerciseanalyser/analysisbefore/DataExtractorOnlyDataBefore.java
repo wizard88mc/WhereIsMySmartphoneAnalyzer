@@ -15,10 +15,11 @@ import models.Exercise;
  */
 public class DataExtractorOnlyDataBefore extends DataExtractor
 {   
-    public DataExtractorOnlyDataBefore(ArrayList<Exercise> allExercises, String destination,
-            long bufferDuration, int frequency)
+    public DataExtractorOnlyDataBefore(ArrayList<Exercise> allExercises, 
+            String activity, String destination, long bufferDuration, 
+            int frequency)
     {   
-        super(allExercises, destination);
+        super(allExercises, activity, destination);
         
         for (Exercise exercise: mSetOfExercises.getExercises())
         {

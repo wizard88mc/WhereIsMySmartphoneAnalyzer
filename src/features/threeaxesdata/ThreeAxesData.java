@@ -237,7 +237,8 @@ public class ThreeAxesData extends OneAxisData
         if (first.getAverage() != null && second.getAverage() != null && 
                 third.getAverage() != null)
         {
-            featuresName.add("MAGNITUDE_AREA");
+            featuresName.add(first.getName() + "_" + second.getName() + "_" + 
+                    third.getName() + "_" + "MAGNITUDE_AREA");
             features.add((Float) ((Double)((Math.sqrt(Math.pow(first.getAverage(), 2) + 
                 Math.pow(second.getAverage(), 2) + 
                 Math.pow(third.getAverage(), 2))) / first.getNumberData())).floatValue());
@@ -279,7 +280,8 @@ public class ThreeAxesData extends OneAxisData
         
         if (counter != 0)
         {
-            featuresName.add("SIGNAL_MAGNITUDE_AREA");
+            featuresName.add(first.getName() + "_" + second.getName() + "_" + 
+                    third.getName() + "_" + "SIGNAL_MAGNITUDE_AREA");
             signalMagnitudeArea /= counter;
             features.add(signalMagnitudeArea);
         }

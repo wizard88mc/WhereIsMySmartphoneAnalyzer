@@ -5,11 +5,14 @@ import arff.ARFFFileCreator;
 import exerciseanalyser.DataExtractor;
 import exerciseanalyser.analyserafter.DataExtractorOnlyDataAfter;
 import exerciseanalyser.analyserbeforeafter.DataExtractorBeforeAfter;
-import exerciseanalyser.analyserbeforeafter.ExerciseAnalyserBeforeAfter;
 import filereader.AccelerometerReader;
+import filereader.FileReader;
 import filereader.LinearReader;
 import filereader.ListFilesReader;
 import filereader.SettingsReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import models.Exercise;
 import models.Reading;
@@ -22,8 +25,10 @@ import models.Reading;
  */
 public class WhereIsMySmartphoneAnalyzer 
 {
-    private static Integer[] bufferDurations = new Integer[]{500, 1000, 1500, 2000}; // in milliseconds
-    private static Integer[] frequencies = new Integer[]{15, 30, 50};
+    private static final Integer[] bufferDurations = new Integer[]{500, 1000, 1500, 2000}; // in milliseconds
+    private static final Integer[] frequencies = new Integer[]{15, 30, 50};
+    private static final String[] activities = new String[] {"FERMO", "SEDUTO", 
+        "CAMMINANDO", "SCALE_SU", "SCALE_GIU", null};
     public static String[] listDestinations = new String[]{
         ExercisesWorker.TASCA_DESTRA_DAVANTI_PANTALONI, ExercisesWorker.TASCA_DESTRA_DIETRO_PANTALONI,
         ExercisesWorker.TASCA_SINISTRA_DAVANTI_PANTALONI, ExercisesWorker.TASCA_SINISTRA_DIETRO_PANTALONI,
@@ -49,6 +54,8 @@ public class WhereIsMySmartphoneAnalyzer
         listSensors.add(new Sensor("Pressure"));
         listSensors.add(new Sensor("RelativeHumidity"));
     }
+    
+    public static final ArrayList<String> generatedFiles = new ArrayList<>();
     /**
      * @param args the command line arguments
      */
@@ -102,34 +109,71 @@ public class WhereIsMySmartphoneAnalyzer
         
         mExercisesWorker.countNumberExercisesPerLabel();
         
-        for (int bufferLenght: bufferDurations)
+        for (String activity: activities)
         {
-            for (int frequency: frequencies)
+            for (int bufferLenght: bufferDurations)
             {
-                ArrayList<DataExtractor> listDataExtractorOnlyDataBefore = 
-                        new ArrayList<>(), 
-                        listDataExtractorOnlyDataAfter = new ArrayList<>();
-                ArrayList<DataExtractorBeforeAfter> featuresBeforeAfter = new ArrayList<>();
-                
-                for (String target: listDestinations)
+                for (int frequency: frequencies)
                 {
-                    DataExtractorOnlyDataBefore before = new DataExtractorOnlyDataBefore(allExercises, target, 
-                                    bufferLenght, frequency);
-                    DataExtractorOnlyDataAfter after = new DataExtractorOnlyDataAfter(allExercises, target, 
-                                    bufferLenght, frequency);
-                    listDataExtractorOnlyDataBefore.add(before);
-                    listDataExtractorOnlyDataAfter.add(after);
-                    
-                    featuresBeforeAfter.add(new DataExtractorBeforeAfter(target, 
-                            before.getListExerciseAnalyser(), after.getListExerciseAnalyser()));
+                    ArrayList<DataExtractor> listDataExtractorOnlyDataBefore = 
+                            new ArrayList<>(), 
+                            listDataExtractorOnlyDataAfter = new ArrayList<>();
+                    ArrayList<DataExtractorBeforeAfter> featuresBeforeAfter = new ArrayList<>();
+
+                    for (String target: listDestinations)
+                    {
+                        DataExtractorOnlyDataBefore before = 
+                                new DataExtractorOnlyDataBefore(allExercises, 
+                                        activity, target, bufferLenght, 
+                                        frequency);
+                        DataExtractorOnlyDataAfter after = 
+                                new DataExtractorOnlyDataAfter(allExercises, 
+                                        activity, target, bufferLenght, frequency);
+                        
+                        listDataExtractorOnlyDataBefore.add(before);
+                        listDataExtractorOnlyDataAfter.add(after);
+
+                        featuresBeforeAfter.add(new DataExtractorBeforeAfter(target, 
+                                activity, before.getListExerciseAnalyser(), 
+                                after.getListExerciseAnalyser()));
+                    }
+
+                    ARFFFileCreator.createARFFData(listDataExtractorOnlyDataBefore, 
+                            listDataExtractorOnlyDataAfter, featuresBeforeAfter, 
+                            activity, bufferLenght, frequency);
                 }
-                ARFFFileCreator.createARFFDataOnlyBefore(listDataExtractorOnlyDataBefore, 
-                        bufferLenght, frequency);
-                ARFFFileCreator.createARFFDataOnlyAfter(listDataExtractorOnlyDataAfter, 
-                        bufferLenght, frequency);
-                ARFFFileCreator.createARFFDataBeforeAfter(featuresBeforeAfter, 
-                        bufferLenght, frequency);
             }
+        }
+        
+        writeOutputFiles();
+    }
+    
+    /**
+     * After all the files are generated, we write an output file with all the
+     * generated ARFF files from the program
+     */
+    private static void writeOutputFiles()
+    {
+        File outputFile = new File(FileReader.FOLDER_BASE + "outputFiles.txt");
+        try
+        {
+            if (!outputFile.exists())
+            {
+                outputFile.getParentFile().mkdirs();
+                outputFile.createNewFile();
+            }
+            BufferedWriter writer = 
+                    new BufferedWriter(new FileWriter(outputFile));
+            for (String file: generatedFiles)
+            {
+                writer.write(file + ";");
+            }
+            
+            writer.flush(); writer.close();
+        }
+        catch(Exception exc)
+        {
+            
         }
     }
 }
