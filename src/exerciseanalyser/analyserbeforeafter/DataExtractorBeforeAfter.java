@@ -4,6 +4,7 @@ import exerciseanalyser.ExerciseAnalyser;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  *
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 public class DataExtractorBeforeAfter
 {
     private final String target;
+    private String targetForOutput;
     private final String activity;
     private final ArrayList<ExerciseAnalyserBeforeAfter> listExerciseAnalyserBeforeAfter = new ArrayList<>();
     
@@ -19,10 +21,19 @@ public class DataExtractorBeforeAfter
             ArrayList<ExerciseAnalyser> before, 
             ArrayList<ExerciseAnalyser> after)
     {
-        this.target = target; this.activity = activity;
+        this.target = target; this.activity = activity; 
+        this.targetForOutput = target;
         for (int i = 0; i < before.size(); i++)
         {
             listExerciseAnalyserBeforeAfter.add(new ExerciseAnalyserBeforeAfter(before.get(i), after.get(i)));
+        }
+    }
+    
+    public void changeDestinationForOutput(HashMap<String, String> map)
+    {
+        if (map.containsKey(target))
+        {
+            this.targetForOutput = map.get(target);
         }
     }
     
@@ -112,7 +123,7 @@ public class DataExtractorBeforeAfter
             String stringFeatures = featuresToString(features);
             if (!stringFeatures.equals(""))
             {
-                finalString += stringFeatures + " " + target + System.getProperty("line.separator");
+                finalString += stringFeatures + " " + targetForOutput + System.getProperty("line.separator");
             }   
         }
  

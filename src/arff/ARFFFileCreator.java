@@ -39,7 +39,7 @@ public class ARFFFileCreator
     public static void createARFFData(ArrayList<DataExtractor> listExtractorBefore, 
             ArrayList<DataExtractor> listExtractorAfter,
             ArrayList<DataExtractorBeforeAfter> listDataExtractor, 
-            String activity, int bufferLength, int frequency)
+            String activity, int bufferLength, int frequency, String mapDestination)
     {
         OrderedPowerSet<Sensor> order = new OrderedPowerSet<>(WhereIsMySmartphoneAnalyzer.listSensors);
         for (int i = 1; i < WhereIsMySmartphoneAnalyzer.listSensors.size(); i++)
@@ -64,22 +64,29 @@ public class ARFFFileCreator
                         || yesNo[5])
                 {
                     createARFFBefore(listExtractorBefore, activity, bufferLength, 
-                            frequency, yesNo);
-                    createARFFAfter(listExtractorAfter, activity, bufferLength, frequency, yesNo);
-                    createARFFBeforeAfter(listDataExtractor, activity, bufferLength, frequency, yesNo);
+                            frequency, yesNo, mapDestination);
+                    createARFFAfter(listExtractorAfter, activity, bufferLength, 
+                            frequency, yesNo, mapDestination);
+                    createARFFBeforeAfter(listDataExtractor, activity, bufferLength, 
+                            frequency, yesNo, mapDestination);
                 }
             }
         }
     }
     
     private static void createARFFBefore(ArrayList<DataExtractor> listDataExtractor, 
-            String activity, int bufferLength, int frequency, boolean[] yesNo)
+            String activity, int bufferLength, int frequency, boolean[] yesNo, 
+            String mapDestination)
     {
         String classes = createClassesOutput();
         String data = "@DATA" + System.getProperty("line.separator");
         if (activity == null)
         {
             activity = "all";
+        }
+        if (mapDestination == null)
+        {
+            mapDestination = "base";
         }
         
         String outputFileString = createOutputName(yesNo[0], yesNo[1], yesNo[2], 
@@ -88,9 +95,10 @@ public class ARFFFileCreator
             yesNo[12], yesNo[13]);
         
         File outputFile = new File(FileReader.FOLDER_BASE + FOLDER_OUTPUT + 
-                FOLDER_BEFORE + activity + File.separator + outputFileString 
-                + File.separator + "Output_" + outputFileString + "_" 
-                + bufferLength + "_" + frequency + ".arff");
+                FOLDER_BEFORE + mapDestination + File.separator + activity 
+                + File.separator + outputFileString + File.separator + "Output_" 
+                + outputFileString + "_" + bufferLength + "_" + frequency 
+                + ".arff");
         
         try
         {
@@ -130,13 +138,18 @@ public class ARFFFileCreator
     }
     
     private static void createARFFAfter(ArrayList<DataExtractor> listDataExtractor, 
-            String activity, int bufferLength, int frequency, boolean[] yesNo)
+            String activity, int bufferLength, int frequency, boolean[] yesNo, 
+            String mapDestination)
     {
         String classes = createClassesOutput();
         String data = "@DATA" + System.getProperty("line.separator");
         if (activity == null)
         {
             activity = "all";
+        }
+        if (mapDestination == null)
+        {
+            mapDestination = "base";        
         }
         
         String outputFileString = createOutputName(yesNo[0], yesNo[1], yesNo[2], 
@@ -145,9 +158,10 @@ public class ARFFFileCreator
             yesNo[12], yesNo[13]);
         
         File outputFile = new File(FileReader.FOLDER_BASE + FOLDER_OUTPUT + 
-                FOLDER_AFTER + activity + File.separator + outputFileString 
-                + File.separator + "Output_" + outputFileString + "_" 
-                + bufferLength + "_" + frequency + ".arff");
+                FOLDER_AFTER + mapDestination + File.separator + activity 
+                + File.separator + outputFileString + File.separator + "Output_" 
+                + outputFileString + "_" + bufferLength + "_" + frequency 
+                + ".arff");
         
         try
         {
@@ -185,13 +199,18 @@ public class ARFFFileCreator
     }
     
     private static void createARFFBeforeAfter(ArrayList<DataExtractorBeforeAfter> listDataExtractor, 
-            String activity, int bufferLength, int frequency, boolean[] yesNo)
+            String activity, int bufferLength, int frequency, boolean[] yesNo, 
+            String mapDestination)
     {
         String classes = createClassesOutput();
         String data = "@DATA" + System.getProperty("line.separator");
         if (activity == null)
         {
             activity = "all";
+        }
+        if (mapDestination == null)
+        {
+            mapDestination = "all";
         }
         
         String outputFileString = createOutputName(yesNo[0], yesNo[1], yesNo[2], 
@@ -200,8 +219,8 @@ public class ARFFFileCreator
             yesNo[12], yesNo[13]);
         
         File outputFile = new File(FileReader.FOLDER_BASE + FOLDER_OUTPUT + 
-                FOLDER_BEFORE_AFTER + activity + File.separator 
-                + outputFileString + File.separator + "Output_" 
+                FOLDER_BEFORE_AFTER + mapDestination + File.separator + activity 
+                + File.separator + outputFileString + File.separator + "Output_" 
                 + outputFileString + "_" + bufferLength + "_" + frequency 
                 + ".arff");
         

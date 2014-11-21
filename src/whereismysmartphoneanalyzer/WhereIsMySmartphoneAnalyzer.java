@@ -14,8 +14,10 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import models.Exercise;
 import models.Reading;
+import weka.Evaluation;
 
 /**
  * 
@@ -35,6 +37,7 @@ public class WhereIsMySmartphoneAnalyzer
         ExercisesWorker.TASCA_GIACCA_ALTA, ExercisesWorker.TASCA_GIACCA_BASSA, 
         ExercisesWorker.BORSA, ExercisesWorker.MARSUPIO, ExercisesWorker.ZAINO};
     
+    public static ArrayList<HashMap<String, String>> simplifiedMaps = new ArrayList<>();
     public static ArrayList<Sensor> listSensors = new ArrayList<>();
     
     static
@@ -53,6 +56,35 @@ public class WhereIsMySmartphoneAnalyzer
         listSensors.add(new Sensor("Light"));
         listSensors.add(new Sensor("Pressure"));
         listSensors.add(new Sensor("RelativeHumidity"));
+    }
+    
+    static {
+        HashMap<String, String> firstMap = new HashMap<>(), 
+                secondMap = new HashMap<>(), thirdMap = new HashMap<>(), 
+                fourthMap = new HashMap<>();
+        firstMap.put(ExercisesWorker.TASCA_DESTRA_DAVANTI_PANTALONI, "DAVANTI_PANTALONI");
+        firstMap.put(ExercisesWorker.TASCA_DESTRA_DIETRO_PANTALONI, "DIETRO_PANTALONI");
+        firstMap.put(ExercisesWorker.TASCA_SINISTRA_DAVANTI_PANTALONI, "DAVANTI_PANTALONI");
+        firstMap.put(ExercisesWorker.TASCA_SINISTRA_DIETRO_PANTALONI, "DIETRO_PANTALONI");
+        simplifiedMaps.add(firstMap);
+        
+        secondMap.put(ExercisesWorker.TASCA_DESTRA_DAVANTI_PANTALONI, "DESTRA_PANTALONI");
+        secondMap.put(ExercisesWorker.TASCA_DESTRA_DIETRO_PANTALONI, "DESTRA_PANTALONI");
+        secondMap.put(ExercisesWorker.TASCA_SINISTRA_DAVANTI_PANTALONI, "SINISTRA_PANTALONI");
+        secondMap.put(ExercisesWorker.TASCA_SINISTRA_DIETRO_PANTALONI, "SINISTRA_PANTALONI");
+        simplifiedMaps.add(secondMap);
+        
+        thirdMap.put(ExercisesWorker.TASCA_GIACCA_ALTA, "TASCA_GIACCA");
+        thirdMap.put(ExercisesWorker.TASCA_GIACCA_BASSA, "TASCA_GIACCA");
+        simplifiedMaps.add(thirdMap);
+        
+        fourthMap.put(ExercisesWorker.TASCA_DESTRA_DAVANTI_PANTALONI, "PANTALONI");
+        fourthMap.put(ExercisesWorker.TASCA_DESTRA_DIETRO_PANTALONI, "PANTALONI");
+        fourthMap.put(ExercisesWorker.TASCA_SINISTRA_DAVANTI_PANTALONI, "PANTALONI");
+        fourthMap.put(ExercisesWorker.TASCA_SINISTRA_DIETRO_PANTALONI, "PANTALONI");
+        fourthMap.put(ExercisesWorker.TASCA_GIACCA_ALTA, "GIACCA");
+        fourthMap.put(ExercisesWorker.TASCA_GIACCA_BASSA, "GIACCA");
+        simplifiedMaps.add(fourthMap);
     }
     
     public static final ArrayList<String> generatedFiles = new ArrayList<>();
@@ -140,12 +172,37 @@ public class WhereIsMySmartphoneAnalyzer
 
                     ARFFFileCreator.createARFFData(listDataExtractorOnlyDataBefore, 
                             listDataExtractorOnlyDataAfter, featuresBeforeAfter, 
-                            activity, bufferLenght, frequency);
+                            activity, bufferLenght, frequency, null);
+                    
+                    int counter = 1;
+                    for (HashMap<String, String> map: simplifiedMaps)
+                    {
+                        for (DataExtractor extractor: listDataExtractorOnlyDataBefore)
+                        {
+                            extractor.changeDestinationForOutput(map);
+                        }
+                        for (DataExtractor extractor: listDataExtractorOnlyDataAfter)
+                        {
+                            extractor.changeDestinationForOutput(map);
+                        }
+                        for (DataExtractorBeforeAfter extractor: featuresBeforeAfter)
+                        {
+                            extractor.changeDestinationForOutput(map);
+                        }
+                        
+                        ARFFFileCreator.createARFFData(listDataExtractorOnlyDataBefore, 
+                            listDataExtractorOnlyDataAfter, featuresBeforeAfter, 
+                            activity, bufferLenght, frequency, "Easy"+counter);
+                        counter++;
+                    }
                 }
             }
         }
         
         writeOutputFiles();
+        
+        Evaluation evaluationOutput = new Evaluation(generatedFiles);
+        evaluationOutput.performEvaluation();
     }
     
     /**

@@ -1,6 +1,7 @@
 package exerciseanalyser;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import models.Exercise;
 import whereismysmartphoneanalyzer.SetOfExercisesForSpecificDestinationAndAction;
 
@@ -13,12 +14,14 @@ public class DataExtractor
     protected final SetOfExercisesForSpecificDestinationAndAction mSetOfExercises;
     protected ArrayList<ExerciseAnalyser> listExerciseAnalysers = new ArrayList<>();
     protected final String destination;
+    protected String destinationForOutput;
     protected final String activity;
     
     public DataExtractor(ArrayList<Exercise> allExercises, String activity, 
             String destination)
     {
         this.destination = destination; this.activity = activity;
+        this.destinationForOutput = destination;
         mSetOfExercises = new SetOfExercisesForSpecificDestinationAndAction(allExercises, 
                 activity, destination);
     }
@@ -26,6 +29,14 @@ public class DataExtractor
     public ArrayList<ExerciseAnalyser> getListExerciseAnalyser()
     {
         return this.listExerciseAnalysers;
+    }
+    
+    public void changeDestinationForOutput(HashMap<String, String> map)
+    {
+        if (map.containsKey(destination))
+        {
+            this.destinationForOutput = map.get(destination);
+        }
     }
     
     public String dataForAllExercises(boolean accelerometer, boolean accelerometerRotated,
@@ -97,7 +108,8 @@ public class DataExtractor
             
             if (!featuresToString.equals(""))
             {
-                finalString += featuresToString + destination + System.getProperty("line.separator");
+                finalString += featuresToString + destinationForOutput 
+                        + System.getProperty("line.separator");
             }
         }
         return finalString;
