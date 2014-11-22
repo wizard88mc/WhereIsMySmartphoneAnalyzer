@@ -60,8 +60,17 @@ public class ARFFFileCreator
                  * We create the output file only if the accelerometer of the 
                  * linear data is included in the combination of features
                  */
-                if (yesNo[0] || yesNo[1] || yesNo[2] || yesNo[3] || yesNo[4] 
-                        || yesNo[5])
+                if ((yesNo[0] && !yesNo[1] && !yesNo[2] && !yesNo[3] &&!yesNo[4] && !yesNo[5]) 
+                        || 
+                    (!yesNo[1] && !yesNo[1] && !yesNo[2] && !yesNo[3] && !yesNo[4] && !yesNo[5])
+                        || 
+                    (!yesNo[0] && !yesNo[1] && yesNo[2] && !yesNo[3] && !yesNo[4] && !yesNo[5])
+                        || 
+                    (!yesNo[0] && !yesNo[1] && !yesNo[2] && yesNo[3] && !yesNo[4] && !yesNo[5])
+                        || 
+                    (!yesNo[0] && !yesNo[1] && !yesNo[2] && !yesNo[3] && yesNo[4] && !yesNo[5]) 
+                        || 
+                    (!yesNo[0] && !yesNo[1] && !yesNo[2] && !yesNo[3] && !yesNo[4] && yesNo[5]))
                 {
                     createARFFBefore(listExtractorBefore, activity, bufferLength, 
                             frequency, yesNo, mapDestination);

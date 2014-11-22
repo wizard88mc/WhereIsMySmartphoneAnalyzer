@@ -143,6 +143,7 @@ public class WhereIsMySmartphoneAnalyzer
         
         for (String activity: activities)
         {
+            System.out.println("Current activity: " + activity);
             for (int bufferLenght: bufferDurations)
             {
                 for (int frequency: frequencies)
