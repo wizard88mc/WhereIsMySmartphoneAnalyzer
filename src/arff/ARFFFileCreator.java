@@ -62,7 +62,7 @@ public class ARFFFileCreator
                  */
                 if ((yesNo[0] && !yesNo[1] && !yesNo[2] && !yesNo[3] &&!yesNo[4] && !yesNo[5]) 
                         || 
-                    (!yesNo[1] && !yesNo[1] && !yesNo[2] && !yesNo[3] && !yesNo[4] && !yesNo[5])
+                    (!yesNo[0] && yesNo[1] && !yesNo[2] && !yesNo[3] && !yesNo[4] && !yesNo[5])
                         || 
                     (!yesNo[0] && !yesNo[1] && yesNo[2] && !yesNo[3] && !yesNo[4] && !yesNo[5])
                         || 
