@@ -46,12 +46,12 @@ public class ExerciseAnalyserBefore extends ExerciseAnalyser
         ArrayList<Reading> bufferToUse, readingsToUse;
         if (!linear)
         {
-            this.buffer = new ArrayList<>();
+            this.buffer = new ArrayList<Reading>();
             bufferToUse = this.buffer; readingsToUse = this.readings;
         }
         else
         {
-            this.bufferLinear = new ArrayList<>();
+            this.bufferLinear = new ArrayList<Reading>();
             bufferToUse = this.bufferLinear; readingsToUse = this.readingsLinear;
         }
         

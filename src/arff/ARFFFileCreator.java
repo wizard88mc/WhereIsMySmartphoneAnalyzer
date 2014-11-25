@@ -41,7 +41,8 @@ public class ARFFFileCreator
             ArrayList<DataExtractorBeforeAfter> listDataExtractor, 
             String activity, int bufferLength, int frequency, String mapDestination)
     {
-        OrderedPowerSet<Sensor> order = new OrderedPowerSet<>(WhereIsMySmartphoneAnalyzer.listSensors);
+        OrderedPowerSet<Sensor> order = new OrderedPowerSet<Sensor>
+            (WhereIsMySmartphoneAnalyzer.listSensors);
         for (int i = 1; i < WhereIsMySmartphoneAnalyzer.listSensors.size(); i++)
         {
             List<LinkedHashSet<Sensor>> result = order.getPermutationsList(i);
@@ -74,10 +75,10 @@ public class ARFFFileCreator
                 {
                     createARFFBefore(listExtractorBefore, activity, bufferLength, 
                             frequency, yesNo, mapDestination);
-                    createARFFAfter(listExtractorAfter, activity, bufferLength, 
+                    /*createARFFAfter(listExtractorAfter, activity, bufferLength, 
                             frequency, yesNo, mapDestination);
                     createARFFBeforeAfter(listDataExtractor, activity, bufferLength, 
-                            frequency, yesNo, mapDestination);
+                            frequency, yesNo, mapDestination);*/
                 }
             }
         }
@@ -142,7 +143,7 @@ public class ARFFFileCreator
         }
         catch(Exception exc)
         {
-            exc.printStackTrace();
+            //exc.printStackTrace();
         }
     }
     
@@ -203,7 +204,7 @@ public class ARFFFileCreator
         }
         catch(Exception exc)
         {
-            exc.printStackTrace();
+            //exc.printStackTrace();
         }
     }
     
@@ -264,7 +265,7 @@ public class ARFFFileCreator
         }
         catch(Exception exc)
         {
-            exc.printStackTrace();
+            //exc.printStackTrace();
         }
     }
     

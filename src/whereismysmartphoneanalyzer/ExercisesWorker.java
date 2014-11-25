@@ -48,76 +48,63 @@ public class ExercisesWorker
         
         for (Exercise exercise: exercises)
         {
-            switch (exercise.getDestination())
+            
+            if (exercise.getDestination().equals(TASCA_DESTRA_DAVANTI_PANTALONI))
             {
-                case TASCA_DESTRA_DAVANTI_PANTALONI: 
-                {
-                    counterTascaDestraDavantiPantaloni++;
-                    break;
-                }
-                case TASCA_DESTRA_DIETRO_PANTALONI: 
-                {
-                    counterTascaDestraDietroPantaloni++;
-                    break;
-                }
-                case TASCA_SINISTRA_DAVANTI_PANTALONI:
-                {
-                    counterTascaSinistraDavantiPantaloni++;
-                    break;
-                }
-                case TASCA_SINISTRA_DIETRO_PANTALONI: 
-                {
-                    counterTascaSinistraDietroPantaloni++;
-                }
-                case TASCA_GIACCA_ALTA:
-                {
-                    counterTascaGiaccaAlta++;
-                    break;
-                }
-                case TASCA_GIACCA_BASSA: 
-                {
-                    counterTascaGiaccaBassa++;
-                    break;
-                }
-                case BORSA:
-                {
-                    counterBorsa++;
-                    break;
-                }
-                case MARSUPIO:
-                {
-                    counterMarsupio++;
-                    break;
-                }
-                case ZAINO: 
-                {
-                    counterZaino++;
-                    break;
-                }
+                counterTascaDestraDavantiPantaloni++;
+            }
+            else if (exercise.getDestination().equals(TASCA_DESTRA_DIETRO_PANTALONI))
+            {
+                counterTascaDestraDietroPantaloni++;
+            }
+            else if (exercise.getDestination().equals(TASCA_SINISTRA_DAVANTI_PANTALONI))
+            {
+                counterTascaSinistraDavantiPantaloni++;
+            }
+            else if (exercise.getDestination().equals(TASCA_SINISTRA_DIETRO_PANTALONI))
+            {
+                counterTascaSinistraDietroPantaloni++;
+            }
+            else if (exercise.getDestination().equals(TASCA_GIACCA_ALTA))
+            {
+                counterTascaGiaccaAlta++;
+            }
+            else if (exercise.getDestination().equals(TASCA_GIACCA_BASSA))
+            {
+                counterTascaGiaccaBassa++;
+            }
+            else if (exercise.getDestination().equals(BORSA))
+            {
+                counterBorsa++;
+            }
+            else if (exercise.getDestination().equals(MARSUPIO))
+            {
+                counterMarsupio++;
+            }
+            else if (exercise.getDestination().equals(ZAINO))
+            {
+                counterZaino++;
             }
             
-            switch(exercise.getAction())
+            if (exercise.getAction().equals(FERMO))
             {
-                case FERMO: 
-                {
-                    counterStanding++; break;
-                }
-                case SEDUTO:
-                {
-                    counterSitting++; break;
-                }
-                case CAMMINANDO: 
-                {
-                    counterWalking++; break;
-                }
-                case SCALE_SU: 
-                {
-                    counterStairsUp++; break;
-                }
-                case SCALE_GIU:
-                {
-                    counterStairsDown++; break;
-                }
+                counterStanding++;
+            }
+            else if (exercise.getAction().equals(SEDUTO))
+            {
+                counterSitting++;
+            }
+            else if (exercise.getAction().equals(CAMMINANDO))
+            {
+                counterWalking++;
+            }
+            else if (exercise.getAction().equals(SCALE_SU))
+            {
+                counterStairsUp++;
+            }
+            else if (exercise.getAction().equals(SCALE_GIU))
+            {
+                counterStairsDown++;
             }
         }
         
@@ -154,7 +141,7 @@ public class ExercisesWorker
      */
     private void deleteInconsistentExercises()
     {
-        ArrayList<Exercise> exercisesToEliminate = new ArrayList<>();
+        ArrayList<Exercise> exercisesToEliminate = new ArrayList<Exercise>();
         
         for (Exercise exercise: exercises)
         {

@@ -26,7 +26,7 @@ public class LinearReader extends FileReader
     
     public ArrayList<Reading> getListReadings()
     {
-        ArrayList<Reading> readings = new ArrayList<>();
+        ArrayList<Reading> readings = new ArrayList<Reading>();
         
         try 
         {

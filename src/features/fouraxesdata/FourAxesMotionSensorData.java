@@ -18,7 +18,7 @@ public class FourAxesMotionSensorData extends ThreePlusOneAxes
         /**
          * Calculating data for the |V| axes
          */
-        ArrayList<Float> v = new ArrayList<>();
+        ArrayList<Float> v = new ArrayList<Float>();
         for (int i = 0; i < firstData.size(); i++)
         {
             if (firstData.get(i) != null && secondData.get(i) != null && 

@@ -15,7 +15,8 @@ public class DataExtractorBeforeAfter
     private final String target;
     private String targetForOutput;
     private final String activity;
-    private final ArrayList<ExerciseAnalyserBeforeAfter> listExerciseAnalyserBeforeAfter = new ArrayList<>();
+    private final ArrayList<ExerciseAnalyserBeforeAfter> 
+            listExerciseAnalyserBeforeAfter = new ArrayList<ExerciseAnalyserBeforeAfter>();
     
     public DataExtractorBeforeAfter(String target, String activity, 
             ArrayList<ExerciseAnalyser> before, 
@@ -62,7 +63,7 @@ public class DataExtractorBeforeAfter
         String finalString = "";
         for (ExerciseAnalyserBeforeAfter exercise: listExerciseAnalyserBeforeAfter)
         {
-            ArrayList<Float> features = new ArrayList<>();
+            ArrayList<Float> features = new ArrayList<Float>();
             if (accelerometer)
             {
                 features.addAll(exercise.getAccelerometerFeaturesValues());

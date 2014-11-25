@@ -11,7 +11,7 @@ import models.Exercise;
  */
 public class SetOfExercisesForSpecificDestinationAndAction 
 {
-    private ArrayList<Exercise> exercises = new ArrayList<>();
+    private ArrayList<Exercise> exercises = new ArrayList<Exercise>();
     private final String targetDestination;
     private final String activity;
     

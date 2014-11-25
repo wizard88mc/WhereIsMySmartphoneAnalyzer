@@ -100,7 +100,7 @@ public class DataWorker
             endIndex = readings.size() - 1;
         }
         
-        return new ArrayList<>(readings.subList(startIndex, endIndex + 1)); 
+        return new ArrayList<Reading>(readings.subList(startIndex, endIndex + 1)); 
         }
         catch(Exception exc)
         {

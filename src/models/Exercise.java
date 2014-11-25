@@ -32,7 +32,7 @@ public class Exercise
     private ArrayList<Reading> readingsLinear = null;
     
     static {
-        englishToItalian = new HashMap<>();
+        englishToItalian = new HashMap<String, String>();
         englishToItalian.put("LEFT", "SINISTRA");
         englishToItalian.put("RIGHT", "DESTRA");
         englishToItalian.put("STANDING", "FERMO");
@@ -373,7 +373,7 @@ public class Exercise
     
     public void removeGravityFromAccelerometerData(long bufferDuration)
     {
-        List<Reading> buffer = new ArrayList<>();
+        List<Reading> buffer = new ArrayList<Reading>();
         boolean bufferFull = false;
         
         for (Reading reading: readingsAccelerometer)

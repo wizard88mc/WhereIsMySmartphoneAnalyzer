@@ -83,8 +83,8 @@ public class ExerciseAnalyser
      */
     protected void createAccelerometerData()
     {
-        ArrayList<Float> x = new ArrayList<>(), y = new ArrayList<>(), 
-                z = new ArrayList<>();
+        ArrayList<Float> x = new ArrayList<Float>(), y = new ArrayList<Float>(), 
+                z = new ArrayList<Float>();
         
         for (Reading reading: buffer)
         {
@@ -100,8 +100,8 @@ public class ExerciseAnalyser
      */
     protected void createAccelerometerRotatedData()
     {
-        ArrayList<Float> x = new ArrayList<>(), y = new ArrayList<>(), 
-                z = new ArrayList<>();
+        ArrayList<Float> x = new ArrayList<Float>(), y = new ArrayList<Float>(), 
+                z = new ArrayList<Float>();
         
         for (Reading reading: buffer)
         {
@@ -118,8 +118,8 @@ public class ExerciseAnalyser
      */
     protected void createAccelerometerNoGravityData()
     {
-        ArrayList<Float> x = new ArrayList<>(), y = new ArrayList<>(), 
-                z = new ArrayList<>();
+        ArrayList<Float> x = new ArrayList<Float>(), y = new ArrayList<Float>(), 
+                z = new ArrayList<Float>();
         
         for (Reading reading: buffer)
         {
@@ -133,8 +133,8 @@ public class ExerciseAnalyser
     
     protected void createAccelerometerNoGravityRotatedData()
     {
-        ArrayList<Float> x = new ArrayList<>(), y = new ArrayList<>(), 
-                z = new ArrayList<>();
+        ArrayList<Float> x = new ArrayList<Float>(), y = new ArrayList<Float>(), 
+                z = new ArrayList<Float>();
         
         for (Reading reading: buffer)
         {
@@ -159,8 +159,8 @@ public class ExerciseAnalyser
      */
     protected void createLinearData()
     {
-        ArrayList<Float> x = new ArrayList<>(), y = new ArrayList<>(), 
-                z = new ArrayList<>();
+        ArrayList<Float> x = new ArrayList<Float>(), y = new ArrayList<Float>(), 
+                z = new ArrayList<Float>();
         
         for (Reading reading: bufferLinear)
         {
@@ -176,8 +176,8 @@ public class ExerciseAnalyser
      */
     protected void createLinearRotatedData()
     {
-        ArrayList<Float> x = new ArrayList<>(), y = new ArrayList<>(), 
-                z = new ArrayList<>();
+        ArrayList<Float> x = new ArrayList<Float>(), y = new ArrayList<Float>(), 
+                z = new ArrayList<Float>();
         
         for (Reading reading: bufferLinear)
         {
@@ -194,8 +194,8 @@ public class ExerciseAnalyser
      */
     protected void createRotationData()
     {
-        ArrayList<Float> x = new ArrayList<>(), y = new ArrayList<>(), 
-                z = new ArrayList<>();
+        ArrayList<Float> x = new ArrayList<Float>(), y = new ArrayList<Float>(), 
+                z = new ArrayList<Float>();
         
         for (Reading reading: buffer)
         {
@@ -212,8 +212,8 @@ public class ExerciseAnalyser
      */
     protected void createGravityData()
     {
-        ArrayList<Float> x = new ArrayList<>(), y = new ArrayList<>(), 
-                z = new ArrayList<>();
+        ArrayList<Float> x = new ArrayList<Float>(), y = new ArrayList<Float>(), 
+                z = new ArrayList<Float>();
         
         for (Reading reading: buffer)
         {
@@ -230,8 +230,8 @@ public class ExerciseAnalyser
      */
     protected void createGyroscopeData()
     {
-        ArrayList<Float> x = new ArrayList<>(), y = new ArrayList<>(), 
-                z = new ArrayList<>();
+        ArrayList<Float> x = new ArrayList<Float>(), y = new ArrayList<Float>(), 
+                z = new ArrayList<Float>();
         
         for (Reading reading: buffer)
         {
@@ -248,8 +248,8 @@ public class ExerciseAnalyser
      */
     protected void createMagneticFieldData()
     {
-        ArrayList<Float> x = new ArrayList<>(), y = new ArrayList<>(), 
-                z = new ArrayList<>();
+        ArrayList<Float> x = new ArrayList<Float>(), y = new ArrayList<Float>(), 
+                z = new ArrayList<Float>();
         
         for (Reading reading: buffer)
         {
@@ -266,7 +266,7 @@ public class ExerciseAnalyser
      */
     protected void createAmbientTemperatureData()
     {
-        ArrayList<Float> x = new ArrayList<>();
+        ArrayList<Float> x = new ArrayList<Float>();
         Float max = null;
         
         for (Reading reading: buffer)
@@ -287,7 +287,7 @@ public class ExerciseAnalyser
      */
     protected void createLightData()
     {
-        ArrayList<Float> x = new ArrayList<>();
+        ArrayList<Float> x = new ArrayList<Float>();
         Float max = null;
         
         for (Reading reading: buffer)
@@ -308,7 +308,7 @@ public class ExerciseAnalyser
      */
     protected void createPressureData()
     {
-        ArrayList<Float> x = new ArrayList<>();
+        ArrayList<Float> x = new ArrayList<Float>();
         Float max = null;
         
         for (Reading reading: buffer)
@@ -329,7 +329,7 @@ public class ExerciseAnalyser
      */
     protected void createRelativeHumidityData()
     {
-        ArrayList<Float> x = new ArrayList<>();
+        ArrayList<Float> x = new ArrayList<Float>();
         Float max = null;
         
         for (Reading reading: buffer)

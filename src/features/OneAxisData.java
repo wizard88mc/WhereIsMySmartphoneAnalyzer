@@ -14,8 +14,8 @@ public class OneAxisData
 {
     private final Float maxValue;
     protected DataSet firstAxis = null;
-    protected ArrayList<Float> features = new ArrayList<>();
-    protected ArrayList<String> featuresName = new ArrayList<>();
+    protected ArrayList<Float> features = new ArrayList<Float>();
+    protected ArrayList<String> featuresName = new ArrayList<String>();
     
     public OneAxisData(String name, ArrayList<Float> data, Float maxValue)
     {

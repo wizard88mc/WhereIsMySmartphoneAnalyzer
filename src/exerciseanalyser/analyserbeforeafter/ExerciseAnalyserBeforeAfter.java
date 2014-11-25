@@ -9,47 +9,47 @@ import java.util.ArrayList;
  */
 public class ExerciseAnalyserBeforeAfter 
 {
-    private final ArrayList<Float> ratiosAccelerometerData = new ArrayList<>();
-    private final ArrayList<String> featuresRatiosAccelerometerData = new ArrayList<>();
+    private final ArrayList<Float> ratiosAccelerometerData = new ArrayList<Float>();
+    private final ArrayList<String> featuresRatiosAccelerometerData = new ArrayList<String>();
     
-    private final ArrayList<Float> ratiosAccelerometerRotatedData = new ArrayList<>();
-    private final ArrayList<String> featuresRatiosAccelerometerRotatedData = new ArrayList<>();
+    private final ArrayList<Float> ratiosAccelerometerRotatedData = new ArrayList<Float>();
+    private final ArrayList<String> featuresRatiosAccelerometerRotatedData = new ArrayList<String>();
     
-    private final ArrayList<Float> ratiosAccelerometerNoGravityData = new ArrayList<>();
-    private final ArrayList<String> featuresRatiosAccelerometerNoGravityData = new ArrayList<>();
+    private final ArrayList<Float> ratiosAccelerometerNoGravityData = new ArrayList<Float>();
+    private final ArrayList<String> featuresRatiosAccelerometerNoGravityData = new ArrayList<String>();
     
-    private final ArrayList<Float> ratiosAccelerometerNoGravityRotatedData = new ArrayList<>();
-    private final ArrayList<String> featuresRatiosAccelerometerNoGravityRotatedData = new ArrayList<>();
+    private final ArrayList<Float> ratiosAccelerometerNoGravityRotatedData = new ArrayList<Float>();
+    private final ArrayList<String> featuresRatiosAccelerometerNoGravityRotatedData = new ArrayList<String>();
     
-    private final ArrayList<Float> ratiosLinearData = new ArrayList<>();
-    private final ArrayList<String> featuresRatiosLinearData = new ArrayList<>();
+    private final ArrayList<Float> ratiosLinearData = new ArrayList<Float>();
+    private final ArrayList<String> featuresRatiosLinearData = new ArrayList<String>();
     
-    private final ArrayList<Float> ratiosLinearRotatedData = new ArrayList<>();
-    private final ArrayList<String> featuresRatiosLinearRotatedData = new ArrayList<>();
+    private final ArrayList<Float> ratiosLinearRotatedData = new ArrayList<Float>();
+    private final ArrayList<String> featuresRatiosLinearRotatedData = new ArrayList<String>();
     
-    private final ArrayList<Float> ratiosRotationData = new ArrayList<>();
-    private final ArrayList<String> featuresRatiosRotationData = new ArrayList<>();
+    private final ArrayList<Float> ratiosRotationData = new ArrayList<Float>();
+    private final ArrayList<String> featuresRatiosRotationData = new ArrayList<String>();
     
-    private final ArrayList<Float> ratiosGravityData = new ArrayList<>();
-    private final ArrayList<String> featuresRatiosGravityData = new ArrayList<>();
+    private final ArrayList<Float> ratiosGravityData = new ArrayList<Float>();
+    private final ArrayList<String> featuresRatiosGravityData = new ArrayList<String>();
     
-    private final ArrayList<Float> ratiosGyroscopeData = new ArrayList<>();
-    private final ArrayList<String> featuresRatiosGyroscopeData = new ArrayList<>();
+    private final ArrayList<Float> ratiosGyroscopeData = new ArrayList<Float>();
+    private final ArrayList<String> featuresRatiosGyroscopeData = new ArrayList<String>();
     
-    private final ArrayList<Float> ratiosMagneticFieldData = new ArrayList<>();
-    private final ArrayList<String> featuresRatiosMagneticFieldData = new ArrayList<>();
+    private final ArrayList<Float> ratiosMagneticFieldData = new ArrayList<Float>();
+    private final ArrayList<String> featuresRatiosMagneticFieldData = new ArrayList<String>();
     
-    private final ArrayList<Float> ratiosAmbientTemperatureData = new ArrayList<>();
-    private final ArrayList<String> featuresRatiosAmbientTemperatureData = new ArrayList<>();
+    private final ArrayList<Float> ratiosAmbientTemperatureData = new ArrayList<Float>();
+    private final ArrayList<String> featuresRatiosAmbientTemperatureData = new ArrayList<String>();
     
-    private final ArrayList<Float> ratiosLightData = new ArrayList<>();
-    private final ArrayList<String> featuresRatiosLightData = new ArrayList<>();
+    private final ArrayList<Float> ratiosLightData = new ArrayList<Float>();
+    private final ArrayList<String> featuresRatiosLightData = new ArrayList<String>();
     
-    private final ArrayList<Float> ratiosPressureData = new ArrayList<>();
-    private final ArrayList<String> featuresRatiosPressureData = new ArrayList<>();
+    private final ArrayList<Float> ratiosPressureData = new ArrayList<Float>();
+    private final ArrayList<String> featuresRatiosPressureData = new ArrayList<String>();
     
-    private final ArrayList<Float> ratiosRelativeHumidityData = new ArrayList<>();
-    private final ArrayList<String> featuresRatiosRelativeHumidity = new ArrayList<>();
+    private final ArrayList<Float> ratiosRelativeHumidityData = new ArrayList<Float>();
+    private final ArrayList<String> featuresRatiosRelativeHumidity = new ArrayList<String>();
     
     public ExerciseAnalyserBeforeAfter(ExerciseAnalyser before, 
             ExerciseAnalyser after)
@@ -386,7 +386,7 @@ public class ExerciseAnalyserBeforeAfter
             boolean gyroscope, boolean magneticField, boolean ambientTemperature, 
             boolean light, boolean pressure, boolean relativeHumidity)
     {
-        ArrayList<String> listFeatures = new ArrayList<>();
+        ArrayList<String> listFeatures = new ArrayList<String>();
         
         if (accelerometer)
         {

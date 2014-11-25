@@ -30,7 +30,7 @@ public class SettingsReader extends FileReader
      */
     public ArrayList<Exercise> retrieveTrunks()
     {
-        ArrayList<Exercise> trunks = new ArrayList<>();
+        ArrayList<Exercise> trunks = new ArrayList<Exercise>();
         
         try
         {

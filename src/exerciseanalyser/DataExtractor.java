@@ -12,7 +12,8 @@ import whereismysmartphoneanalyzer.SetOfExercisesForSpecificDestinationAndAction
 public class DataExtractor 
 {
     protected final SetOfExercisesForSpecificDestinationAndAction mSetOfExercises;
-    protected ArrayList<ExerciseAnalyser> listExerciseAnalysers = new ArrayList<>();
+    protected ArrayList<ExerciseAnalyser> listExerciseAnalysers = 
+            new ArrayList<ExerciseAnalyser>();
     protected final String destination;
     protected String destinationForOutput;
     protected final String activity;

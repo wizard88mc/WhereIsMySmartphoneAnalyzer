@@ -46,7 +46,7 @@ public class ThreeAxesData extends OneAxisData
      */
     protected ArrayList<Float> calculateAverageRatios(DataSet... params)
     {
-        ArrayList<Float> ratios = new ArrayList<>();
+        ArrayList<Float> ratios = new ArrayList<Float>();
         for (int i = 0; i < params.length - 1; i++)
         {
             for (int j = i + 1; j < params.length; j++)
@@ -76,7 +76,7 @@ public class ThreeAxesData extends OneAxisData
      */
     protected ArrayList<Float> calculateStdRatios(DataSet... params)
     {
-        ArrayList<Float> ratios = new ArrayList<>();
+        ArrayList<Float> ratios = new ArrayList<Float>();
         
         for (int i = 0; i < params.length - 1; i++)
         {
@@ -107,7 +107,7 @@ public class ThreeAxesData extends OneAxisData
      */
     protected ArrayList<Float> calculateVarianceRatios(DataSet... params)
     {
-        ArrayList<Float> ratios = new ArrayList<>();
+        ArrayList<Float> ratios = new ArrayList<Float>();
         
         for (int i = 0; i < params.length - 1; i++)
         {
@@ -139,7 +139,7 @@ public class ThreeAxesData extends OneAxisData
      */
     protected ArrayList<Float> calculateRatiosDifferenceMinMax(DataSet... params)
     {
-        ArrayList<Float> ratios = new ArrayList<>();
+        ArrayList<Float> ratios = new ArrayList<Float>();
         
         for (int i = 0; i < params.length - 1; i++)
         {
@@ -171,7 +171,7 @@ public class ThreeAxesData extends OneAxisData
      */
     protected ArrayList<Float> calculateMaxRatios(DataSet... params)
     {
-        ArrayList<Float> ratios = new ArrayList<>();
+        ArrayList<Float> ratios = new ArrayList<Float>();
         
         for (int i = 0; i < params.length - 1; i++)
         {
@@ -200,7 +200,7 @@ public class ThreeAxesData extends OneAxisData
      */
     protected ArrayList<Float> calculateMinRatios(DataSet... params)
     {
-        ArrayList<Float> ratios = new ArrayList<>();
+        ArrayList<Float> ratios = new ArrayList<Float>();
         
         for (int i = 0; i < params.length - 1; i++)
         {
@@ -294,7 +294,7 @@ public class ThreeAxesData extends OneAxisData
      */
     protected ArrayList<Float> calculateCorrelation(DataSet... params)
     {
-        ArrayList<Float> correlations = new ArrayList<>();
+        ArrayList<Float> correlations = new ArrayList<Float>();
         
         for (int i = 0; i < params.length - 1; i++)
         {

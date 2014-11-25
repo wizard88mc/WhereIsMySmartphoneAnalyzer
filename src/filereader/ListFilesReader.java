@@ -28,7 +28,7 @@ public class ListFilesReader extends FileReader
      */
     public ArrayList<String> readListFiles()
     {
-        ArrayList<String> listFiles = new ArrayList<>();
+        ArrayList<String> listFiles = new ArrayList<String>();
         
         try 
         {

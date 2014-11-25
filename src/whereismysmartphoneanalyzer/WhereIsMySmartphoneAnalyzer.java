@@ -37,8 +37,8 @@ public class WhereIsMySmartphoneAnalyzer
         ExercisesWorker.TASCA_GIACCA_ALTA, ExercisesWorker.TASCA_GIACCA_BASSA, 
         ExercisesWorker.BORSA, ExercisesWorker.MARSUPIO, ExercisesWorker.ZAINO};
     
-    public static ArrayList<HashMap<String, String>> simplifiedMaps = new ArrayList<>();
-    public static ArrayList<Sensor> listSensors = new ArrayList<>();
+    public static ArrayList<HashMap<String, String>> simplifiedMaps = new ArrayList<HashMap<String, String>>();
+    public static ArrayList<Sensor> listSensors = new ArrayList<Sensor>();
     
     static
     {
@@ -59,9 +59,10 @@ public class WhereIsMySmartphoneAnalyzer
     }
     
     static {
-        HashMap<String, String> firstMap = new HashMap<>(), 
-                secondMap = new HashMap<>(), thirdMap = new HashMap<>(), 
-                fourthMap = new HashMap<>();
+        HashMap<String, String> firstMap = new HashMap<String, String>(), 
+                secondMap = new HashMap<String, String>(), 
+                thirdMap = new HashMap<String, String>(), 
+                fourthMap = new HashMap<String, String>();
         firstMap.put(ExercisesWorker.TASCA_DESTRA_DAVANTI_PANTALONI, "DAVANTI_PANTALONI");
         firstMap.put(ExercisesWorker.TASCA_DESTRA_DIETRO_PANTALONI, "DIETRO_PANTALONI");
         firstMap.put(ExercisesWorker.TASCA_SINISTRA_DAVANTI_PANTALONI, "DAVANTI_PANTALONI");
@@ -87,13 +88,13 @@ public class WhereIsMySmartphoneAnalyzer
         simplifiedMaps.add(fourthMap);
     }
     
-    public static final ArrayList<String> generatedFiles = new ArrayList<>();
+    public static final ArrayList<String> generatedFiles = new ArrayList<String>();
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) 
     {  
-        ArrayList<Exercise> allExercises = new ArrayList<>();
+        ArrayList<Exercise> allExercises = new ArrayList<Exercise>();
         
         ListFilesReader mListFilesReader = new ListFilesReader();
         
@@ -129,7 +130,7 @@ public class WhereIsMySmartphoneAnalyzer
             catch(Exception exc)
             {
                 System.out.println(exc.toString());
-                exc.printStackTrace();
+                //exc.printStackTrace();
                 System.out.println(elements[0] + "," + elements[1]);
             }
         }
@@ -149,9 +150,11 @@ public class WhereIsMySmartphoneAnalyzer
                 for (int frequency: frequencies)
                 {
                     ArrayList<DataExtractor> listDataExtractorOnlyDataBefore = 
-                            new ArrayList<>(), 
-                            listDataExtractorOnlyDataAfter = new ArrayList<>();
-                    ArrayList<DataExtractorBeforeAfter> featuresBeforeAfter = new ArrayList<>();
+                            new ArrayList<DataExtractor>(), 
+                            listDataExtractorOnlyDataAfter = 
+                            new ArrayList<DataExtractor>();
+                    ArrayList<DataExtractorBeforeAfter> featuresBeforeAfter = 
+                            new ArrayList<DataExtractorBeforeAfter>();
 
                     for (String target: listDestinations)
                     {
