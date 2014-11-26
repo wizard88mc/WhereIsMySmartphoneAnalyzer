@@ -28,14 +28,14 @@ import weka.Evaluation;
 public class WhereIsMySmartphoneAnalyzer 
 {
     private static final Integer[] bufferDurations = new Integer[]{500, 1000, 1500, 2000}; // in milliseconds
-    private static final Integer[] frequencies = new Integer[]{15, 30, 50};
+    private static final Integer[] frequencies = new Integer[]{15, 30};
     private static final String[] activities = new String[] {"FERMO", "SEDUTO", 
         "CAMMINANDO", "SCALE_SU", "SCALE_GIU", null};
     public static String[] listDestinations = new String[]{
         ExercisesWorker.TASCA_DESTRA_DAVANTI_PANTALONI, ExercisesWorker.TASCA_DESTRA_DIETRO_PANTALONI,
         ExercisesWorker.TASCA_SINISTRA_DAVANTI_PANTALONI, ExercisesWorker.TASCA_SINISTRA_DIETRO_PANTALONI,
         ExercisesWorker.TASCA_GIACCA_ALTA, ExercisesWorker.TASCA_GIACCA_BASSA, 
-        ExercisesWorker.BORSA, ExercisesWorker.MARSUPIO, ExercisesWorker.ZAINO};
+        /*ExercisesWorker.BORSA, ExercisesWorker.MARSUPIO, ExercisesWorker.ZAINO*/};
     
     public static ArrayList<HashMap<String, String>> simplifiedMaps = new ArrayList<HashMap<String, String>>();
     public static ArrayList<Sensor> listSensors = new ArrayList<Sensor>();
@@ -58,36 +58,6 @@ public class WhereIsMySmartphoneAnalyzer
         listSensors.add(new Sensor("RelativeHumidity"));
     }
     
-    static {
-        HashMap<String, String> firstMap = new HashMap<String, String>(), 
-                secondMap = new HashMap<String, String>(), 
-                thirdMap = new HashMap<String, String>(), 
-                fourthMap = new HashMap<String, String>();
-        firstMap.put(ExercisesWorker.TASCA_DESTRA_DAVANTI_PANTALONI, "DAVANTI_PANTALONI");
-        firstMap.put(ExercisesWorker.TASCA_DESTRA_DIETRO_PANTALONI, "DIETRO_PANTALONI");
-        firstMap.put(ExercisesWorker.TASCA_SINISTRA_DAVANTI_PANTALONI, "DAVANTI_PANTALONI");
-        firstMap.put(ExercisesWorker.TASCA_SINISTRA_DIETRO_PANTALONI, "DIETRO_PANTALONI");
-        simplifiedMaps.add(firstMap);
-        
-        secondMap.put(ExercisesWorker.TASCA_DESTRA_DAVANTI_PANTALONI, "DESTRA_PANTALONI");
-        secondMap.put(ExercisesWorker.TASCA_DESTRA_DIETRO_PANTALONI, "DESTRA_PANTALONI");
-        secondMap.put(ExercisesWorker.TASCA_SINISTRA_DAVANTI_PANTALONI, "SINISTRA_PANTALONI");
-        secondMap.put(ExercisesWorker.TASCA_SINISTRA_DIETRO_PANTALONI, "SINISTRA_PANTALONI");
-        simplifiedMaps.add(secondMap);
-        
-        thirdMap.put(ExercisesWorker.TASCA_GIACCA_ALTA, "TASCA_GIACCA");
-        thirdMap.put(ExercisesWorker.TASCA_GIACCA_BASSA, "TASCA_GIACCA");
-        simplifiedMaps.add(thirdMap);
-        
-        fourthMap.put(ExercisesWorker.TASCA_DESTRA_DAVANTI_PANTALONI, "PANTALONI");
-        fourthMap.put(ExercisesWorker.TASCA_DESTRA_DIETRO_PANTALONI, "PANTALONI");
-        fourthMap.put(ExercisesWorker.TASCA_SINISTRA_DAVANTI_PANTALONI, "PANTALONI");
-        fourthMap.put(ExercisesWorker.TASCA_SINISTRA_DIETRO_PANTALONI, "PANTALONI");
-        fourthMap.put(ExercisesWorker.TASCA_GIACCA_ALTA, "GIACCA");
-        fourthMap.put(ExercisesWorker.TASCA_GIACCA_BASSA, "GIACCA");
-        simplifiedMaps.add(fourthMap);
-    }
-    
     public static final ArrayList<String> generatedFiles = new ArrayList<String>();
     /**
      * @param args the command line arguments
@@ -97,6 +67,11 @@ public class WhereIsMySmartphoneAnalyzer
         ArrayList<Exercise> allExercises = new ArrayList<Exercise>();
         
         ListFilesReader mListFilesReader = new ListFilesReader();
+        
+        if (args.length != 0)
+        {
+            createSimplifiedMaps(args[0]);
+        }
         
         // Retrieving all the input files available
         ArrayList<String> inputFiles = mListFilesReader.readListFiles();
@@ -207,6 +182,46 @@ public class WhereIsMySmartphoneAnalyzer
         
         Evaluation evaluationOutput = new Evaluation(generatedFiles);
         evaluationOutput.performEvaluation();
+    }
+    
+    private static void createSimplifiedMaps(String ID)
+    {
+        if (ID.equals("1"))
+        {
+            HashMap<String, String> firstMap = new HashMap<String, String>();
+            firstMap.put(ExercisesWorker.TASCA_DESTRA_DAVANTI_PANTALONI, "DAVANTI_PANTALONI");
+            firstMap.put(ExercisesWorker.TASCA_DESTRA_DIETRO_PANTALONI, "DIETRO_PANTALONI");
+            firstMap.put(ExercisesWorker.TASCA_SINISTRA_DAVANTI_PANTALONI, "DAVANTI_PANTALONI");
+            firstMap.put(ExercisesWorker.TASCA_SINISTRA_DIETRO_PANTALONI, "DIETRO_PANTALONI");
+            simplifiedMaps.add(firstMap);
+        }
+        else if (ID.equals("2"))
+        {
+            HashMap<String, String> secondMap = new HashMap<String, String>();
+            secondMap.put(ExercisesWorker.TASCA_DESTRA_DAVANTI_PANTALONI, "DESTRA_PANTALONI");
+            secondMap.put(ExercisesWorker.TASCA_DESTRA_DIETRO_PANTALONI, "DESTRA_PANTALONI");
+            secondMap.put(ExercisesWorker.TASCA_SINISTRA_DAVANTI_PANTALONI, "SINISTRA_PANTALONI");
+            secondMap.put(ExercisesWorker.TASCA_SINISTRA_DIETRO_PANTALONI, "SINISTRA_PANTALONI");
+            simplifiedMaps.add(secondMap);
+        }
+        else if (ID.equals("3"))
+        {
+            HashMap<String, String> thirdMap = new HashMap<String, String>();
+            thirdMap.put(ExercisesWorker.TASCA_GIACCA_ALTA, "TASCA_GIACCA");
+            thirdMap.put(ExercisesWorker.TASCA_GIACCA_BASSA, "TASCA_GIACCA");
+            simplifiedMaps.add(thirdMap);
+        }
+        else if (ID.equals("4"))
+        {
+            HashMap<String, String> fourthMap = new HashMap<String, String>();
+            fourthMap.put(ExercisesWorker.TASCA_DESTRA_DAVANTI_PANTALONI, "PANTALONI");
+            fourthMap.put(ExercisesWorker.TASCA_DESTRA_DIETRO_PANTALONI, "PANTALONI");
+            fourthMap.put(ExercisesWorker.TASCA_SINISTRA_DAVANTI_PANTALONI, "PANTALONI");
+            fourthMap.put(ExercisesWorker.TASCA_SINISTRA_DIETRO_PANTALONI, "PANTALONI");
+            fourthMap.put(ExercisesWorker.TASCA_GIACCA_ALTA, "GIACCA");
+            fourthMap.put(ExercisesWorker.TASCA_GIACCA_BASSA, "GIACCA");
+            simplifiedMaps.add(fourthMap);
+        }
     }
     
     /**

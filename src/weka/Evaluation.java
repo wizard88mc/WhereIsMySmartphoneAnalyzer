@@ -57,23 +57,27 @@ public class Evaluation
                     weka.classifiers.Evaluation eval = new weka.classifiers.Evaluation(data);
                     eval.crossValidateModel(tree, data, 10, new Random(1));
                     
-                    IBk knn = new IBk(5);
-                    knn.buildClassifier(data);
-                    weka.classifiers.Evaluation evalKnn = new weka.classifiers.Evaluation(data);
-                    evalKnn.crossValidateModel(knn, data, 10, new Random(10));
-                    
                     writer.write(file + System.getProperty("line.separator"));
                     writer.write("TREE" + System.getProperty("line.separator"));
                     writer.write(eval.toClassDetailsString() + System.getProperty("line.separator"));
-                    writer.write("kNN" + System.getProperty("line.separator"));
-                    writer.write(evalKnn.toClassDetailsString() + System.getProperty("line.separator"));
                     
+                    for (int i = 3; i < 8; i++)
+                    {
+                        IBk knn = new IBk(i);
+                        knn.buildClassifier(data);
+                        weka.classifiers.Evaluation evalKnn = new weka.classifiers.Evaluation(data);
+                        evalKnn.crossValidateModel(knn, data, 10, new Random(10));
+                        
+                        writer.write(i + "kNN" + System.getProperty("line.separator"));
+                        writer.write(evalKnn.toClassDetailsString() + System.getProperty("line.separator"));
+                    }
                 }
                 catch(Exception exc)
                 {
                     System.out.println(exc.toString());
                 }
             }
+            writer.flush(); writer.close();
         }
         catch(Exception exc)
         {
