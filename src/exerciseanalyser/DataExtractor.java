@@ -49,68 +49,85 @@ public class DataExtractor
         String finalString = "";
         for (ExerciseAnalyser exercise: listExerciseAnalysers)
         {
-            String featuresToString = "";
+            String featuresToString = ""; boolean usefulValues = true;
             if (accelerometer)
             {
                 featuresToString += exercise.getAccelerometerData().featuresToString();
+                usefulValues = usefulValues || exercise.getAccelerometerData().hasUsefulValues();
             }
             if (accelerometerRotated)
             {
                 featuresToString += exercise.getAccelerometerRotatedData().featuresToString();
+                usefulValues = usefulValues || exercise.getAccelerometerRotatedData().hasUsefulValues();
             }
             if (accelerometerNoGravity)
             {
                 featuresToString += exercise.getAccelerometerNoGravityData().featuresToString();
+                usefulValues = usefulValues || exercise.getAccelerometerNoGravityData().hasUsefulValues();
             }
             if (accelerometerNoGravityRotated)
             {
                 featuresToString += exercise.getAccelerometerNoGravityRotatedData().featuresToString();
+                usefulValues = usefulValues || exercise.getAccelerometerNoGravityRotatedData().hasUsefulValues();
             }
             if (linear)
             {
                 featuresToString += exercise.getLinearData().featuresToString();
+                usefulValues = usefulValues || exercise.getLinearData().hasUsefulValues();
             }
             if (linearRotated)
             {
                 featuresToString += exercise.getLinearRotatedData().featuresToString();
+                usefulValues = usefulValues || exercise.getLinearRotatedData().hasUsefulValues();
             }
             if (rotation)
             {
                 featuresToString += exercise.getRotationData().featuresToString();
+                usefulValues = usefulValues || exercise.getRotationData().hasUsefulValues();
             }
             if (gravity)
             {
                 featuresToString += exercise.getGravityData().featuresToString();
+                usefulValues = usefulValues || exercise.getGravityData().hasUsefulValues();
             }
             if (gyroscope)
             {
                 featuresToString += exercise.getGyroscopeData().featuresToString();
+                usefulValues = usefulValues || exercise.getGyroscopeData().hasUsefulValues();
             }
             if (magneticField)
             {
                 featuresToString += exercise.getMagneticFieldData().featuresToString();
+                usefulValues = usefulValues || exercise.getMagneticFieldData().hasUsefulValues();
             }
             if (ambientTemperature)
             {
                 featuresToString += exercise.getAmbientTemperatureData().featuresToString();
+                usefulValues = usefulValues || exercise.getAmbientTemperatureData().hasUsefulValues();
             }
             if (light)
             {
                 featuresToString += exercise.getLightData().featuresToString();
+                usefulValues = usefulValues || exercise.getLightData().hasUsefulValues();
             }
             if (pressure)
             {
                 featuresToString += exercise.getPressureData().featuresToString();
+                usefulValues = usefulValues || exercise.getPressureData().hasUsefulValues();
             }
             if (relativeHumidity)
             {
                 featuresToString += exercise.getRelativeHumidityData().featuresToString();
+                usefulValues = usefulValues || exercise.getRelativeHumidityData().hasUsefulValues();
             }
             
-            if (!featuresToString.equals(""))
+            if (usefulValues)
             {
-                finalString += featuresToString + destinationForOutput 
-                        + System.getProperty("line.separator");
+                if (!featuresToString.equals(""))
+                {
+                    finalString += featuresToString + destinationForOutput 
+                            + System.getProperty("line.separator");
+                }
             }
         }
         return finalString;

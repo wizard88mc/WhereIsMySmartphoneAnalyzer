@@ -10,9 +10,11 @@ import filereader.FileReader;
 import filereader.LinearReader;
 import filereader.ListFilesReader;
 import filereader.SettingsReader;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import models.Exercise;
@@ -64,122 +66,152 @@ public class WhereIsMySmartphoneAnalyzer
      */
     public static void main(String[] args) 
     {  
-        ArrayList<Exercise> allExercises = new ArrayList<Exercise>();
-        
-        ListFilesReader mListFilesReader = new ListFilesReader();
-        
-        if (args.length != 0)
+        if (args.length != 0 && args[0].equals("0"))
         {
-            createSimplifiedMaps(args[0]);
-        }
-        
-        // Retrieving all the input files available
-        ArrayList<String> inputFiles = mListFilesReader.readListFiles();
-        
-        for (String coupleInput: inputFiles)
-        {
-            String[] elements = coupleInput.split(",");
-            try {
-            SettingsReader mSettingsReader = new SettingsReader(elements[0], elements[1]);
-            
-            ArrayList<Exercise> exercisesForInput = mSettingsReader.retrieveTrunks();
-            
-            /**
-             * Using the IMEI and the timestamp, we retrieve all the data for the
-             * accelerometer and linear samples
-             */
-            AccelerometerReader mAccelerometerReader = 
-                    new AccelerometerReader(elements[0], elements[1]);
-            LinearReader mLinearReader = new LinearReader(elements[0], 
-                    elements[1]);
-            
-            ArrayList<Reading> readingsAccelerometer = 
-                    mAccelerometerReader.getListReadings(),
-                    readingsLinear = mLinearReader.getListReadings();
-            
-            DataWorker.addReadingsToAllExercises(exercisesForInput, 
-                    readingsAccelerometer, readingsLinear);
-            
-            allExercises.addAll(exercisesForInput);
-            }
-            catch(Exception exc)
+            try 
             {
-                System.out.println(exc.toString());
-                //exc.printStackTrace();
-                System.out.println(elements[0] + "," + elements[1]);
-            }
-        }
-        
-        ExercisesWorker mExercisesWorker =  new ExercisesWorker(allExercises);
-        
-        System.out.println("Esercizi partenza: " + allExercises.size());
-        mExercisesWorker.cleanExercises();
-        
-        mExercisesWorker.countNumberExercisesPerLabel();
-        
-        for (String activity: activities)
-        {
-            System.out.println("Current activity: " + activity);
-            for (int bufferLenght: bufferDurations)
-            {
-                for (int frequency: frequencies)
+                BufferedReader reader = new BufferedReader(new java.io.FileReader("data/extensive/outputFiles.txt"));
+                String line;
+                while ((line = reader.readLine()) != null)
                 {
-                    ArrayList<DataExtractor> listDataExtractorOnlyDataBefore = 
-                            new ArrayList<DataExtractor>(), 
-                            listDataExtractorOnlyDataAfter = 
-                            new ArrayList<DataExtractor>();
-                    ArrayList<DataExtractorBeforeAfter> featuresBeforeAfter = 
-                            new ArrayList<DataExtractorBeforeAfter>();
-
-                    for (String target: listDestinations)
+                    String[] elements = line.split(";");
+                    for (String file: elements)
                     {
-                        DataExtractorOnlyDataBefore before = 
-                                new DataExtractorOnlyDataBefore(allExercises, 
-                                        activity, target, bufferLenght, 
-                                        frequency);
-                        DataExtractorOnlyDataAfter after = 
-                                new DataExtractorOnlyDataAfter(allExercises, 
-                                        activity, target, bufferLenght, frequency);
-                        
-                        listDataExtractorOnlyDataBefore.add(before);
-                        listDataExtractorOnlyDataAfter.add(after);
-
-                        featuresBeforeAfter.add(new DataExtractorBeforeAfter(target, 
-                                activity, before.getListExerciseAnalyser(), 
-                                after.getListExerciseAnalyser()));
+                        generatedFiles.add(file);
                     }
+                }
+                
+                performEvaluation();
+            }
+            catch(IOException exc)
+            {}
+        }
+        else
+        {
+            ArrayList<Exercise> allExercises = new ArrayList<Exercise>();
 
-                    ARFFFileCreator.createARFFData(listDataExtractorOnlyDataBefore, 
-                            listDataExtractorOnlyDataAfter, featuresBeforeAfter, 
-                            activity, bufferLenght, frequency, null);
-                    
-                    int counter = 1;
-                    for (HashMap<String, String> map: simplifiedMaps)
+            ListFilesReader mListFilesReader = new ListFilesReader();
+
+            if (args.length != 0)
+            {
+                createSimplifiedMaps(args[0]);
+            }
+
+            // Retrieving all the input files available
+            ArrayList<String> inputFiles = mListFilesReader.readListFiles();
+
+            for (String coupleInput: inputFiles)
+            {
+                String[] elements = coupleInput.split(",");
+                try {
+                SettingsReader mSettingsReader = new SettingsReader(elements[0], elements[1]);
+
+                ArrayList<Exercise> exercisesForInput = mSettingsReader.retrieveTrunks();
+
+                /**
+                 * Using the IMEI and the timestamp, we retrieve all the data for the
+                 * accelerometer and linear samples
+                 */
+                AccelerometerReader mAccelerometerReader = 
+                        new AccelerometerReader(elements[0], elements[1]);
+                LinearReader mLinearReader = new LinearReader(elements[0], 
+                        elements[1]);
+
+                ArrayList<Reading> readingsAccelerometer = 
+                        mAccelerometerReader.getListReadings(),
+                        readingsLinear = mLinearReader.getListReadings();
+
+                DataWorker.addReadingsToAllExercises(exercisesForInput, 
+                        readingsAccelerometer, readingsLinear);
+
+                allExercises.addAll(exercisesForInput);
+                }
+                catch(Exception exc)
+                {
+                    System.out.println(exc.toString());
+                    //exc.printStackTrace();
+                    System.out.println(elements[0] + "," + elements[1]);
+                }
+            }
+
+            ExercisesWorker mExercisesWorker =  new ExercisesWorker(allExercises);
+
+            System.out.println("Esercizi partenza: " + allExercises.size());
+            mExercisesWorker.cleanExercises();
+
+            mExercisesWorker.countNumberExercisesPerLabel();
+
+            for (String activity: activities)
+            {
+                System.out.println("Current activity: " + activity);
+                for (int bufferLenght: bufferDurations)
+                {
+                    for (int frequency: frequencies)
                     {
-                        for (DataExtractor extractor: listDataExtractorOnlyDataBefore)
+                        ArrayList<DataExtractor> listDataExtractorOnlyDataBefore = 
+                                new ArrayList<DataExtractor>(), 
+                                listDataExtractorOnlyDataAfter = 
+                                new ArrayList<DataExtractor>();
+                        ArrayList<DataExtractorBeforeAfter> featuresBeforeAfter = 
+                                new ArrayList<DataExtractorBeforeAfter>();
+
+                        for (String target: listDestinations)
                         {
-                            extractor.changeDestinationForOutput(map);
+                            DataExtractorOnlyDataBefore before = 
+                                    new DataExtractorOnlyDataBefore(allExercises, 
+                                            activity, target, bufferLenght, 
+                                            frequency);
+                            DataExtractorOnlyDataAfter after = 
+                                    new DataExtractorOnlyDataAfter(allExercises, 
+                                            activity, target, bufferLenght, frequency);
+
+                            listDataExtractorOnlyDataBefore.add(before);
+                            listDataExtractorOnlyDataAfter.add(after);
+
+                            featuresBeforeAfter.add(new DataExtractorBeforeAfter(target, 
+                                    activity, before.getListExerciseAnalyser(), 
+                                    after.getListExerciseAnalyser()));
                         }
-                        for (DataExtractor extractor: listDataExtractorOnlyDataAfter)
-                        {
-                            extractor.changeDestinationForOutput(map);
-                        }
-                        for (DataExtractorBeforeAfter extractor: featuresBeforeAfter)
-                        {
-                            extractor.changeDestinationForOutput(map);
-                        }
-                        
+
                         ARFFFileCreator.createARFFData(listDataExtractorOnlyDataBefore, 
-                            listDataExtractorOnlyDataAfter, featuresBeforeAfter, 
-                            activity, bufferLenght, frequency, "Easy"+counter);
-                        counter++;
+                                listDataExtractorOnlyDataAfter, featuresBeforeAfter, 
+                                activity, bufferLenght, frequency, null);
+
+                        int counter = 1;
+                        for (HashMap<String, String> map: simplifiedMaps)
+                        {
+                            for (DataExtractor extractor: listDataExtractorOnlyDataBefore)
+                            {
+                                extractor.changeDestinationForOutput(map);
+                            }
+                            for (DataExtractor extractor: listDataExtractorOnlyDataAfter)
+                            {
+                                extractor.changeDestinationForOutput(map);
+                            }
+                            for (DataExtractorBeforeAfter extractor: featuresBeforeAfter)
+                            {
+                                extractor.changeDestinationForOutput(map);
+                            }
+
+                            ARFFFileCreator.createARFFData(listDataExtractorOnlyDataBefore, 
+                                listDataExtractorOnlyDataAfter, featuresBeforeAfter, 
+                                activity, bufferLenght, frequency, "Easy"+counter);
+                            counter++;
+                        }
                     }
                 }
             }
+
+            writeOutputFiles();
+
+            //generatedFiles.add("data/extensive/output/buffer_before/base/all/Accelerometer_/Output_Accelerometer__1000_15.arff");
+
+            performEvaluation();
         }
-        
-        writeOutputFiles();
-        
+    }
+    
+    private static void performEvaluation()
+    {
         Evaluation evaluationOutput = new Evaluation(generatedFiles);
         evaluationOutput.performEvaluation();
     }

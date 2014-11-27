@@ -16,6 +16,7 @@ public class OneAxisData
     protected DataSet firstAxis = null;
     protected ArrayList<Float> features = new ArrayList<Float>();
     protected ArrayList<String> featuresName = new ArrayList<String>();
+    protected int counterUsefulValues = 0;
     
     public OneAxisData(String name, ArrayList<Float> data, Float maxValue)
     {
@@ -44,40 +45,16 @@ public class OneAxisData
     {
         for (DataSet axis: params)
         {
-            Float average = axis.getAverage();
-            if (average != null)
-            {
-                featuresName.add(axis.getName() + "_AVERAGE");
-                features.add(average);
-            }
-            
-            Float variance = axis.getVariance();
-            if (variance != null)
-            {
-                featuresName.add(axis.getName() + "_VARIANCE");
-                features.add(axis.getVariance());
-            }
-            
-            Float std = axis.getStd();
-            if (std != null)
-            {
-                featuresName.add(axis.getName() + "_STD");
-                features.add(axis.getStd());
-            }
-            
-            Float difference = axis.getDifferenceMinMax();
-            if (difference != null)
-            {
-                featuresName.add(axis.getName() + "_DIFFERENCE_MIN_MAX");
-                features.add(difference);
-            }
-            
-            Float ratio = axis.getRatioMinMax();
-            if (ratio != null)
-            {
-                featuresName.add(axis.getName() + "_RATIO_MIN_MAX");
-                features.add(ratio);
-            }
+            featuresName.add(axis.getName() + "_AVERAGE");
+            features.add(axis.getAverage());
+            featuresName.add(axis.getName() + "_VARIANCE");
+            features.add(axis.getVariance());         
+            featuresName.add(axis.getName() + "_STD");
+            features.add(axis.getStd());
+            featuresName.add(axis.getName() + "_DIFFERENCE_MIN_MAX");
+            features.add(axis.getDifferenceMinMax());
+            featuresName.add(axis.getName() + "_RATIO_MIN_MAX");
+            features.add(axis.getRatioMinMax());
         }
     }
     
@@ -103,7 +80,6 @@ public class OneAxisData
     public String featuresToString()
     {
         String result = "";
-        int counterUsefulValues = 0;
         for (Float element: features)
         {
             if (element != null && !element.isNaN() && !element.isInfinite())
@@ -118,14 +94,7 @@ public class OneAxisData
             }
             
         }
-        if (counterUsefulValues != 0)
-        {
-            return result;
-        }
-        else
-        {
-            return "";
-        }
+        return result;
     }
     
     public ArrayList<Float> getFeatures()
@@ -136,5 +105,10 @@ public class OneAxisData
     public ArrayList<String> getFeaturesName()
     {
         return this.featuresName;
+    }
+    
+    public boolean hasUsefulValues()
+    {
+        return this.counterUsefulValues != 0;
     }
 }

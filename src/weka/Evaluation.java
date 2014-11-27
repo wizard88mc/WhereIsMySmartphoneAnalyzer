@@ -30,7 +30,7 @@ public class Evaluation
         try
         {
             File outputFile = new File(filereader.FileReader.FOLDER_BASE + "evaluation" + 
-                    File.pathSeparator + "globalEvaluation.txt");
+                    File.separator + "globalEvaluation.txt");
             
             if (!outputFile.exists())
             {
@@ -44,7 +44,8 @@ public class Evaluation
             {
                 try
                 {
-                    DataSource source = new DataSource(file);
+                    DataSource source = new DataSource(filereader.FileReader.FOLDER_BASE + 
+                            "output" + File.separator + file);
                     Instances data = source.getDataSet();
 
                     if (data.classIndex() == -1)
