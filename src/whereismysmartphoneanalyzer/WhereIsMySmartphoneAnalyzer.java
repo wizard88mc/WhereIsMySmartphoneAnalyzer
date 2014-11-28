@@ -16,7 +16,9 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import models.Exercise;
 import models.Reading;
 import weka.Evaluation;
@@ -33,6 +35,10 @@ public class WhereIsMySmartphoneAnalyzer
     private static final Integer[] frequencies = new Integer[]{15, 30};
     private static final String[] activities = new String[] {"FERMO", "SEDUTO", 
         "CAMMINANDO", "SCALE_SU", "SCALE_GIU", null};
+    public static String[] basicListDestinations = new String[]{ExercisesWorker.TASCA_DESTRA_DAVANTI_PANTALONI, ExercisesWorker.TASCA_DESTRA_DIETRO_PANTALONI,
+        ExercisesWorker.TASCA_SINISTRA_DAVANTI_PANTALONI, ExercisesWorker.TASCA_SINISTRA_DIETRO_PANTALONI,
+        ExercisesWorker.TASCA_GIACCA_ALTA, ExercisesWorker.TASCA_GIACCA_BASSA, 
+        /*ExercisesWorker.BORSA, ExercisesWorker.MARSUPIO, ExercisesWorker.ZAINO*/};
     public static String[] listDestinations = new String[]{
         ExercisesWorker.TASCA_DESTRA_DAVANTI_PANTALONI, ExercisesWorker.TASCA_DESTRA_DIETRO_PANTALONI,
         ExercisesWorker.TASCA_SINISTRA_DAVANTI_PANTALONI, ExercisesWorker.TASCA_SINISTRA_DIETRO_PANTALONI,
@@ -40,6 +46,7 @@ public class WhereIsMySmartphoneAnalyzer
         /*ExercisesWorker.BORSA, ExercisesWorker.MARSUPIO, ExercisesWorker.ZAINO*/};
     
     public static ArrayList<HashMap<String, String>> simplifiedMaps = new ArrayList<HashMap<String, String>>();
+    public static String simplifiedMapName = "";
     public static ArrayList<Sensor> listSensors = new ArrayList<Sensor>();
     
     static
@@ -173,39 +180,48 @@ public class WhereIsMySmartphoneAnalyzer
                                     after.getListExerciseAnalyser()));
                         }
 
-                        ARFFFileCreator.createARFFData(listDataExtractorOnlyDataBefore, 
-                                listDataExtractorOnlyDataAfter, featuresBeforeAfter, 
-                                activity, bufferLenght, frequency, null);
-
-                        int counter = 1;
-                        for (HashMap<String, String> map: simplifiedMaps)
+                        if (simplifiedMaps.isEmpty())
                         {
-                            for (DataExtractor extractor: listDataExtractorOnlyDataBefore)
-                            {
-                                extractor.changeDestinationForOutput(map);
-                            }
-                            for (DataExtractor extractor: listDataExtractorOnlyDataAfter)
-                            {
-                                extractor.changeDestinationForOutput(map);
-                            }
-                            for (DataExtractorBeforeAfter extractor: featuresBeforeAfter)
-                            {
-                                extractor.changeDestinationForOutput(map);
-                            }
-
                             ARFFFileCreator.createARFFData(listDataExtractorOnlyDataBefore, 
                                 listDataExtractorOnlyDataAfter, featuresBeforeAfter, 
-                                activity, bufferLenght, frequency, "Easy"+counter);
-                            counter++;
+                                activity, bufferLenght, frequency, null);
+                        }
+                        else
+                        {
+                            int counter = 1;
+                            for (HashMap<String, String> map: simplifiedMaps)
+                            {
+                                updateListDestinations(map);
+                                for (DataExtractor extractor: listDataExtractorOnlyDataBefore)
+                                {
+                                    extractor.changeDestinationForOutput(map);
+                                }
+                                for (DataExtractor extractor: listDataExtractorOnlyDataAfter)
+                                {
+                                    extractor.changeDestinationForOutput(map);
+                                }
+                                for (DataExtractorBeforeAfter extractor: featuresBeforeAfter)
+                                {
+                                    extractor.changeDestinationForOutput(map);
+                                }
+                                
+                                ARFFFileCreator.createARFFData(listDataExtractorOnlyDataBefore, 
+                                    listDataExtractorOnlyDataAfter, featuresBeforeAfter, 
+                                    activity, bufferLenght, frequency, simplifiedMapName);
+                                counter++;
+                            }
+                            listDestinations = basicListDestinations;
                         }
                     }
                 }
             }
 
+            System.out.println("**** Writing file list on output file ****");
             writeOutputFiles();
 
             //generatedFiles.add("data/extensive/output/buffer_before/base/all/Accelerometer_/Output_Accelerometer__1000_15.arff");
 
+            System.out.println("**** Performing data evaluation ****");
             performEvaluation();
         }
     }
@@ -220,6 +236,7 @@ public class WhereIsMySmartphoneAnalyzer
     {
         if (ID.equals("1"))
         {
+            simplifiedMapName = "Easy1";
             HashMap<String, String> firstMap = new HashMap<String, String>();
             firstMap.put(ExercisesWorker.TASCA_DESTRA_DAVANTI_PANTALONI, "DAVANTI_PANTALONI");
             firstMap.put(ExercisesWorker.TASCA_DESTRA_DIETRO_PANTALONI, "DIETRO_PANTALONI");
@@ -229,6 +246,7 @@ public class WhereIsMySmartphoneAnalyzer
         }
         else if (ID.equals("2"))
         {
+            simplifiedMapName = "Easy2";
             HashMap<String, String> secondMap = new HashMap<String, String>();
             secondMap.put(ExercisesWorker.TASCA_DESTRA_DAVANTI_PANTALONI, "DESTRA_PANTALONI");
             secondMap.put(ExercisesWorker.TASCA_DESTRA_DIETRO_PANTALONI, "DESTRA_PANTALONI");
@@ -238,6 +256,7 @@ public class WhereIsMySmartphoneAnalyzer
         }
         else if (ID.equals("3"))
         {
+            simplifiedMapName = "Easy3";
             HashMap<String, String> thirdMap = new HashMap<String, String>();
             thirdMap.put(ExercisesWorker.TASCA_GIACCA_ALTA, "TASCA_GIACCA");
             thirdMap.put(ExercisesWorker.TASCA_GIACCA_BASSA, "TASCA_GIACCA");
@@ -245,6 +264,7 @@ public class WhereIsMySmartphoneAnalyzer
         }
         else if (ID.equals("4"))
         {
+            simplifiedMapName = "Easy4";
             HashMap<String, String> fourthMap = new HashMap<String, String>();
             fourthMap.put(ExercisesWorker.TASCA_DESTRA_DAVANTI_PANTALONI, "PANTALONI");
             fourthMap.put(ExercisesWorker.TASCA_DESTRA_DIETRO_PANTALONI, "PANTALONI");
@@ -283,5 +303,27 @@ public class WhereIsMySmartphoneAnalyzer
         {
             
         }
+    }
+    
+    private static void updateListDestinations(HashMap<String, String> map)
+    {
+        ArrayList<String> destinations = new ArrayList<String>(Arrays.asList(basicListDestinations));
+        
+        for(int i = 0; i < destinations.size(); i++)
+        {
+            if (map.containsKey(destinations.get(i)))
+            {
+                destinations.set(i, map.get(destinations.get(i)));
+            }
+        }
+        
+        HashSet hash = new HashSet();
+        hash.addAll(destinations);
+        
+        destinations.clear();
+        destinations.addAll(hash);
+        
+        listDestinations = new String[destinations.size()];
+        listDestinations = destinations.toArray(listDestinations);
     }
 }

@@ -15,7 +15,7 @@ import whereismysmartphoneanalyzer.WhereIsMySmartphoneAnalyzer;
 
 /**
  *
- * @author matteo
+ * @author Matteo Ciman
  */
 public class ARFFFileCreator 
 {
@@ -43,7 +43,7 @@ public class ARFFFileCreator
     {
         OrderedPowerSet<Sensor> order = new OrderedPowerSet<Sensor>
             (WhereIsMySmartphoneAnalyzer.listSensors);
-        for (int i = 1; i < WhereIsMySmartphoneAnalyzer.listSensors.size(); i++)
+        for (int i = 1; i < 4; i++)
         {
             List<LinkedHashSet<Sensor>> result = order.getPermutationsList(i);
             

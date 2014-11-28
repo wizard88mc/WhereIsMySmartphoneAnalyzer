@@ -14,7 +14,7 @@ import weka.core.converters.ConverterUtils.DataSource;
 
 /**
  *
- * @author matteo
+ * @author Matteo Ciman
  */
 public class Evaluation 
 {
@@ -40,8 +40,10 @@ public class Evaluation
             
             BufferedWriter writer = new BufferedWriter(new FileWriter(outputFile));
             
-            for (String file: listFiles)
+            int oldPercentage = 0;
+            for (int index = 0; index < listFiles.size(); index++)
             {
+                String file = listFiles.get(index);
                 try
                 {
                     DataSource source = new DataSource(filereader.FileReader.FOLDER_BASE + 
@@ -52,15 +54,20 @@ public class Evaluation
                     {
                         data.setClassIndex(data.numAttributes() - 1);
                     }
+                    boolean fileNameAlreadyWritten = false;
 
                     J48 tree = new J48();
                     tree.buildClassifier(data);
                     weka.classifiers.Evaluation eval = new weka.classifiers.Evaluation(data);
                     eval.crossValidateModel(tree, data, 10, new Random(1));
                     
-                    writer.write(file + System.getProperty("line.separator"));
-                    writer.write("TREE" + System.getProperty("line.separator"));
-                    writer.write(eval.toClassDetailsString() + System.getProperty("line.separator"));
+                    if (eval.weightedFMeasure() > 0.7)
+                    {
+                        fileNameAlreadyWritten = true;
+                        writer.write(file + System.getProperty("line.separator"));
+                        writer.write("TREE" + System.getProperty("line.separator"));
+                        writer.write(eval.toClassDetailsString() + System.getProperty("line.separator"));
+                    }
                     
                     for (int i = 3; i < 8; i++)
                     {
@@ -69,13 +76,27 @@ public class Evaluation
                         weka.classifiers.Evaluation evalKnn = new weka.classifiers.Evaluation(data);
                         evalKnn.crossValidateModel(knn, data, 10, new Random(10));
                         
-                        writer.write(i + "kNN" + System.getProperty("line.separator"));
-                        writer.write(evalKnn.toClassDetailsString() + System.getProperty("line.separator"));
+                        if (evalKnn.weightedFMeasure() > 0.7)
+                        {
+                            if (!fileNameAlreadyWritten)
+                            {
+                                writer.write(file + System.getProperty("line.separator"));
+                            }
+                            writer.write(i + "kNN" + System.getProperty("line.separator"));
+                            writer.write(evalKnn.toClassDetailsString() + System.getProperty("line.separator"));
+                        }
                     }
                 }
                 catch(Exception exc)
                 {
+                    System.out.println("Error in file: " + file);
                     System.out.println(exc.toString());
+                }
+                int newPercentage = index * 100 / listFiles.size();
+                if (newPercentage != oldPercentage)
+                {
+                    System.out.println("Completion percentage: " + newPercentage);
+                    oldPercentage = newPercentage;
                 }
             }
             writer.flush(); writer.close();

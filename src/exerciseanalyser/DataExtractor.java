@@ -246,7 +246,7 @@ public class DataExtractor
     
     private String getMagneticFieldPrologueARFF()
     {
-        return listExerciseAnalysers.get(0).getGyroscopeData().featuresNameToARFF();
+        return listExerciseAnalysers.get(0).getMagneticFieldData().featuresNameToARFF();
     }
     
     private String getAmbientTemperaturePrologueARFF()
