@@ -73,12 +73,12 @@ public class ARFFFileCreator
                         || 
                     (!yesNo[0] && !yesNo[1] && !yesNo[2] && !yesNo[3] && !yesNo[4] && yesNo[5]))
                 {
-                    createARFFBefore(listExtractorBefore, activity, bufferLength, 
+                    //createARFFBefore(listExtractorBefore, activity, bufferLength, 
+                      //      frequency, yesNo, mapDestination);
+                    createARFFAfter(listExtractorAfter, activity, bufferLength, 
                             frequency, yesNo, mapDestination);
-                    /*createARFFAfter(listExtractorAfter, activity, bufferLength, 
-                            frequency, yesNo, mapDestination);
-                    createARFFBeforeAfter(listDataExtractor, activity, bufferLength, 
-                            frequency, yesNo, mapDestination);*/
+                    //createARFFBeforeAfter(listDataExtractor, activity, bufferLength, 
+                      //      frequency, yesNo, mapDestination);*/
                 }
             }
         }

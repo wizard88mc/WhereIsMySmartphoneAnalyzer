@@ -3,10 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/matteo/Documents/WhereIsMySmartphoneAnalyzer/src/arff/ARFFFileCreator.java</file>
-            <file>file:/home/matteo/Documents/WhereIsMySmartphoneAnalyzer/src/exerciseanalyser/DataExtractor.java</file>
-            <file>file:/home/matteo/Documents/WhereIsMySmartphoneAnalyzer/src/whereismysmartphoneanalyzer/WhereIsMySmartphoneAnalyzer.java</file>
-            <file>file:/home/matteo/Documents/WhereIsMySmartphoneAnalyzer/src/weka/Evaluation.java</file>
+            <file>file:/Users/matteo/Documents/NetBeansProjects/WhereIsMySmartphoneAnalyzer/src/arff/ARFFFileCreator.java</file>
+            <file>file:/Users/matteo/Documents/NetBeansProjects/WhereIsMySmartphoneAnalyzer/src/features/OneAxisData.java</file>
+            <file>file:/Users/matteo/Documents/NetBeansProjects/WhereIsMySmartphoneAnalyzer/src/exerciseanalyser/DataExtractor.java</file>
+            <file>file:/Users/matteo/Documents/NetBeansProjects/WhereIsMySmartphoneAnalyzer/src/weka/Evaluation.java</file>
+            <file>file:/Users/matteo/Documents/NetBeansProjects/WhereIsMySmartphoneAnalyzer/src/exerciseanalyser/analyserbeforeafter/DataExtractorBeforeAfter.java</file>
+            <file>file:/Users/matteo/Documents/NetBeansProjects/WhereIsMySmartphoneAnalyzer/src/models/Exercise.java</file>
+            <file>file:/Users/matteo/Documents/NetBeansProjects/WhereIsMySmartphoneAnalyzer/src/whereismysmartphoneanalyzer/WhereIsMySmartphoneAnalyzer.java</file>
         </group>
     </open-files>
 </project-private>
